@@ -306,7 +306,7 @@ window.sysmanager = {
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
                         sysmanager.alert('手机号不能为空!');
-                    }else if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(phone))){
+                    }else if(!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))){
 				            		sysmanager.alert('请输入正确的手机号!');
 				            }else{
                         sysmanager.login(phone,chepai,function(){
@@ -324,7 +324,7 @@ window.sysmanager = {
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
                         sysmanager.alert('手机号不能为空!');
-                    }if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(phone))){
+                    }if(!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))){
 				            		sysmanager.alert('请输入正确的手机号!');
 				            }else{
                         sysmanager.login(phone,chepai,function(){
