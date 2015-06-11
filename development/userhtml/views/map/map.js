@@ -15,6 +15,7 @@ function ui_map(){
             ,pointlist:'.innerlist [name=pointlist]'
             ,row:'.template [name=row]'
             ,row0:'.template [name=row0]'
+            ,row1:'.template [name=row1]'
             ,rowfree:'.template [name=rowfree]'
             ,nonerow:'.template [name=nonerow]'
             ,tujianrow:'.template [name=tujianrow]'
@@ -259,6 +260,11 @@ function ui_map(){
                 }
                 row0.find('[name=head]').click(function(){freelist.toggle();});
                 this.dom.list.append(row0);
+            }else if(datas.a){//最近的免费停车场
+                var row1 = this.dom.row1.clone();
+                row1.find('b').html(datas.a.distance);
+                row1.find('[name=head]').click(function(){sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){});});
+                this.dom.list.append(row1);
             }
         }
         ,c_fill:function(datas,area){
@@ -382,12 +388,14 @@ function ui_map(){
             data.r = data.r.replace(/<p>/g, "").replace(/<\/p>/g, "");
             row.find('[name=rules]').html(data.r);
             //row.find('[name=address]').html(data.a);
-
+            if(data.s >= 0){
             row.find('[name=numberstatus1]').html(window.cfg.parkstatestring2[data.s]);
             if(data.e && data.e[1]){
                 row.find('[name=numberstatus2]').html(window.cfg.parkstatestring2[data.e[0]]);
                 row.find('[name=numberstatus2t]').html(data.e[1].substr(0,5));
                 row.find('mytag').show();
+            }}else{
+                row.find('[name=spaces]').hide();
             }
             
             if(data.d){//活动
@@ -509,6 +517,10 @@ function ui_map(){
                     var d = data[i];
                     d.point = new AMap.LngLat(d.lng, d.lat);
                     d.distance = Math.abs(parseInt(d.point.distance(center)));
+                }
+                if(result.data.a){//免费停车场补充信息
+                    result.data.a.point = new AMap.LngLat(result.data.a.lng, result.data.a.lat);
+                    result.data.a.distance = Math.abs(parseInt(result.data.a.point.distance(center)));
                 }
                 fn && fn(result.data,result.area);
                 setTimeout(function(){

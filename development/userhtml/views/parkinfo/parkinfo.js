@@ -89,7 +89,7 @@ function ui_parkinfo(){
             }else{
             this.dom.address.html(this.nowdata.a);
             this.dom.rules.html(this.nowdata.r);
-            if(this.nowdata.s){
+            if(this.nowdata.s!==undefined && this.nowdata.s >= 0){
             this.dom.numberstatus1.html(window.cfg.parkstatestring2[this.nowdata.s]);
             if(this.nowdata.e && this.nowdata.e[1]){
                 this.dom.numberstatus2.html(window.cfg.parkstatestring2[this.nowdata.e[0]]);
