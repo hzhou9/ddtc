@@ -357,6 +357,7 @@ h1.iconrow {
 /*Global*/
 body,.mui-content {background:#f8f8f8;}
 h1,h2,h3,h4,h5,h6 {margin:0;}
+p {color:#666;}
 .price {color:#f00;}
 .activity {background:#fff; border:1px solid #f39c12; color:#f39c12; border-radius:5px; display:inline-block; padding:4px 5px; margin-top:5px;}
 .mui-active .mui-tab-label,.mui-bar-tab .mui-tab-item.mui-active,.mui-btn-primary.mui-btn-outlined,.park-explain strong {color:#1e88e5;}
@@ -379,6 +380,10 @@ h1,h2,h3,h4,h5,h6 {margin:0;}
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
 }
+.icon-money:before {content: "\e60c";}
+.icon-parking:before {content: "\e60d";}
+.icon-tag:before {content: "\e60e";}
+.icon-warn:before {content: "\e60f";}
 .icon-phone:before {content: "\e60b";}
 .icon-compose:before {content: "\e60a";}
 .icon-discover_active:before {content: "\e600";}
@@ -430,6 +435,9 @@ p.tags {margin-top:-10px;}
 .reserve {background:#fff; border-top:1px solid #ddd; position:absolute; left:0; bottom:0; width:100%;}
 .reserve .mui-btn-block {margin:15px; width:auto;}
 .park-info .mui-btn-outlined {top:15px; height:24px; line-height:24px; font-size:12px; padding:0 12px; -webkit-transform:none; transform:none;}
+.park-info .mui-table-view-cell .duduche {position:absolute; top:14px; color:#999; font-size:18px;}
+.park-info .mui-table-view-cell p {margin-left:24px;}
+.park-info .mui-table-view-cell:first-child p {margin-left:0;}
 #mui-popover {bottom:0; left:0;}
 .mui-popover.mui-popover-action .mui-table-view {margin:0; color:#1e88e5; text-align:left; border-radius:0;}
 .mui-popover.mui-popover-action .mui-table-view .btn-cancel {text-align:center; color:#666;}

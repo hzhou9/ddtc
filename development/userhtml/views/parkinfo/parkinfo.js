@@ -17,6 +17,7 @@ function ui_parkinfo(){
             ,name:'[name=name]'
             ,rules:'[name=rules]'
             ,spaces:'[name=spaces]'
+            ,spaces_icon:'[name=spaces_icon]'
             ,numberstatus1:'[name=numberstatus1]'
             ,numberstatus2:'[name=numberstatus2]'
             ,numberstatus2t:'[name=numberstatus2t]'
@@ -79,7 +80,7 @@ function ui_parkinfo(){
             
             if(this.nowdata.c == 2){//免费
                 this.dom.spaces.html('本免费停车点信息由网友提供，我们已尽量检查，但仍可能有误，敬请注意。');
-                this.dom.activity.hide();
+                this.dom.activity.parent().hide();
                 if(this.nowdata.t){
                     var tags=this.nowdata.t.split("|");
                     for(var i=0;i<tags.length;i++){
