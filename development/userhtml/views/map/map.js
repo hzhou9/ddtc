@@ -316,7 +316,7 @@ function ui_map(){
             if(data.c==2){//免费
                 content = content.replace('{0}', '免费').replace('{1}',data.c);
             }else{
-                content = content.replace('{0}', '¥'+data.p).replace('{1}',data.c);
+                content = content.replace('{0}', '¥'+data.p).replace('{1}',(data.o && data.o[0] == 0)?'no':data.c);
             }
             
             var marker = new AMap.Marker({
@@ -388,6 +388,20 @@ function ui_map(){
             data.r = data.r.replace(/<p>/g, "").replace(/<\/p>/g, "");
             row.find('[name=rules]').html(data.r);
             //row.find('[name=address]').html(data.a);
+        if(data.o && data.o[0] == 0){//现在不开放
+            row.find('[name=spaces]').remove();//不显示空位信息
+            if(data.o[1] == data.o[2]){//工作日不开放
+                row.find('[name=openwd]').html('不开放');
+            }else{
+                row.find('[name=openwd]').html(data.o[1].substr(0,5)+'~'+data.o[2].substr(0,5));
+            }
+            if(data.o[3] == data.o[4]){//休息日不开放
+                row.find('[name=openwe]').html('不开放');
+            }else{
+                row.find('[name=openwe]').html(data.o[3].substr(0,5)+'~'+data.o[4].substr(0,5));
+            }
+        }else{//现在开放
+            row.find('[name=notopen]').remove();//不显示开放信息
             if(data.s >= 0){
             row.find('[name=numberstatus1]').html(window.cfg.parkstatestring2[data.s]);
             if(data.e && data.e[1]){
@@ -397,7 +411,7 @@ function ui_map(){
             }}else{
                 row.find('[name=spaces]').hide();
             }
-            
+        }
             if(data.d){//活动
                 if(data.d[0] == 1){//停车只要1元
                     row.find('[name=activity]').html('现在预订只要'+data.d[1]+'元');

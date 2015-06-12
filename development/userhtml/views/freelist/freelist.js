@@ -307,13 +307,14 @@ function ui_freelist(){
                                   }else{
                                   me.dom.btn_prev.hide();
                                   }
-                                  if(me.parkdata[pg].p.length >= me.max){
+                                  if(me.parkdata[pg].m){
                                   me.dom.btn_more.show();
                                   }else{
                                   me.dom.btn_more.hide();
                                   }
                                   }else{
-                                  sysmanager.alert('暂时没有更多数据');
+                                  sysmanager.alert('暂时没有更多数据了','已经是最后一条啦~');
+                                  me.dom.btn_more.hide();
                                   }
             }, null, false);
             }else{
@@ -324,7 +325,7 @@ function ui_freelist(){
                 }else{
                     this.dom.btn_prev.hide();
                 }
-                if(this.parkdata[pg].p.length >= this.max){
+                if(this.parkdata[pg].m){
                     this.dom.btn_more.show();
                 }else{
                     this.dom.btn_more.hide();
