@@ -11,7 +11,6 @@ define(['jquery', 'utils'], function($, utils){
         this.dom = wininfo.dom;
         this.obj = wininfo.obj;
     }
-    var param = "201504301";
     view.prototype.renderer = function(contaion, arg){
         this.dom.appendTo(contaion);
         var me = this;
@@ -30,8 +29,8 @@ define(['jquery', 'utils'], function($, utils){
                 ,obj:null
             };
             var me = this;
-            var htmlurl = root + viewname +'/'+viewname+'.html?'+param;
-            var jslurl = root + viewname +'/'+viewname+'.js?'+ param;
+            var htmlurl = root + viewname +'/'+viewname+'.html';
+            var jslurl = root + viewname +'/'+viewname+'.js';
             utils.sys.loading.show();
             $.get(htmlurl , function(html){
                 wininfo.dom = $(html);

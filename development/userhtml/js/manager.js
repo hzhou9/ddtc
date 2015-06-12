@@ -13,8 +13,8 @@ window.sysmanager = {
                topmenuMnager.showMenu();
            });
            var toppghead_html = toppghead.html;
+           var titleslist = [];
            toppghead.title = (function(){
-               var titleslist = [];
                return function(title){
                    if(title){
                        titleslist.push(title);
@@ -25,6 +25,11 @@ window.sysmanager = {
                    }
                    toppghead.html(title);
                }
+           })();
+           toppghead.check = (function(){
+                return function(title){
+                    return (title && title != '' && titleslist[titleslist.length-1] == title);
+                }
            })();
            var topmenuMnager = (function(topmenubut){
                var top_menu = $('#top_menu');
@@ -62,12 +67,15 @@ window.sysmanager = {
            })(topmenubut);
 
            var list = [];
-           list.push($('#main_contaion'));
+           var main_c = $('#main_contaion');
+           list.push(main_c);
            var showend = function(e){
                //console.log('显示动画结束', this, e);
                $(this).removeClass(e.animationName);
                this.removeEventListener('webkitAnimationEnd', showend);
                list.push($(this));
+               //if(list.length == 2){main_c.hide();}
+                             setTimeout(function(){main_c.show();},1000);
            }
            var showend_child = function(e){
                   //console.log('显示动画结束_子', this, e);
@@ -79,11 +87,15 @@ window.sysmanager = {
               $(this).removeClass(e.animationName).hide();
               this.removeEventListener('webkitAnimationEnd', hideend);
               list.pop();
+              //if(list.length == 1){main_c.show();}
            }
            var obj = {
                showToptitle:function(title){
                    toppghead.title(title);
                }
+               ,checkToptitle:function(title){
+                    return toppghead.check(title);
+                }
                ,setTopmenu:function(view){
                    topmenuMnager.setMenu(view);
                }
@@ -91,6 +103,7 @@ window.sysmanager = {
                    var animname = pagecaontaion.attr('animname');
 
                    if(animname){
+                       main_c.hide();
                        pagecaontaion.show().addClass(animname);
                       pagecaontaion[0].addEventListener('webkitAnimationEnd', showend);
                        if(list.length>0){
@@ -133,6 +146,9 @@ window.sysmanager = {
            return obj;
        })()
        ,loadpage:function(viewroot, viewname, pagecontainer, name, callback, arg){      //加载只 Dion 过的page 在指定的page容器中
+           if(this.pagecontainerManager.checkToptitle(name)){//屏蔽重复加载
+               return;
+           }
            var me = this;
            var viewmanager = viewManager;
            viewmanager.viewroot(viewroot);
@@ -186,10 +202,11 @@ window.sysmanager = {
                $('#pagecontaion').hide();
                view.obj.close();
            });
-            */
+            
            setTimeout(function(){
-               //me.checklogin();
+               me.checklogin();
            });
+           */
            return this;
        }
     ,login:function(phone, carid, callback){
@@ -217,16 +234,6 @@ window.sysmanager = {
                         ,uuid:result.data.uuid
                     }
                     window.myajax.userinfo(userinfo);
-                    callback && callback();
-                }
-            });
-        }
-    }
-    ,loginUI_olg:function(callback){                    //弹出登录的窗口 提供登录后的回调
-        var contaion = $('#reg_pagecontaion');
-        if(!contaion.is(':visible')){
-            sysmanager.loadpage('views/', 'reg', contaion,null, function(view){
-                view.obj.onclose = function(){
                     callback && callback();
                 }
             });
@@ -299,7 +306,7 @@ window.sysmanager = {
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
                         sysmanager.alert('手机号不能为空!');
-                    }else if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(phone))){
+                    }else if(!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))){
 				            		sysmanager.alert('请输入正确的手机号!');
 				            }else{
                         sysmanager.login(phone,chepai,function(){
@@ -317,7 +324,7 @@ window.sysmanager = {
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
                         sysmanager.alert('手机号不能为空!');
-                    }if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(phone))){
+                    }if(!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))){
 				            		sysmanager.alert('请输入正确的手机号!');
 				            }else{
                         sysmanager.login(phone,chepai,function(){

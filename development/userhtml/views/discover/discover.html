@@ -1,0 +1,66 @@
+<div class="page_content userpage" style="" id="discover_html">
+    <style>
+        .mui-media-body h4 {color:#1e88e5;}
+    </style>
+    <header class="mui-bar mui-bar-nav" style="position:relative">
+        <a name=test class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="display:none"></a>
+        <form class="mui-input-group" name="form1" onsubmit="$('[name=searchinpit]').blur();return false;">
+            <div class="mui-input-row mui-search">
+                <input type="search" placeholder="输入停车目的地" name='searchinpit'>
+                    </div>
+        </form>
+    </header>
+    
+    <div name="scrollparent" style="overflow:hidden;">
+        <div class="list" name="scrollarea">
+            <ul class="mui-table-view innerlist" name="hint"></ul>
+            <ul class="mui-table-view" name="free_list">
+                <li class="mui-table-view-cell mui-media">
+                    <img class="mui-media-object mui-pull-left" src="img/icon-free-location@2x.png">
+                        <div class="mui-media-body mui-navigate-right">
+                            <h4>免费停车点（<span name="num_park_free">0</span>）</h4>
+                            <p class='mui-ellipsis'>上海最全的免费停车点</p>
+                        </div>
+                        </li>
+            </ul>
+            <ul name="park_list" class="mui-table-view park-list">
+                <li class="mui-table-view-divider">正在优惠的停车场</li>
+            </ul>
+            <div class="list" name="coop">
+                <ul class="innerlist mui-table-view">
+                    <li class="mui-table-view-divider">按商圈查看</li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="template">
+        <ul>
+            <!--合作停车场-->
+            <li class="mui-table-view-cell" name='row'>
+                <h4><span name='title'></span><span class="tips-box tips-green" name="preorder">可预订</span></h4>
+                <p class='mui-ellipsis' name='rules'></p>
+                <p class='mui-ellipsis' name='spaces'>现在是<span name='numberstatus1'></span><mytag style="display:none">，预计<span name='numberstatus2t'></span>后<span name='numberstatus2'></span></mytag></p>
+                <p class="mui-ellipsis" name="notopen">现在不开放。开放时间：工作日<b name=openwd></b>，休息日<b name=openwe></b></p>
+                <p class='mui-ellipsis activity' name='activity'></p>
+                <a class="mui-btn mui-btn-primary">详情</a>
+            </li>
+            <!--区域块-->
+            <li name="tujianrow" class="mui-table-view-cell row">
+                <h4>
+                    <span name="name"></span>
+                </h4>
+                <p name="desc" style="display:block;" class="search_desc mui-ellipsis"></p>
+                <span class="mui-icon mui-icon-arrowdown search_arrowup"></span>
+                <ul name="areablocks" style="display:none;" class="mui-table-view mui-grid-view mui-grid-9">
+                </ul>
+            </li>
+            <!--子区域块-->
+            <li class="mui-table-view-cell mui-media mui-col-xs-4" name="areablock">
+                <div class="mui-media-body"></div>
+            </li>
+        </ul>
+    </div>
+    
+</div>

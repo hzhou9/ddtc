@@ -74,6 +74,7 @@ function ui_couponget(){
             this.dom.nonepanel.panel.hide();
             this.dom.resultpanel.panel.hide();
             if('-1' == gift.t){
+                this.dom.infopanel.row1.attr("class", "quan");
                 this.dom.infopanel.row1.show();
                 this.dom.infopanel.row0.hide();
                 this.dom.infopanel.quan0.hide();
@@ -82,6 +83,7 @@ function ui_couponget(){
             }else{
                 this.dom.infopanel.row1.hide();
                 if(gift.m[0] == gift.m[1]){
+                    this.dom.infopanel.row0.attr("class", "quan");
                 	this.dom.infopanel.row0.show();
                 	this.dom.infopanel.quan0.hide();
                 	this.dom.infopanel.info.html(gift.m[0]);
@@ -93,6 +95,7 @@ function ui_couponget(){
                 	}
                 }else{
                 	this.dom.infopanel.row0.hide();
+                    this.dom.infopanel.quan0.attr("class", "quan0");
                 	this.dom.infopanel.quan0.show();
                 }
             }
@@ -105,12 +108,14 @@ function ui_couponget(){
 
             //code: 0data: Objectcoupon: Objecte: "2015-03-23 00:59:04"id: "32"m: 3t: "0"
             if('-1' == result.data.coupon.t){
+                this.dom.resultpanel.row1.attr("class", "quan");
                 this.dom.resultpanel.row1.show();
                 this.dom.resultpanel.row0.hide();
                 //设置分享
                 window.Myweixinobj.setDesc('你停车，我买单，停车只要1元！').setTitle('嘟嘟停车，请你停车').initBind();
             }else{
                 this.dom.resultpanel.row1.hide();
+                this.dom.resultpanel.row0.attr("class", "quan");
                 this.dom.resultpanel.row0.show();
                 this.dom.resultpanel.info.html(result.data.coupon.m);
                 //根据文字修正位置

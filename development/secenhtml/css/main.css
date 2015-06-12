@@ -157,7 +157,7 @@
             overflow: hidden;
             z-index: 100;
             -webkit-transform:translateX(0);
-            -webkit-animation-duration:.4s;
+            -webkit-animation-duration:.3s;
             -webkit-animation-iteration-count:1;
             -webkit-animation-timing-function:ease
         }

@@ -84,7 +84,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                me.dom.info.panel.hide();
             });
             this.dom.bt_jiaoyi.aclick(function(){
-                utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){
+                utils.sys.loadpage('views/', 'jiaoyi', null, '业务清单（所有）',function(v){
                     v.obj.setLastweek(0);
                 });
             });

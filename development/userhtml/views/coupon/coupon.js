@@ -17,6 +17,9 @@ function ui_coupon(){
                 ,'quanrow0':'[name=quanrow0]'
                 ,'quanrownone':'[name=quanrownone]'
             }
+            ,header:'header'
+            ,scrollarea:'[name=scrollparent] .gift-box'
+            ,scrollparent:'[name=scrollparent]'
         }
         ,iscroll:null
         ,info:null
@@ -42,20 +45,13 @@ function ui_coupon(){
         }
         ,c_fill:function(datas){
             var me = this;
-            this.dom.quanpanel.list.empty();
+            this.dom.quanpanel.list.empty().unbind();
             if(datas && datas.length){
                 var now = new Date();
                 var addemptyrow = false;
                 for(var i=0;i<datas.length;i++){
                     var data = datas[i];
                     var row = this.c_getrow(data);
-                    if(new Date(data.e)<now){
-                        row.addClass('overtime');
-                        if(!addemptyrow){
-                            addemptyrow = true;
-                            this.dom.quanpanel.list.append($('<li style="padding: 5px" class="mui-table-view-divider">'));
-                        }
-                    }
                     this.dom.quanpanel.list.append(row);
 
                 }
@@ -80,8 +76,15 @@ function ui_coupon(){
                     row.find('[name=endtime]>span').html((data.e+'').split(' ')[0]);
                     break;
             }
-            if('1' == data.u+''){
-                row.addClass('use');
+            var now = new Date();
+            if(parseInt(data.u) > 0){//已使用
+                row.addClass('copuon-expired');
+                row.find('.mui-badge').html('已使用');
+            }else if(new Date(data.e)<now){//已过期
+                row.addClass('copuon-expired');
+                row.find('.mui-badge').html('已过期');
+            }else{
+                row.find('.mui-badge').remove();
             }
 
             return row;
@@ -116,10 +119,23 @@ function ui_coupon(){
         }
         ,r_init:function(){
             var me = this;
-            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            
+            var model = utils.tools.getUrlParam('m');
+            if('coupon' == model){
+                this.dom.header.show();
+                var height = this.context.height() - this.dom.header.height();
+                this.dom.scrollparent.height(height);
+            }else{
+                this.dom.header.hide();
+                var height = this.context.height();
+                this.dom.scrollparent.height(height);
+            }
+            
+            this.iscroll = new iScroll(this.dom.scrollarea[0], {desktopCompatibility:true});
             this.dom.quanpanel.btget_test.aclick(function(){
                 me.c_btget_test();
             });
+            
         }
         ,close:function(){
             this.onclose && this.onclose(this.info);

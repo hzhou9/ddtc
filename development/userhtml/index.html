@@ -14,174 +14,68 @@
     <style></style>
 </head>
 <body>
-<!--<script>-->
-<!--var _hmt = _hmt || [];-->
-<!--(function() {-->
-<!--//  var hm = document.createElement("script");-->
-<!--//  hm.src = "//hm.baidu.com/hm.js?aa83b44255e0841ab8bc2d46302e84cf";-->
-<!--//  var s = document.getElementsByTagName("script")[0];-->
-<!--//  s.parentNode.insertBefore(hm, s);-->
-<!--})();-->
-<!--</script>-->
 <div style="display: none;position: absolute">
 <script src="http://s11.cnzz.com/z_stat.php?id=1254946209&web_id=1254946209"></script>
 </div>
-<script>
-    /**
-     *     入口链接点击跟踪：
-             提示语中的链接：（分母：公共号的关注人数－A、活跃人数－A0）
-                 附近空车位：A1
-                 搜索地址：A2
-                 停车缴费：A3
-             菜单中的链接：（分母：公共号的关注人数、活跃人数）
-                 附近：B1
-                 搜索：B2
-                 缴费：B3
-                 我的订单：B4
-                 我的卡券：B5
-                 我的信息：B6
-         主体下单流程：
-             选择停车场：（分母：附近停车场列表页面－C、目的地停车场列表页面－C0）
-                 列表中停车场全是满的状态：C1
-                 列表中1000米范围内有可预定的停车场：C2
-                 列表中1000～2000米范围内有可预定的停车场：C3
-                 范围内无停车场的状态：C4
-             预付下单：（分母：预付下单界面－D）
-                 还没车牌的状态：D1
-                 没有抵用劵的情况：D2
-                 修改车牌号的情况：D3
-                 点击导航按钮：D4
-                 确认预付按钮点击：D5
-                 支付成功：D6
-             缴费结清界面：（分母：缴费结清页面－E）
-                 不需要再缴费的状态：E1
-                 需要缴费结清的状态：E2
-                 拨打管理员电话：E3
-     * @type {*}
-     */
-    window.TongjiObj = (function(){
-        var obj = {
-            /**
-             *  category：事件类别，必填项，表示事件发生在谁身上，如“视频”、“小说”、“轮显层”等等。
-                 action：事件操作，必填项，表示访客跟元素交互的行为动作，如"播放"、"收藏"、"翻层"等等。
-                 label：事件标签，选填项，用于更详细的描述事件，从各个方面都可以，比如具体是哪个视频，哪部小说，翻到了第几层等等。
-                 value：事件值，选填项，整数型，用于填写打分型事件的分值，加载时间型事件的时长，订单型事件的价格等等。
-                 nodeid：div元素id，选填项，填写网页中的div元素id值，用于在“用户视点”功能上重绘元素的事件发生情况。
-             */
-            push:function(category, action, label, value){
-                setTimeout(function(){
-                    _czc.push(["_trackEvent", category, action, label || 0         ,value || 0 , null]);
-//                    _hmt.push(['_trackEvent', category, action, opt_label || 0, opt_value] || 0);
-                    console.log('_czc.push','_trackEvent', category, action, label, value);
-                });
-            }
-            ,clickLink:function(action){          //模块链接
-                this.push('B','B_'+action);
-            }
-            ,A:function(action){        //附近空车位：A1搜索地址：A2停车缴费：A3,
-                this.push('A', action);
-            }
-            ,
-            /**
-             * 列表中停车场全是满的状态：C1
-             * 列表中1000米范围内有可预定的停车场：C2
-             * 列表中1000～2000米范围内有可预定的停车场：C3
-             * 范围内无停车场的状态：C4
-             * 范围内无停车场的状态：C4
-             * @param active
-             * @constructor
-             */
-            C:function(action){        //
-                this.push('C', action);
-            }
-            ,
-            /**
-             *     还没车牌的状态：D1
-                 没有抵用劵的情况：D2
-                 修改车牌号的情况：D3
-                 点击导航按钮：D4
-                 确认预付按钮点击：D5
-                 支付成功：D6
-             * @param action
-             * @constructor
-             */
-            D:function(action){
-                this.push('D', action);
-            }
-            ,
-            /**
-            *   不需要再缴费的状态：E1
-                 需要缴费结清的状态：E2
-                 拨打管理员电话：E3
-             * @constructor
-             */
-            E:function(action){
-                this.push('E', action);
-            }
-        }
-        return obj;
-    })();
-</script>
+<script src="./js/tongji.js"></script>
 <div class="bodypage">
     <div id="main_contaion" class="pagecontainer">
         <div id="canvaswrap" class="mui-off-canvas-wrap page">
     	<div class="mui-inner-wrap">
     		<div class="mui-content mytabs">
-                <div id="tabbar-with-user" class="mui-control-content"   name='login'>
-                    <h3 class="copyright">Copyright@@2015</h3>
+                <div id="tabbar-with-user" class="mui-control-content" name='login'>
                 </div>
-                <div id="tabbar-with-collection" class="mui-control-content"   name='map'>
-                    <h3 class="copyright">Copyright@@2015</h3>
+                <div id="tabbar-with-collection" class="mui-control-content" name='map'>
                 </div>
-                <div id="tabbar-with-in" class="mui-control-content"  name='myorder'>
-                    <h3 class="copyright">Copyright@@2015</h3>
+                <div id="tabbar-with-in" class="mui-control-content" name='myorder'>
                 </div>
-                <div id="tabbar-with-out" class="mui-control-content"   name='myorderdetail'>
-                    <h3 class="copyright">Copyright@@2015</h3>
+                <div id="tabbar-with-out" class="mui-control-content" name='myorderdetail'>
                 </div>
-                <div class="mui-control-content"   name='userinfo'>
-                    <h3 class="copyright">Copyright@@2015</h3>
+                <div class="mui-control-content" name='userinfo'>
                 </div>
-                <div class="mui-control-content"   name='mapfull'>
-                    <h3 class="copyright">Copyright@@2015</h3>
+                <div class="mui-control-content" name='mapfull'>
                 </div>
-                <div class="mui-control-content"   name='coupon'>
-                    <h3 class="copyright">Copyright@@2015</h3>
+                <div class="mui-control-content" name='coupon'>
                 </div>
     		</div>
     		<!-- off-canvas backdrop -->
     	</div>
     </div>
     </div>
-
-    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+    
+    <div id="pop_pagecontaion" class="pagecontainer" style="display: none">
+        <div class="page" style="background-color:#fff">
+        </div>
+    </div>
+    
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none">
         <div class="page">
         </div>
     </div>
-    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none">
             <div class="page">
             </div>
         </div>
-    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none">
             <div class="page">
             </div>
         </div>
-    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none">
             <div class="page">
             </div>
         </div>
-    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none">
             <div class="page">
             </div>
         </div>
-    <div id="tophead"  class="pagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+    <div id="tophead"  class="pagecontainer" animname='anim_rightin' style="display: none">
         <header class="mui-bar mui-bar-nav">
             <a name='btclose' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
             <h1 class="mui-title"></h1>
         </header>
     </div>
 
-    <div id="topheardpagecontainer"  class="pagecontainer topheardpagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+    <div id="topheardpagecontainer"  class="pagecontainer topheardpagecontainer" animname='anim_rightin' style="display: none">
         <header class="mui-bar mui-bar-nav mui-bar-top">
             <a name='btupclose' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
             <h1 class="mui-title"></h1>
@@ -190,20 +84,7 @@
             </button>
         </header>
     </div>
-    <div id="pop_pagecontaion" class="pagecontainer" style="display: none">
-        <!--<header class="mui-bar mui-bar-top">-->
-            <!--<button name='btclose' class="mui-action-back mui-btn mui-pull-left">退出</button>-->
-            <!--<h1 class="mui-title"></h1>-->
-            <!--<button name='btcloseok' class="mui-action-back mui-btn mui-pull-right">确定</button>-->
-        <!--</header>-->
-        <div class="page" style="background-color:#fff">
-        </div>
-    </div>
     <div id="coupon_pagecontaion" class="pagecontainer" style="display: none">
-        <div class="page" style="background-color:#fff">
-        </div>
-    </div>
-    <div id="jiesuan_pagecontaion" class="pagecontainer" style="display: none">
         <div class="page" style="background-color:#fff">
         </div>
     </div>
@@ -214,11 +95,11 @@
     <div id="top_menu" class="pagecontainer" style=" display: none">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view" name='list'>
-                <li class="mui-table-view-cell" name='title'>菜单1:</li>
-                <li class="mui-table-view-cell" name='title'>菜单1:</li>
-                <li class="mui-table-view-cell" name='title'>菜单1:</li>
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='title'></li>
             </ul>
-            <ul class="template"><li class="mui-table-view-cell" name='title'>菜单1:</li></ul>
+            <ul class="template"><li class="mui-table-view-cell" name='title'></li></ul>
         </div>
         <div name='make' class="mui-backdrop mui-active"></div>
     </div>
@@ -228,7 +109,7 @@
                 <h1 class="iconrow">嘟嘟停车</h1>
                 <span name='btclose' class="mui-icon mui-icon-close"></span>
                 <hr>
-                <p name='msg'>首次使用嘟嘟停车需要注册你的手机号和车牌号</p>
+                <p name='msg'>手机号就是您在嘟嘟停车的账号</p>
 
                 <input name="userpanel_phone" type="text" class="mui-input-clear" placeholder="请输入您的手机号" >
                 <br/>
@@ -241,8 +122,8 @@
     <div id="alert_pagecontainer" class="pagecontainer" style=" display: none">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view">
-                <li class="mui-table-view-cell" name='title'>错误信息:</li>
-                <li class="mui-table-view-cell" name='msg'>错误内容</li>
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='msg'></li>
             </ul>
         </div>
         <div name='make' class="mui-backdrop mui-active"></div>
@@ -250,8 +131,8 @@
     <div id="confirm_pagecontainer" class="pagecontainer" style=" display: none;z-index: 500">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view">
-                <li class="mui-table-view-cell title" name='title'>操作确认:</li>
-                <li class="mui-table-view-cell msg" name='msg'>内容</li>
+                <li class="mui-table-view-cell title" name='title'></li>
+                <li class="mui-table-view-cell msg" name='msg'></li>
                 <li class="mui-table-view-cell">
                     <table style="width: 80%">
                         <tr>
@@ -266,12 +147,15 @@
     </div>
 
 
-<table id="loading" class="loading" style="display: none">
-    <tr align='middel'>
-        <td style="text-align: center"><div><div></div></div><br>
-            <a name="bt" style="color: #16A7DE;text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;">数据加载中...</a></td>
-    </tr>
-</table>
+<!--<table id="loading" class="loading" style="display: none">-->
+    <!--<tr align='middel'>-->
+        <!--<td style="text-align: center"><div><div></div></div><br>-->
+            <!--<a name="bt" style="color: #16A7DE;text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;">数据加载中...</a></td>-->
+    <!--</tr>-->
+<!--</table>-->
+<div id="loading" class="tips-loading"></div>
+<div id="coverpage" class="coverpage">
+</div>
 <div id="startpage" class="startpage">
     嘟嘟停车
     <p class="mui-bar-footer">duduche.me</p>
@@ -280,14 +164,15 @@
 <div class="template">
 
 </div>
-<div class="template">
-    <div class="mapPluginInit_mk1" name="map_control_home"></div>
-</div>
+<!--
+<div class="template"><div class="mapPluginInit_mk1" name="map_control_home"></div></div>
+-->
 </body>
 
 <script src="../golba_rs/js/jquery-1.9.1.min.js"></script>
 
 <script src="../golba_rs/js/iscroll.js" __del__></script>
+
 <script src="./js/cfg.js" __del__></script>
 <script src="./js/utils.js" __del__></script>
 <script src="./js/manager.js" __del__></script>
@@ -296,20 +181,22 @@
 <script src="./js/map_plugin.js" __del__></script>
 
 <script src="./views/map/map.js" __del__></script>
-<script src="./views/mapfull/mapfull.js" __del__></script>
-<script src="./views/daohang/daohang.js" __del__></script>
 <script src="./views/searchmap/searchmap.js" __del__></script>
 <script src="./views/myorder/myorder.js" __del__></script>
 <script src="./views/myorderdetail/myorderdetail.js" __del__></script>
 <script src="./views/reg/reg.js" __del__></script>
-<script src="./views/orderpay/orderpay.js" __del__></script>
 <script src="./views/userinfo/userinfo.js" __del__></script>
 <script src="./views/coupon/coupon.js" __del__></script>
 <script src="./views/couponget/couponget.js" __del__></script>
-<script src="./views/gaodedaohang/gaodedaohang.js" __del__></script>
 <script src="./views/parkinfo/parkinfo.js" __del__></script>
+<script src="./views/daohang/daohang.js" __del__></script>
+<script src="./views/orderpay/orderpay.js" __del__></script>
+<script src="./views/discover/discover.js" __del__></script>
+<script src="./views/freelist/freelist.js" __del__></script>
 
+<script __scrolljs__></script>
 <script __alljs__></script>
+<script __viewjs__></script>
 
 
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
@@ -347,10 +234,12 @@
                 case 'myorder':
                     tabs.activeTab(2);
                     break;
+                case 'neworder':
                 case 'myjiesuan':
                     tabs.activeTab(3);
                     break;
                 case 'userinfo':
+                case 'userorder':
                     tabs.activeTab(4);
                     break;
                 case 'mapfull':
@@ -361,6 +250,7 @@
                     break;
                 case "map":
                 case "mapsearch":
+                case "discover":
                 default :
                     tabs.activeTab(1);
                     break;
@@ -434,236 +324,7 @@
     });
 
 </script>
-<script>
-    window.Myweixinobj = (function(){
 
-        var title = ''; // 分享标题
-        var desc  =  ''; // 分享描述
-        var linkUrl = ''; // 分享链接
-        var imgUrl = ''; // 分享图标
-        var fenxiangcallback = null;
+<script src="./js/wxfunc.js"></script>
 
-       var obj = {
-           init:function(_title,_desc,_link,_imgUrl, _fenxiangcallback){      //初始化分享的内容
-               title = _title;
-               desc = _desc;
-               linkUrl = _link;
-               imgUrl = _imgUrl;
-               fenxiangcallback = _fenxiangcallback;
-           }
-           ,isready:false
-           ,initFenxiang:function(){
-               var me = this;
-               wx.ready(function () {
-                // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-
-                    wx.checkJsApi({
-                      jsApiList: [
-                        'checkJsApi',
-                        'onMenuShareTimeline',
-                        'onMenuShareAppMessage',
-                        'onMenuShareQQ',
-                        'onMenuShareWeibo',
-                        'openLocation'
-                      ],
-                      success: function (res) {
-                        //alert(JSON.stringify(res));
-                          me.isready = true;
-                      }
-                    });
-                    me.initBind();
-                });
-
-                wx.error(function (res) {
-                    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-                    alert(res.errMsg);
-                });
-           }
-           ,initBind:function(){
-               //分享给朋友
-                           wx.onMenuShareAppMessage({
-                             title: title,
-                             desc: desc,
-                             link: linkUrl,
-                             imgUrl: imgUrl,
-                             trigger: function (res) {
-                               //alert('用户点击发送给朋友');
-                             },
-                             success: function (res) {
-                               //alert('已分享朋友');
-                               fenxiangcallback && fenxiangcallback(); //分享统计发送
-                             },
-                             cancel: function (res) {
-                               //alert('已取消');
-                             },
-                             fail: function (res) {
-                               //alert(JSON.stringify(res));
-                             }
-                           });
-
-                           //分享到朋友圈
-                           wx.onMenuShareTimeline({
-                             title: desc,
-                             link: linkUrl,
-                             imgUrl: imgUrl,
-                             trigger: function (res) {
-                               //alert('用户点击分享到朋友圈');
-                             },
-                             success: function (res) {
-                               //alert('已分享朋友圈');
-                                 fenxiangcallback && fenxiangcallback(); //分享统计发送
-                             },
-                             cancel: function (res) {
-                               //alert('已取消');
-                             },
-                             fail: function (res) {
-                               //alert(JSON.stringify(res));
-                             }
-                           });
-
-                           //分享到QQ
-                           wx.onMenuShareQQ({
-                             title: title,
-                             desc: desc,
-                             link: linkUrl,
-                             imgUrl: imgUrl,
-                             trigger: function (res) {
-                               //alert('用户点击分享到QQ');
-                             },
-                             complete: function (res) {
-                               //alert(JSON.stringify(res));
-                             },
-                             success: function (res) {
-                               //alert('已分享qq');
-                                 fenxiangcallback && fenxiangcallback(); //分享统计发送
-                             },
-                             cancel: function (res) {
-                               //alert('已取消');
-                             },
-                             fail: function (res) {
-                               //alert(JSON.stringify(res));
-                             }
-                           });
-           }
-           ,config:function(cfg){
-               /**
-                * wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: '', // 必填，公众号的唯一标识
-                        timestamp:'' , // 必填，生成签名的时间戳
-                        nonceStr: '', // 必填，生成签名的随机串
-                        signature: '',// 必填，签名，见附录1
-                        jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-                    });
-                */
-               wx.config(cfg);
-               this.initFenxiang();
-           }
-           ,setDesc:function(_desc){
-               desc = _desc;
-               return this;
-           }
-           ,setTitle:function(_title){
-               title = _title;
-               return this;
-           }
-       }
-        return obj;
-    })();
-</script>
-<script>
-    var urlPath = (function() {
-         var a = window.location.origin;
-         var d = window.location.pathname.split("/");
-         var c = a + "/";
-         for (var b = 0; b < d.length - 1; b++) {
-             if (d[b]) {
-                 c += d[b] + "/"
-             }
-         }
-         return c
-     })();
-
-    function geswxcfg(fn){
-        window.myajax.get('weixin','getJsConfig',{url:window.location.href}, function(result){
-            fn && fn(result.data);
-        }, null, false);
-    }
-    function wxinit(cfginfo){
-        /**
-         * appId: "wx7402a94935807c76"
-         * nonceStr: "OFXLWLTGSayHCOKL"
-         * signature: "64f97be21281babd0728b683ef0b01934e0d4776"
-         * timestamp: 1427710434
-         * @type {*|String}
-         */
-
-        var type = utils.tools.getUrlParam('type') || '1';
-        if('10' != type){
-            var imgUrl = urlPath+'/img/icon.png';
-             var lineLink = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd417c2e70f817f89&redirect_uri=http%3a%2f%2fdriver.duduche.me%2fdriver.php%2fhome%2fweixin%2fmenuCallBack%2f&response_type=code&scope=snsapi_base&state=near#wechat_redirect';
-             var descContent = "我在用嘟嘟停车,停车好方便.";
-             var shareTitle = '嘟嘟停车';
-             Myweixinobj.init(shareTitle, descContent, lineLink, imgUrl, function(){
-             });
-
-             //封装微信 wx.cfg
-             Myweixinobj.config(
-
-                     {
-                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
-                        appId: cfginfo.appId, // 必填，公众号的唯一标识
-                        timestamp: cfginfo.timestamp, // 必填，生成签名的时间戳
-                        nonceStr: cfginfo.nonceStr, // 必填，生成签名的随机串
-                        signature: cfginfo.signature,// 必填，签名
-                        jsApiList: [
-                            'checkJsApi',
-                            'onMenuShareTimeline',
-                            'onMenuShareAppMessage',
-                            'onMenuShareQQ',
-                            'onMenuShareWeibo',
-                            'openLocation'
-                        ] // 必填，需要使用的JS接口列表
-                    }
-
-             );
-        }else{
-            var hcode = utils.tools.getUrlParam('hcode') || '1';
-            var fromid = utils.tools.getUrlParam('fromid') || '0';
-            var imgUrl = urlPath+'/img/hongbao/fenxiang.jpg';
-            var lineLink = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd417c2e70f817f89&redirect_uri={myurl}&response_type=code&scope=snsapi_base#wechat_redirect';
-            var myurl = 'http://driver.duduche.me/driver.php/home/weixin/giftCallBack/type/10/hcode/{hcode}/fromid/{fromid}/';
-            myurl = myurl.replace('{hcode}', hcode).replace('{fromid}', fromid);
-            myurl = encodeURIComponent(myurl);
-            lineLink = lineLink.replace('{myurl}', myurl);
-             var descContent = "开车的小伙伴们,快来领嘟嘟停车红包吧!";
-             var shareTitle = '嘟嘟停车发红包啦';
-             Myweixinobj.init(shareTitle, descContent, lineLink, imgUrl, function(){
-
-             });
-             //封装微信 wx.cfg
-             Myweixinobj.config({
-                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
-                        appId: cfginfo.appId, // 必填，公众号的唯一标识
-                        timestamp: cfginfo.timestamp, // 必填，生成签名的时间戳
-                        nonceStr: cfginfo.nonceStr, // 必填，生成签名的随机串
-                        signature: cfginfo.signature,// 必填，签名
-                        jsApiList: [
-                            'checkJsApi',
-                            'onMenuShareTimeline',
-                            'onMenuShareAppMessage',
-                            'onMenuShareQQ',
-                            'onMenuShareWeibo',
-                            'openLocation'
-                        ] // 必填，需要使用的JS接口列表
-                    }
-
-             );
-
-        }
-    }
-    geswxcfg(function(data){
-       wxinit(data);
-    });
-</script>
 </html>

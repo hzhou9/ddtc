@@ -1,112 +1,43 @@
 <div class="page_content userpage" style="" id="myorderdetail_html">
     <style>
-        #myorderdetail_html{
-            width: 100%;
-            min-height: 100%;
-        }
-        #myorderdetail_html .row .time{
-
-        }
-        #myorderdetail_html .row .title,#myorder_html .row .info{
-            padding-left: 20px;
-        }
-
-        .myorderdetail_html_contaion{
-            width: 100%;
-            min-height: 100%;
-            /*position: absolute;*/
-            background-color: #f0f0f0;
-        }
-        #myorderdetail_html .order_pay, .order_wait, .no_pay{
-            width: 100%;
-            min-height: 100%;
-            position: relative;
-        }
-        #myorderdetail_html .order_pay li{
-            padding: 10px 15px;
-        }
-        #myorderdetail_html .order_pay li.payinfo{
-            padding: 15px;
-        }
-        #myorderdetail_html  .lianxipanel{
-
-        }
-        #myorderdetail_html  .lianxipanel>li{
-            padding: 10px 15px;
-        }
-        #myorderdetail_html  .lianxipanel .other{
-            display: none;
-        }
-        #myorderdetail_html  .lianxipanel.all .other{
-            display: block;
-        }
-        #myorderdetail_html  .lianxipanel.all .btmore_none{
-            display: block;
-        }
-        #myorderdetail_html  .lianxipanel.all .btmore{
-            display: none;
-        }
-        #myorderdetail_html  .lianxipanel .btmore_none{
-            display: none;
-        }
-        #myorderdetail_html  .lianxipanel .btmore{
-            display: block;
-        }
-        #myorderdetail_html  .lianxipanel>li{
-            position: relative;
-        }
-        #myorderdetail_html  .lianxipanel>li>a{
-            position: absolute;
-            top: 0px;
-        }
-        #myorderdetail_html  .lianxipanel>li.other>a.btmore{
-            display: none;
-        }
-        #myorderdetail_html  .lianxipanel>li.other>a.btmore_none{
-            display: none;
-        }
-        #myorderdetail_html  .lianxipanel>li>a.btlianxi{
-            right: 100px;
-        }
-        #myorderdetail_html  .lianxipanel>li>a.btmore{
-            right: 0px;
-        }
-        #myorderdetail_html  .lianxipanel>li>a.btmore_none{
-            right: 0px;
-        }
-        #myorderdetail_html li a .mui-icon{
-            font-size: 20px;
-        }
-        #myorderdetail_html .myorderdetail_html_contaion>*{
-            display: none;
-        }
-        #myorderdetail_html [name=dqpanel] .selectrow{
-
-        }
-        #myorderdetail_html [name=dqpanel] .mui-active>span{
-            background-color: #000;
-        }
-        #myorderdetail_html [name=dqpanel] .selectrow>span{
-            position: absolute;
-            top: 4px;
-            left: 20px;
-            display: inline-block;
-            width: 28px;
-            height: 26px;
-            -webkit-appearance: none;
-            background-color: transparent;
-            border: solid 1px #16a7de;
-            border-radius: 50%;
-        }
-        .couponlist .mui-active{
-            background-color: #fff;
-        }
-        #myorderdetail_html [name=dqpanel]  .mui-active>.selectrow>span{
-            background-color: #16a7de;
-        }
-
-
+        .lianxipanel {padding:0; margin:0;}
+        .lianxipanel li {list-style:none; margin-bottom:10px;}
+        .lianxipanel li a {display:inline-block;}
+        .btlianxi {min-width:110px;}
+        #myorderdetail_html{width: 100%; min-height: 100%;}
+        #myorderdetail_html .row .title,#myorder_html .row .info{padding-left: 20px;}
+        .myorderdetail_html_contaion{width: 100%; min-height: 100%; background-color: #f0f0f0;}
+        #myorderdetail_html .order_pay, .no_pay{width: 100%; min-height: 100%; position: relative;}
+        #myorderdetail_html .lianxipanel .other{display: none;}
+        #myorderdetail_html .lianxipanel.all .other{display: block;}
+        #myorderdetail_html .lianxipanel>li{position: relative;}
+        #myorderdetail_html li a .mui-icon{font-size: 20px;}
+        #myorderdetail_html .myorderdetail_html_contaion>*{display: none;}
+        #myorderdetail_html .mui-table-view-cell>p{padding-top: 3px; padding-bottom: 3px;}
+        .pagecontainer>.mui-popover {position: absolute; top: 50%; left: 50%; margin-top: -120px; margin-left: -140px;}
     </style>
+    
+    <div name="orderdetail_pagecontainer" class="pagecontainer" style="display: none;-webkit-transform: none;">
+        <div class="mui-popover mui-active" style="display: block;position:relative;">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">
+                    <h4 name='btclose'>如果停放到现在：<span class="mui-icon mui-icon-close" style="position:absolute;right:5px;top:5px;"></span></h4><hr>
+                    
+                    <label>开始时间：</label><span name='starttime'></span><p></p>
+                    <label>停放时间：</label><span name='stoptime'></span><p></p>
+                    <label>总计金额：</label><span name='totalFee'></span><p></p>
+                    <label>已付金额：</label><span name='preFee'></span>
+                </li>
+                <li class="mui-table-view-cell">
+                    <label>还需支付：</label>
+                    <input name="remainFee" type="text" style="width:70px;">
+                        <button name="btpay"  class="mui-btn mui-btn-success">我要付款</button>
+                        </li>
+            </ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    
     <div class="myorderdetail_html_contaion">
         <div name='waittime' style="display: block;height: 500px;line-height: 500px;text-align: center;background-color: #fff;">等待服务器确认...
             <div class="mui-spinner">
@@ -124,117 +55,74 @@
             				<div class="mui-spinner-indicator mui-spinner-indicator12"></div>
             			</div>
         </div>
-        <div class="order_no" style="display: none" name='order_no'>
+        
+        <div class="order_pay" style="display: block;" name="order_pay">
+            <header class="mui-bar mui-bar-nav" style="position: relative;display:none;">
+                <h1 class="mui-title">订单明细</h1>
+            </header>
             <ul class="mui-table-view">
-                <li class="mui-table-view-divider"><h3>当前没有需要缴费的清单!</h3></li>
+                <li class="mui-table-view-cell">
+                    <h4 name="title">示例停车场</h4>
+                    <p><span class="mui-icon duduche icon-place"></span><span name="address">停车场地址</span></p>
+                    <p name="parkrule">
+                    <span class="price">X元/小时</span>，封顶X元
+                    </p>
+                    <button name="btdaohang" class="mui-btn mui-btn-primary mui-btn-outlined">入口指示</button>
+                </li>
+                <li class="mui-table-view-cell">
+                    <h4>已付金额：<span name="cost">X</span>元</h4>
+                    <p><span name="costdetail">实付<b name="cost_r">X</b>元，嘟嘟为您支付<b name="cost_c">X</b>元</span></p>
+                    <a class="mui-btn mui-btn-success" name="btdetail" style="top: 27px;">费用结算</a>
+                    <p></p>
+                    <p><label>开始计费：</label><span name="starttime">2015-01-01 15:30:00</span></p>
+                    <p><label>可停放至：</label><span name="endtime">2015-01-01 17:30:00</span></p>
+                </li>
             </ul>
-        </div>
-        <div class="order_pay" style="display: none" name='order_pay'>
             <ul class="mui-table-view">
-                <li class="mui-table-view-divider"><h3 name='title'></h3></li>
-                <li class="mui-table-view-cell"><label>开始时间：</label><span name='starttime'></span></li>
-                <li class="mui-table-view-cell"><label>停放时间：</label><span name='stoptime'></span></li>
-                <li class="mui-table-view-cell"><label>总计金额：</label><span name='totalFee'></span></li>
-                <li class="mui-table-view-cell"><label>已付金额：</label><span name='preFee'></span></li>
-                <li class="mui-table-view-cell mui-collapse" name='dqpanel' style="display: none">
-                    <a class="mui-navigate-right">
-                    <label>抵用券：</label>
-                        <span name='couponinfo'>抵用券信息</span>
-                    </a>
-                    <ul class="mui-table-view couponlist" name='list'>
-                        <li class="mui-table-view-cell mui-collapse">
-                            <div class="mui-input-row mui-radio mui-left">
-                                <label>Radio</label>
-                                <input name="radio1" type="radio">
-                            </div>
+                <li class="mui-table-view-cell">
+                    <p>以下管理员为您服务（请报“<b>来自嘟嘟停车</b>”）</p>
+                </li>
+                <li class="mui-table-view-cell">
+                    <ul name="lianxipanel" class="lianxipanel">
+                        <li name="lianxipanel_row">
+                            <a class="mui-btn mui-btn-success btlianxi" name="btlianxi" href="tel:120">
+                                <span class="mui-icon duduche icon-phone"></span>
+                                <label name="name">牛师傅</label>
+                            </a>
                         </li>
-                        <li class="mui-table-view-cell mui-collapse">
-                            <div class="mui-input-row mui-radio mui-left">
-                                <label>Radio</label>
-                                <input name="radio1" type="radio">
-                            </div>
+                        <li name="lianxipanel_row" class="other">
+                            <a class="mui-btn mui-btn-success btlianxi" name="btlianxi" href="tel:120">
+                                <span class="mui-icon duduche icon-phone"></span>
+                                <label name="name">马师傅</label>
+                            </a>
+                        </li>
+                        <li name="lianxipanel_row" class="other">
+                            <a class="mui-btn mui-btn-success btlianxi" name="btlianxi" href="tel:120">
+                                <span class="mui-icon duduche icon-phone"></span>
+                                <label name="name">羊师傅</label>
+                            </a>
+                        </li>
+                        <li name="lianxipanel_row">
+                            <a class="mui-btn mui-btn-success btlianxi" name="btlianxi" href="tel:120">
+                                <span class="mui-icon duduche icon-phone"></span>
+                                <label name="name">嘟嘟客服</label>
+                            </a>    
                         </li>
                     </ul>
-                    <div class="template">
-                        <ul>
-                            <li class="mui-table-view-cell" name='row-1'>
-                                <div class="mui-input-row mui-radio mui-left selectrow">
-
-                                    <label>使用该券，你只需要在支付一元</label>
-                                    <span></span>
-                                </div>
-                            </li>
-                            <li class="mui-table-view-cell" name='row0'>
-                                <div class="mui-input-row mui-radio mui-left selectrow">
-                                    <label>使用抵扣<span name='money'>{0}</span>元</label>
-                                    <span></span>
-                                </div>
-                            </li>
-                            <li class="mui-table-view-cell" name='rownone'>
-                                <p>你当前没有可以使用的抵用券</p>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="mui-table-view-cell payinfo"><label>需付金额：</label><span name='remainFee'></span></li>
-                <li class="mui-table-view-cell">
-                    <p>以下管理员为您服务</p>
-                    <ul  name='lianxipanel' class="lianxipanel"></ul>
+                    
+                    <a class="mui-btn mui-btn-warning btmore" name="btmore" style="float:right;top: 32px;">还有<b>X</b>位师傅<span class="mui-icon mui-icon-arrowdown"></span></a>
                 </li>
             </ul>
-            <p style="padding: 20px">请在离场剩余时间内驶离至出口，否则可能需加付费用.</p>
-            <div style="height: 50px;"></div>
-            <button style="position: absolute;bottom: 0;left: 0;right: 0" name="btpay"  class="mui-btn mui-btn-success mui-btn-block">结算付款>></button>
-        </div>
-        <div class="order_wait" style="display: none" name='order_wait'>
-            <ul class="mui-table-view">
-                <li class="mui-table-view-divider"><h3>费用已结清！</h3></li>
-                <li class="mui-table-view-cell">
-                	<p>您可以从［缴费］菜单进入本页面</p>
-                </li>
-               	<li class="mui-table-view-cell">
-                	<span name='partname'></span><button style="background-color:transparent" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">入口指示</button>
-                </li>
-                <li class="mui-table-view-cell">离场剩余时间：<span name='rtime'></span></li>
-                <li class="mui-table-view-cell">
-                    <p>以下管理员为您服务</p>
-                    <ul  name='lianxipanel' class="lianxipanel"></ul>
-                </li>
-                <li class="mui-table-view-divider" style="display: none">
-                    如果你已经离开，但是管理员并未设置当前离场，你可以设置[离场]
-                </li>
-            </ul>
-            <button style="display: none" class="mui-btn mui-btn-primary mui-btn-block" name='btleave'>离场</button>
         </div>
         <div class="template">
             <ul>
-                <li  name='lianxipanel_row'>
-                    <label name='name'>管理员</label>
-                    <a class="mui-btn mui-btn-success btlianxi" name="btlianxi">
-                        <!--<span class="mui-icon mui-icon-phone"></span>-->
-                        拨打电话
+                <li name='lianxipanel_row'>
+                    <a class="mui-btn mui-btn-success btlianxi" name="btlianxi" href="tel:120">
+                        <span class="mui-icon duduche icon-phone"></span>
+                        <label name="name">牛师傅</label>
                     </a>
-                    <a class="mui-btn mui-btn-warning btmore" name="btmore">更多<span class="mui-icon mui-icon-arrowdown"></span></a>
-                    <a class="mui-btn mui-btn-warning btmore_none" name="btmore_none"><span class="mui-icon mui-icon-arrowup"></span></a>
                 </li>
             </ul>
         </div>
-    </div>
-    
-    <div class="pagecontainer" name="daohangmenu" style="display: none;z-index: 1000">
-        <div class="mui-popover mui-active" style="display: block;top:45%">
-            <ul class="mui-table-view">
-                <li class="mui-table-view-cell" style="padding: 20px">
-                     <a name="daohang_gaode" href="">高德地图导航</a>
-                </li>
-                <li class="mui-table-view-cell" style="padding: 20px">
-                    <a name="daohang_my"  href=":;">查看路线</a>
-                </li>
-                <li class="mui-table-view-cell">
-                    <button  class="mui-btn mui-btn-success mui-btn-block" style="-webkit-transform: translateY(0);transform: translateY(0);position: static;" name="btclosemenu">关闭</button>
-                </li>
-            </ul>
-        </div>
-        <div name="make" class="mui-backdrop mui-active"></div>
     </div>
 </div>

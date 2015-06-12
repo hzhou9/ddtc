@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>嘟嘟停车管理</title>
-    <link rel="shortcut icon" href="http://duduche.me/html/secenhtml/img/favicon.ico"/>
     <meta charset="UTF-8">
     <!--<script src="../golba_rs/js/sys.js"></script>-->
     <script>
@@ -21,6 +20,9 @@
         }else{
             document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=0,minimal-ui">');
         }
+        if(this.parent==this){//不在iframe
+        	document.write('<link rel="shortcut icon" href="http://duduche.me/html/secenhtml/img/favicon.ico"/>');
+        }
     </script>
     <!--<META HTTP-EQUIV="Pragma" CONTENT="no-cache">-->
     <META HTTP-EQUIV="Cache-Control" CONTENT="public">
@@ -30,18 +32,6 @@
 
     <link rel="stylesheet" href="../golba_rs/css/mui.min.css">
     <link rel="stylesheet" href="./css/main.css">
-    <script>
-//        alert('调试模式');
-//        window.onerror= function(msg,url,l){
-//           txt="There was an error on this page.\n\n"
-//           txt+="Error: " + msg + "\n"
-//           txt+="URL: " + url + "\n"
-//           txt+="Line: " + l + "\n\n"
-//           txt+="Click OK to continue.\n\n"
-//           alert(txt)
-//           return true
-//       }
-    </script>
 </head>
 <body>
 <div class="bodypage">
@@ -69,16 +59,12 @@
     		</aside>
     		<div class="mui-content mytabs">
                 <div id="tabbar-with-user" class="mui-control-content"   name='login'>
-                        <h3>登录</h3>
                 </div>
                 <div id="tabbar-with-collection" class="mui-control-content"   name='user'>
-                		<h3>主页</h3>
                 </div>
                 <div id="tabbar-with-in" class="mui-control-content"  name='secen_in'>
-                    <h3>入场管理</h3>
                 </div>
                 <div id="tabbar-with-out" class="mui-control-content"   name='secen_out'>
-                    <h3>出场管理</h3>
                 </div>
     		</div>
     		<!-- off-canvas backdrop -->
@@ -236,359 +222,10 @@
             utils.sys.Pushinit();
             $('#startpage').hide();
         },1e3*2);
-
-//        var btoffCanvas = $('#btoffCanvas').aclick(function(){
-//            utils.sys.loadpage('views/', 'login', null, '用户中心',function(v){
-//                setTimeout(function(){
-//                    $('#startpage').hide();
-//                },1e3);
-//                v.obj.onclose = function(){
-//                    var userinfo = ajax.userinfo();
-//                    if(userinfo){
-//                        console.log(userinfo);
-//                    }
-//                    tabs.activeTab(1);
-//                }
-//            });
-//        });
-
-//        sysmanager.checkLogin(function(islogin){
-//            if(islogin){
-//                initstart();
-//            }else{
-//                sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
-//                    view.obj.onclose = function(){
-//                        initstart();
-//                    }
-//                });
-//            }
-//            $('#startpage').hide();
-//        });
     }
 </script>
-<script>
-    //接受消息处理
-        (function receiveInfoFromAnotherDomain(){
 
-            (function(){
-                var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\bparent\b/ : /.*/;
-                var Class = function(){};
-                Class.extend = function(prop) {
-                        var parent = this.prototype;
-
-                        initializing = true;
-                        var prototype = new this();
-                        initializing = false;
-
-                        for( var name in prop ) {
-                            if(
-                                typeof(prop[name]) == "function" &&
-                                    typeof(parent[name]) == "function" &&
-                                    fnTest.test(prop[name])
-                                ) {
-                                prototype[name] = (function(name, fn){
-                                    return function() {
-                                        var tmp = this.parent;
-                                        this.parent = parent[name];
-                                        var ret = fn.apply(this, arguments);
-                                        this.parent = tmp;
-                                        return ret;
-                                    };
-                                })( name, prop[name] );
-                            }
-                            else {
-                                prototype[name] = prop[name];
-                            }
-                        }
-                        var ig = {
-                            copy: function( object ) {
-                                if(
-                                    !object || typeof(object) != 'object' ||
-                                        object instanceof HTMLElement ||
-                                        //object instanceof ig.Class
-                                        object instanceof Class
-                                    ) {
-                                    return object;
-                                }
-                                else if( object instanceof Array ) {
-                                    var c = [];
-                                    for( var i = 0, l = object.length; i < l; i++) {
-                                        c[i] = ig.copy(object[i]);
-                                    }
-                                    return c;
-                                }
-                                else {
-                                    var c = {};
-                                    for( var i in object ) {
-                                        c[i] = ig.copy(object[i]);
-                                    }
-                                    return c;
-                                }
-                            }
-                        }
-
-                        function Class() {
-                            if( !initializing ) {
-
-                                // If this class has a staticInstantiate method, invoke it
-                                // and check if we got something back. If not, the normal
-                                // constructor (init) is called.
-                                if( this.staticInstantiate ) {
-                                    var obj = this.staticInstantiate.apply(this, arguments);
-                                    if( obj ) {
-                                        return obj;
-                                    }
-                                }
-                                for( var p in this ) {
-                                    if( typeof(this[p]) == 'object' ) {
-                                        this[p] = ig.copy(this[p]); // deep copy!
-                                    }
-                                }
-                                if( this.init ) {
-                                    this.init.apply(this, arguments);
-                                }
-                            }
-                            return this;
-                        }
-
-                        Class.prototype = prototype;
-                        Class.constructor = Class;
-                        Class.extend = arguments.callee;
-                        Class.inject = function(prop) {
-                            var proto = this.prototype;
-                            var parent = {};
-                            for( var name in prop ) {
-                                if(
-                                    typeof(prop[name]) == "function" &&
-                                        typeof(proto[name]) == "function" &&
-                                        fnTest.test(prop[name])
-                                    ) {
-                                    parent[name] = proto[name]; // save original function
-                                    proto[name] = (function(name, fn){
-                                        return function() {
-                                            var tmp = this.parent;
-                                            this.parent = parent[name];
-                                            var ret = fn.apply(this, arguments);
-                                            this.parent = tmp;
-                                            return ret;
-                                        };
-                                    })( name, prop[name] );
-                                }
-                                else {
-                                    proto[name] = prop[name];
-                                }
-                            }
-                        };
-
-                        return Class;
-                    };
-                var EventClass = Class.extend({
-                        events:{}
-                        /*
-                         缁戝畾浜嬩欢
-                         */
-                        ,bind:function(eventName,fireBack){
-                            if('string' == typeof eventName){
-                                var e = this.events[eventName];
-                                if(!e){
-                                    e = this.events[eventName] = [];
-                                }
-                                if('function' == typeof fireBack){
-                                    e.push(fireBack);
-                                }
-                            }
-                            return this;
-                        }
-                        /*
-                         瑙ｉ櫎缁戝畾浜嬩欢
-                         eventName:瑕佸垹闄ょ殑浜嬩欢鍚嶇О 濡傛灉涓嶆彁渚� 鍒欏垹闄よ鎵€鏈夌殑浜嬩欢鐩戝惉
-                         ,fireBack:瑕佽Е鍙戠殑鏂规硶 濡傛灉娌℃湁璇ユ柟娉� 鍒欏垹闄よ浜嬩欢鎵€鏈夌殑缁戝畾
-                         */
-                        ,unBind:function(eventName, fireBack){
-                            var me = this;
-                            if(!eventName){
-                                for(var ename in this.events){
-                                    this.events[ename] = null;
-                                }
-                            }else{
-                                if('function' != fireBack){
-                                    this.events[eventName] = null;
-                                }else{
-                                    var e = this.events[eventName];
-                                    if(e){
-                                        for(var i = 0;i<e.length;i++){
-                                            if(fireBack == e[i]){
-                                                e.splice(i,1);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            return this;
-                        }
-                        /*
-                         瑙﹀彂鍒跺畾鐨勪簨浠�
-                         渚濈収缁戝畾鐨勬搴忚繘琛岃皟鐢�
-                         浜嬩欢鍚嶇О鍚庨潰鍙互娣诲姞涓嶅畾闀跨殑鍙傛暟
-                         */
-                        ,fire:function(eventName){
-                            var e = this.events[eventName];
-                            var returnValue = false;
-                            if(e){
-                                var arg = null;
-                                if(arguments.length>1){
-                                    arg = [];
-                                    for(var i=1;i<arguments.length;i++){
-                                        arg.push(arguments[i]);
-                                    }
-                                }
-                                for(var i=0;i<e.length;i++){
-                                    var cb = e[i];
-                                    if(arg?cb.apply(this,arg):cb.apply(this)){
-                                        returnValue = true;
-                                    }
-                                }
-                            }
-                            return returnValue;
-                        }
-
-                    });
-
-                var pushManager =  EventClass.extend({
-                    events:{}
-                   /*
-                    缁戝畾浜嬩欢
-                    */
-                   ,bind:function(eventName,fireBack){
-                       if('string' == typeof eventName){
-                           var e = this.events[eventName];
-                           if(!e){
-                               e = this.events[eventName] = [];
-                           }
-                           if('function' == typeof fireBack){
-                               e.push(fireBack);
-                           }
-                       }
-                       return this;
-                   }
-                   /*
-                    瑙ｉ櫎缁戝畾浜嬩欢
-                    eventName:瑕佸垹闄ょ殑浜嬩欢鍚嶇О 濡傛灉涓嶆彁渚� 鍒欏垹闄よ鎵€鏈夌殑浜嬩欢鐩戝惉
-                    ,fireBack:瑕佽Е鍙戠殑鏂规硶 濡傛灉娌℃湁璇ユ柟娉� 鍒欏垹闄よ浜嬩欢鎵€鏈夌殑缁戝畾
-                    */
-                   ,unBind:function(eventName, fireBack){
-                       var me = this;
-                       if(!eventName){
-                           for(var ename in this.events){
-                               this.events[ename] = null;
-                           }
-                       }else{
-                           if('function' != fireBack){
-                               this.events[eventName] = null;
-                           }else{
-                               var e = this.events[eventName];
-                               if(e){
-                                   for(var i = 0;i<e.length;i++){
-                                       if(fireBack == e[i]){
-                                           e.splice(i,1);
-                                       }
-                                   }
-                               }
-                           }
-                       }
-                       return this;
-                   }
-                   /*
-                    瑙﹀彂鍒跺畾鐨勪簨浠�
-                    渚濈収缁戝畾鐨勬搴忚繘琛岃皟鐢�
-                    浜嬩欢鍚嶇О鍚庨潰鍙互娣诲姞涓嶅畾闀跨殑鍙傛暟
-                    */
-                   ,fire:function(eventName){
-                       var e = this.events[eventName];
-                       var returnValue = false;
-                       if(e){
-                           var arg = null;
-                           if(arguments.length>1){
-                               arg = [];
-                               for(var i=1;i<arguments.length;i++){
-                                   arg.push(arguments[i]);
-                               }
-                           }
-                           for(var i=0;i<e.length;i++){
-                               var cb = e[i];
-                               if(arg?cb.apply(this,arg):cb.apply(this)){
-                                   returnValue = true;
-                               }
-                           }
-                       }
-                       return returnValue;
-                   }
-                    ,pushid:null
-                    ,pushmsg:[]
-                    ,PUSH_ID:function(pushid){
-                        this.pushid = pushid;
-//                        alert('pushid\n' + pushid);
-                        this.fire('pushid');
-                    }
-                    ,PUSH_MSG:function(msg){
-                        this.pushmsg.push(msg);
-//                        alert('pushmsg\n' + msg);
-                        this.fire('pushmsg');
-                    }
-                    ,getPushid:function(){
-                        return this.pushid;
-                    }
-                    ,getPushmsg:function(){
-                        return this.pushmsg.shift();
-                    }
-                    ,setMsg:function(info){
-                        window.top.postMessage(info, "*");
-                    }
-                });
-
-
-                window.PushManager = new pushManager({
-
-                });
-
-            })();
-
-
-            //首先让window添加一个事件监听函数，表明它可以监听窗口对象的message事件
-            //它受到事件时，会先判断是否来自指定的Domain(不是所有Domain丢过来的事件它都处理的）
-            window.addEventListener("message",function(ev){
-                console.log("the receiver callback func has been invoked");
-                //现在可以处理数据了
-                /**
-                 *
-                 * {t:in}
-                 * {t:out}
-                 * {pushid:xxxx}
-                 *
-                 *
-                 *
-                 *
-                 */
-                //控制台打印出接收到的json数据，因为我们把json字符串发送了过来
-                console.log('getmessage',ev.data);
-
-                //将json字符串转为json对象，然后从中分离出原始信息
-                var personInfoJSON = JSON.parse(ev.data);
-
-                if(personInfoJSON.pushid){      //当前是一个pushid推送
-                    window.PushManager.PUSH_ID(personInfoJSON.pushid);
-                }else if(personInfoJSON.t){         //当前是一个消息推送
-                    window.PushManager.PUSH_MSG(ev.data);
-                }else if(personInfoJSON.quit){
-                    window.MyAppQuit && window.MyAppQuit();
-                }
-            });
-        })();
-</script>
-<!--phonegap-->
-<!--<script type="text/javascript" src="cordova.js"></script>-->
-<!--<script type="text/javascript" src="js/index.js"></script>-->
-<!--¥-->
+<script src="./index.js"></script>
 
 
 </html>
