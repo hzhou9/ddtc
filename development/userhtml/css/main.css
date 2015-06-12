@@ -198,8 +198,6 @@ body{
 #topheardpagecontainer{
     height: 50px;
 }
-
-
 .loading{
     width: 100%;
     height: 100%;
@@ -251,14 +249,12 @@ body{
     50% {top:10px}
     100% {top:-15px}
 }
-
 @-moz-keyframes loading_run /* Firefox */
 {
     0% {top:-25px}
     50% {top:-10px}
     100% {top:-25px}
 }
-
 .coverpage{
     position: absolute;
     width: 100%;
@@ -269,28 +265,12 @@ body{
     background: #f8f8f8;
     display:none;
 }
-.startpage{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    font-size: 48px;
-    text-align: center;
-    line-height: 300px;
-    z-index: 10000;
-    background-image: url(../img/icon.png);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #226BD1;
-    color: #fff;
-}
-
+.startpage{position:absolute; width:100%; height:100%; left:0; top:0; font-size:48px; text-align:center; z-index:10000; background:#1e88e5 url(../img/logo@2x.png) no-repeat center; background-size:150px 250px; font-size:0;}
+.mui-bar-footer {color:#98cfff; position:absolute; bottom:20px; width:100%;}
 .main-icon-lit{
     margin-top:6px !important;
     margin-right:5px !important;
 }
-
 .amap-container .amap-logo{
     border: solid 1px red;
     display: none;
@@ -327,9 +307,6 @@ h1.iconrow {
     top: 10px;
 }
 
-#reg_dialog_pagecontainer{
-
-}
 #reg_dialog_pagecontainer .loginpanel{
     background-color: #fff;
     width: 95%;
@@ -427,6 +404,9 @@ p {color:#666;}
 .mui-table-view-cell>a:not(.mui-btn) {margin:-15px;}
 .btn-more {background:#fff; border-radius:6px; color:#888; text-align:center; padding:15px; margin:15px;}
 ul.mui-table-view[name="pointlist"] h4,.list[name="coop"] h4 {border-left:3px solid #f65439; padding-left:12px;}
+.park-list .mui-content-padded {padding:15px;}
+.park-list .mui-content-padded .mui-pager {margin:0;}
+.mui-table-view-cell.mui-collapse[name="row1"]>.mui-navigate-right:after {content:"\e583";}
 /*ParkInfo*/
 .pic-box {height:180px;overflow:hidden; position:relative;}
 .pic-box img {height:auto; width:100%; position:absolute; top:50%; margin-top:-90px;}
