@@ -1,25 +1,27 @@
 <div class="page_content userpage" style="" id="map_html">
     <style>
-    .mk1{
-        background-image: url(./img/maks.png);
-        width: 32px;
-        height: 32px;
-        background-size: 100% 100%;
-        line-height: 30px;
-        color: #fff;
-        text-align: center;
-        background-size: 192px 32px;
-        font-size: 12px;
-    }
-    .mk1.state0{
-        background-position-x: -32px;
-    }
-    .mk1.state1{
-        background-position-x: 0px;
-    }
-    .mk1.state2{
-        background-position-x: -32px;
-    }
+        .mk1{
+            background-image: url(./img/maks.png);
+            background-size: 96px 32px;
+            width: 32px;
+            height: 32px;
+            line-height: 28px;
+            color: #fff;
+            text-align: center;
+            font-size: 12px;
+        }
+        .mk1.state0{
+            background-position-x: 0;
+        }
+        .mk1.state1{
+            background-position-x: -32px;
+        }
+        .mk1.state2{
+            background-position-x: 0;
+        }
+        .mk1.state3{
+            background-position-x: -64px;
+        }
     </style>
     <style>
         .map_contaion{
@@ -43,7 +45,7 @@
             -moz-box-flex: auto;
             -webkit-flex: auto;
             -ms-flex: auto;
-             flex: auto;
+            flex: auto;
             height: auto;
         }
         .map_contaion .map{
@@ -60,7 +62,7 @@
             -webkit-box-flex:2;
             box-flex:2;
             position: relative;
-        
+
             transition: all .5s;
             -moz-transition: all .5s;	/* Firefox 4 */
             -webkit-transition: all .5s;	/* Safari 和 Chrome */
@@ -75,7 +77,7 @@
         .map_contaion .list .innerlist{
             left: 0;
             margin-top:0px;
-            
+
             overflow: hidden;
         }
     </style>
@@ -115,7 +117,7 @@
             <!--合作停车场-->
             <li class="mui-table-view-cell" name='row'>
                 <div class="distance"><span name='distance'></span>米</div>
-                <h4><span name='title'></span><span class="tips-box tips-green" name="preorder">可预订</span></h4>
+                <h4><span name='title'></span><span class="tips-box tips-blue" name="benefits" style="display:none">实惠</span><span class="tips-box tips-green" name="preorder">可预订</span></h4>
                 <p class='mui-ellipsis' name='rules'></p>
                 <p class='mui-ellipsis' name='spaces'>现在是<span name='numberstatus1'></span><mytag style="display:none">，预计<span name='numberstatus2t'></span>后<span name='numberstatus2'></span></mytag></p>
                 <p class='mui-ellipsis activity' name='activity'></p>

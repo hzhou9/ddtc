@@ -410,8 +410,13 @@ function ui_map(){
             
             if(data.c == 0){//信息化
                 row.find('[name=preorder]').hide();
-            }else if(data.c == 1){//收费
-                
+                for (c in data.t) {
+                    if (data.t[c] == '实惠') {
+                        row.find('[name=benefits]').show();
+                    }
+                }
+            }else if(data.c == 1) {//收费
+
             }
             }
 
