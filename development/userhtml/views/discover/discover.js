@@ -68,11 +68,29 @@ function ui_discover(){
             row.find('[name=rules]').html(data.r);
             //row.find('[name=address]').html(data.a);
             
-            row.find('[name=numberstatus1]').html(window.cfg.parkstatestring2[data.s]);
-            if(data.e && data.e[1]){
-                row.find('[name=numberstatus2]').html(window.cfg.parkstatestring2[data.e[0]]);
-                row.find('[name=numberstatus2t]').html(data.e[1].substr(0,5));
-                row.find('mytag').show();
+            if(data.o && data.o[0] == 0){//现在不开放
+                row.find('[name=spaces]').remove();//不显示空位信息
+                if(data.o[1] == data.o[2]){//工作日不开放
+                    row.find('[name=openwd]').html('不开放');
+                }else{
+                    row.find('[name=openwd]').html(data.o[1].substr(0,5)+'~'+data.o[2].substr(0,5));
+                }
+                if(data.o[3] == data.o[4]){//休息日不开放
+                    row.find('[name=openwe]').html('不开放');
+                }else{
+                    row.find('[name=openwe]').html(data.o[3].substr(0,5)+'~'+data.o[4].substr(0,5));
+                }
+            }else{//现在开放
+                row.find('[name=notopen]').remove();//不显示开放信息
+                if(data.s >= 0){
+                    row.find('[name=numberstatus1]').html(window.cfg.parkstatestring2[data.s]);
+                    if(data.e && data.e[1]){
+                        row.find('[name=numberstatus2]').html(window.cfg.parkstatestring2[data.e[0]]);
+                        row.find('[name=numberstatus2t]').html(data.e[1].substr(0,5));
+                        row.find('mytag').show();
+                    }}else{
+                        row.find('[name=spaces]').hide();
+                    }
             }
             
             if(data.d){//活动
@@ -81,6 +99,9 @@ function ui_discover(){
                 }else{
                     row.find('[name=activity]').html('现在预订优惠'+data.d[1]+'元');
                 }
+            }
+            if(data.c == 0){//信息化
+                row.find('[name=preorder]').hide();
             }
             
             row.find('.mui-btn').aclick(function(){
