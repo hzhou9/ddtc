@@ -263,6 +263,7 @@ function ui_map(){
             }else if(datas.a){//最近的免费停车场
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);
+                row1.find('p').html(datas.a.n);
                 row1.find('[name=head]').click(function(){sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){});});
                 this.dom.list.append(row1);
             }
