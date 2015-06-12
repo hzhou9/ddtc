@@ -92,7 +92,12 @@ function ui_parkinfo(){
             this.dom.rules.html(this.nowdata.r);
             if(this.nowdata.s!==undefined && this.nowdata.s >= 0){
             this.dom.numberstatus1.html(window.cfg.parkstatestring2[this.nowdata.s]);
-            if(this.nowdata.e && this.nowdata.e[1]){
+            if(this.nowdata.o && this.nowdata.o[0] == 0){//非开放时段
+                var openwd=(this.nowdata.o[1] == this.nowdata.o[2])?'不开放':this.nowdata.o[1].substr(0,5)+'~'+this.nowdata.o[2].substr(0,5);
+                var openwe=(this.nowdata.o[3] == this.nowdata.o[4])?'不开放':this.nowdata.o[3].substr(0,5)+'~'+this.nowdata.o[4].substr(0,5);
+                this.dom.spaces.html('现在不开放。开放时间：工作日<b>'+openwd+'</b>，休息日<b>'+openwe+'</b>');
+            }
+            else if(this.nowdata.e && this.nowdata.e[1]){
                 this.dom.numberstatus2.html(window.cfg.parkstatestring2[this.nowdata.e[0]]);
                 this.dom.numberstatus2t.html(this.nowdata.e[1].substr(0,5));
                 this.dom.mytag.show();
