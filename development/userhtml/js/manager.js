@@ -21,9 +21,13 @@ window.sysmanager = {
                        toppg.show();
                    }else{
                        titleslist.pop();
+                    if(titleslist.length > 0){
                        title = titleslist[titleslist.length-1];
+                    }else{
+                        toppg.hide();
+                    }
                    }
-                   toppghead.html(title);
+                    if(title){toppghead.html(title);}
                }
            })();
            toppghead.check = (function(){
@@ -73,9 +77,6 @@ window.sysmanager = {
                //console.log('显示动画结束', this, e);
                $(this).removeClass(e.animationName);
                this.removeEventListener('webkitAnimationEnd', showend);
-               list.push($(this));
-               //if(list.length == 2){main_c.hide();}
-                             setTimeout(function(){main_c.show();},1000);
            }
            var showend_child = function(e){
                   //console.log('显示动画结束_子', this, e);
@@ -86,8 +87,6 @@ window.sysmanager = {
               //console.log('关闭动画结束', this, e);
               $(this).removeClass(e.animationName).hide();
               this.removeEventListener('webkitAnimationEnd', hideend);
-              list.pop();
-              //if(list.length == 1){main_c.show();}
            }
            var obj = {
                showToptitle:function(title){
@@ -100,10 +99,10 @@ window.sysmanager = {
                    topmenuMnager.setMenu(view);
                }
                ,show:function(pagecaontaion){            //显示一个数据容器
+                   main_c.hide();//提升子窗口显示性能
                    var animname = pagecaontaion.attr('animname');
 
                    if(animname){
-                       main_c.hide();
                        pagecaontaion.show().addClass(animname);
                       pagecaontaion[0].addEventListener('webkitAnimationEnd', showend);
                        if(list.length>0){
@@ -114,22 +113,37 @@ window.sysmanager = {
                    }else{
                        pagecaontaion.show();
                    }
+                             
+                   list.push(pagecaontaion);
+                   setTimeout(function(){main_c.show();},1000);//提升子窗口显示性能
                }
-               ,hide:function(pagecaontaion){                    //隐藏最上层的数据容器
+               ,hide:function(pagecaontaion,force){                    //隐藏最上层的数据容器
+                             var changetitle = true;
                    if(!pagecaontaion){
                        pagecaontaion = list[list.length-1];
                        var view = pagecaontaion.data('view');
                        view.obj.close();
-                       if(2 == list.length){
-                           toppg.hide();
-                       }else{
-                           var lastpage = list[list.length-2];
-                           var lastpagev = lastpage.data('view');
-                           topmenuMnager.setMenu(lastpagev);
-                       }
-                   }
+                    }else{//找到该contanion
+                        for(var i=list.length-1;i>0;i--){
+                            if(pagecaontaion == list[i]){
+                             if(i < list.length-1){//将pagecaontaion上移动
+                             for(var j=i;j<list.length-1;j++){
+                             list[j]=list[j+1];
+                             }
+                             list[list.length-1]=pagecaontaion;
+                             changetitle=false;//说明view不在最高层
+                             }
+                             break;
+                            }
+                        }
+                    }
+                    if(changetitle && 2 < list.length){
+                        var lastpage = list[list.length-2];
+                        var lastpagev = lastpage.data('view');
+                        topmenuMnager.setMenu(lastpagev);
+                    }
                   var animname = pagecaontaion.attr('animname');
-                   if(animname){
+                   if(animname && !force){
                        animname = animname+ '_un';
                        pagecaontaion.show().addClass(animname);
                        pagecaontaion[0].addEventListener('webkitAnimationEnd', hideend);
@@ -141,7 +155,15 @@ window.sysmanager = {
                    }else{
                        pagecaontaion.hide();
                    }
+                   list.pop();
                }
+               ,clearviews:function(){
+                    //main_c.hide();
+                    while(list.length > 1){
+                        this.hide(null,true);
+                        this.showToptitle();
+                    }
+                }
            }
            return obj;
        })()

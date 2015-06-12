@@ -340,13 +340,16 @@ function ui_myorderdetail(){
         }
         ,innerpay_app_onmessage:function(event){         //接受支付信息返回
             var me = ui;
-            var success = JSON.parse(event.data);
-            if(0 == success.code){
+            var data = JSON.parse(event.data);
+            if(data.t == 'pay'){
+                var success = data.d;
+                if(0 == success.code){
                   me.c_startPayok();
               }else{
                   sysmanager.alert({'-1':'支付失败','-2':'支付参数错误'}[success.code+'']);
                   me.c_startPayfalid();
               }
+            }
         }
         ,c_startPayok:function(){
            // alert('支付成功');

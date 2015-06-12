@@ -292,7 +292,7 @@ function ui_freelist(){
                 params.note = this.defaults.tag_sel;
             }
             var me=this;
-            window.myajax.userget('index','getfreepark',params,function(result){
+            window.myajax.userget('public','getfreepark',params,function(result){
                                   if(force || (result.data.p && result.data.p.length > 0)){
                                   for(var i=0;i<result.data.p.length;i++){//预处理
                                   var d = result.data.p[i];

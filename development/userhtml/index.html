@@ -215,72 +215,73 @@
         var nowview = null;
 
         tabs.activeHandle[6] = tabs.activeHandle[5] = tabs.activeHandle[4] = tabs.activeHandle[3] =tabs.activeHandle[2] = tabs.activeHandle[1] = function(context){
-
-            viewManager.viewroot('views/');
-            var viewname = context.attr('name');
-            var view = viewManager.loadview(viewname,function(v){
-                context.empty();
-                v.renderer(context);
-                if(nowview){
-                    nowview.obj.close();
-                }
-                nowview = v;
-            });
+      viewManager.viewroot('views/');
+      var viewname = context.attr('name');
+      var view = viewManager.loadview(viewname,function(v){
+                                      context.empty();
+                                      v.renderer(context);
+                                      if(nowview){
+                                      nowview.obj.close();
+                                      }
+                                      nowview = v;
+                                      });
+      
+      };
+      
+      function iCheckLogin(fn){
+      sysmanager.checkLogin(function(islogin){
+        if(islogin){fn && fn();}
+        else{
+                sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
+                    view.obj.onclose = function(){fn && fn();}
+                });
+                            
         }
+      });
+      }
 
-        function initstart(){
-            var model = utils.tools.getUrlParam('m');
+        function initstart(model){
+      if(!model){model = utils.tools.getUrlParam('m');}
             switch (model){
                 case 'myorder':
-                    tabs.activeTab(2);
+      iCheckLogin(function(){tabs.activeTab(2,true);});
                     break;
                 case 'neworder':
                 case 'myjiesuan':
-                    tabs.activeTab(3);
+      iCheckLogin(function(){tabs.activeTab(3,true);});
                     break;
                 case 'userinfo':
                 case 'userorder':
-                    tabs.activeTab(4);
+      iCheckLogin(function(){tabs.activeTab(4,true);});
                     break;
                 case 'mapfull':
                     tabs.activeTab(5);
                     break;
                 case 'coupon':
-                    tabs.activeTab(6);
+      iCheckLogin(function(){tabs.activeTab(6,true);});
                     break;
                 case "map":
                 case "mapsearch":
                 case "discover":
                 default :
-                    tabs.activeTab(1);
+                    tabs.activeTab(1,true);
                     break;
             }
             $('#startpage').hide();
         }
 
         function type_1(){
-            sysmanager.checkLogin(function(islogin){
-                if(islogin){
-                    initstart();
-                }else{
-                    sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
-                        view.obj.onclose = function(){
-                            initstart();
-                        }
-                    });
-                }
-
+            initstart();
+            setTimeout(function(){
+                 $('#startpage').hide();
             });
-            $('#startpage').hide();
         }
 
         function type_2(){
-            sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
-                view.obj.onclose = function(){
-                    initstart();
-                }
+            initstart();
+            setTimeout(function(){
+                 $('#startpage').hide();
             });
-            $('#startpage').hide();
         }
         function type_3(){      //已经注册
             var userinfo = {
@@ -288,18 +289,28 @@
                 ,uuid:utils.tools.getUrlParam('uuid')
             }
             window.myajax.userinfo(userinfo);
+            initstart();
             setTimeout(function(){
-                initstart();
+                $('#startpage').hide();
             });
-            $('#startpage').hide();
         }
         function type_10(){     //领取红包
             $('title').html('嘟嘟停车抢红包啦');
             var code = utils.tools.getUrlParam('hcode');
             var fromid = utils.tools.getUrlParam('fromid') || 0;
             sysmanager.couponUI(code,fromid);
-            $('#startpage').hide();
+            setTimeout(function(){
+                 $('#startpage').hide();
+            });
         }
+      
+      function loadwxfunc(){
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "./js/wxfunc.js";
+      document.body.appendChild(script);
+      }
+      if(!sysmanager.isapp){loadwxfunc();}
 
         var type = utils.tools.getUrlParam('type') || '1';
         var openid = utils.tools.getUrlParam('openid');
@@ -318,13 +329,24 @@
                 type_10();
                 break;
         }
-
-
+      
+      window.clear2Init = function(model){
+      utils.tools.setUrlParam('m',model);
+      sysmanager.pagecontainerManager.clearviews();
+      initstart(model);
+      setTimeout(function(){window.parent.postMessage(JSON.stringify({t:'navack'}),'*');});
+      };
+      
+      window.addEventListener("message", function(event){
+                              var data = JSON.parse(event.data);
+                              if(data.t == 'nav'){
+                              var model = data.d;
+                              clear2Init(model);
+                              }
+      }, false );
 
     });
 
 </script>
-
-<script src="./js/wxfunc.js"></script>
 
 </html>

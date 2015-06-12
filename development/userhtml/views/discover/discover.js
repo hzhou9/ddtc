@@ -40,25 +40,27 @@ function ui_discover(){
             this.c_init();
         }
         ,c_init:function(){
+            this.get_discover();
+            //var me = this;
+            //setInterval(function(){me.get_discover();}, 3600000);//每小时刷新数据一次
+        }
+        ,get_discover:function(){
             var me = this;
-            window.myajax.userget('index','discover',null, function(result){
-                                  if(result.data.p && result.data.p.length>0){
-                                  for(var i=0;i<result.data.p.length;i++){
-                                  var data = result.data.p[i];
-                                  var row = me.c_getrow(data, result.data.e);
-                                  me.dom.park_list.append(row);
-                                  }
-                                  me.dom.park_list.show();
-                                  }else{
-                                  me.dom.park_list.hide();
-                                  }
-                                  me.dom.num_park_free.html(result.data.f);
-            }, null, true);
-            
-            /*
-            var data = {"id":"1","n":"\u6d4b\u8bd5\u91d1\u6c99\u6c5f\u8def\u505c\u8f66\u573a","r":"<p><span style=\"color: rgb(255, 0, 0);\">10\u5143\/\u5c0f\u65f6<\/span>\uff0c\u5c01\u987640\u5143<\/p>","a":"\u4e2d\u5c71\u5317\u8def3553\u53f7","b":"\u4ece\u5b81\u590f\u8def\u7fdf\u5bb6\u5eca\u8def\u53e3\u659c\u5761\u9a76\u4e0a\u8d70\u9053\uff0c\u505c\u653e\u5728\u6cbf\u8857\u95e8\u5e97\u5916\u505c\u8f66\u4f4d","i":"Park_1_1433404243.jpg","y":"\u5143\/3\u5c0f\u65f6","lat":"31.230890","lng":"121.411072","m":"20","p":"20.00","t":["\u5730\u4e0b\u5e93","\u7acb\u4f53\u8f66\u5e93"],"e":[-1,null,null],"c":1,"s":"1"};
-            var edata = {"c":"\u6caaAHB973","u":"http:\/\/7xispd.com1.z0.glb.clouddn.com\/Park\/"};
-            */
+            window.myajax.userget('public','discover',null, function(result){
+                              if(result.data.p && result.data.p.length>0){
+                              me.dom.park_list.empty().unbind();
+                              for(var i=0;i<result.data.p.length;i++){
+                              var data = result.data.p[i];
+                              var row = me.c_getrow(data, result.data.e);
+                              me.dom.park_list.append(row);
+                              }
+                              me.dom.park_list.show();
+                              }else{
+                              me.dom.park_list.hide();
+                              }
+                              me.dom.num_park_free.html(result.data.f);
+                              setTimeout(function(){me.iscroll.refresh();});
+                              }, null, false);
         }
         ,c_getrow:function(data, edata){
             var me = this;
@@ -236,7 +238,7 @@ function ui_discover(){
                 window.myajax.get('public','getOpenArea',null, function(result){
                                   window.cfg.defaultpoint = result.data.area;
                                   me.c_fill_defaulPointtList();
-                                  }, null, true);
+                                  }, null, false);
                 
                 return false;
             }

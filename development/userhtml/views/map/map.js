@@ -97,8 +97,9 @@ function ui_map(){
             var me = this;
             sysmanager.loadpage('views/', 'discover', $('#pop_pagecontaion'),'发现', function(view){
                                 view.obj.onclose = function(placedata,name){
+                                if(placedata){
                                 fn && fn(placedata);
-                                me.dom.destbar.txt.html(name);
+                                me.dom.destbar.txt.html(name);}
                                 }
                                 });
         }
@@ -524,7 +525,7 @@ function ui_map(){
         ,m_getdata:function(center, fn){
             var clng = center.lng;
             var clat = center.lat;
-            window.myajax.userget('index','search2',{lat:clat,lng:clng}, function(result){
+            window.myajax.userget('public','search2',{lat:clat,lng:clng}, function(result){
                 var data = result.data.p;
                 for(var i=0;i<data.length;i++){
                     var d = data[i];

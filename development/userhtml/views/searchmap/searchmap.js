@@ -144,7 +144,7 @@ function ui_searchmap(){
                 window.myajax.get('public','getOpenArea',null, function(result){
                     window.cfg.defaultpoint = result.data.area;
                     me.c_fill_defaulPointtList();
-                }, null, true);
+                }, null, false);
                 
                 return false;
             }
