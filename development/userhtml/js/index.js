@@ -142,7 +142,8 @@
             function() {
             },
             function(error){
-                alert("导航启动失败: "+ error);
+                console.log(error);
+                alert("导航启动失败");
             });
     }
 })();

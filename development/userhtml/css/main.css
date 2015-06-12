@@ -404,6 +404,9 @@ p {color:#666;}
 .mui-table-view-cell>a:not(.mui-btn) {margin:-15px;}
 .btn-more {background:#fff; border-radius:6px; color:#888; text-align:center; padding:15px; margin:15px;}
 ul.mui-table-view[name="pointlist"] h4,.list[name="coop"] h4 {border-left:3px solid #f65439; padding-left:12px;}
+.park-list .mui-content-padded {padding:15px;}
+.park-list .mui-content-padded .mui-pager {margin:0;}
+.mui-table-view-cell.mui-collapse[name="row1"]>.mui-navigate-right:after {content:"\e583";}
 /*ParkInfo*/
 .pic-box {height:180px;overflow:hidden; position:relative;}
 .pic-box img {height:auto; width:100%; position:absolute; top:50%; margin-top:-90px;}
