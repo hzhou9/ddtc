@@ -45,6 +45,12 @@ function ui_userinfo(){
                 sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){v.obj.waittimes=3000;v.obj.onclose = function(){setTimeout(function(){me.iscroll && me.iscroll.refresh();});}});
             }
             this.m_getuserinfo(function(data){
+                var model = utils.tools.getUrlParam('m');
+                if('userinfo' == model || 'userorder' == model){
+                               me.from_menu = true;
+                               me.dom.coupon.show();
+                               me.dom.order.show();
+                }
                 me.info = data;
                 me.info.carids = me.info.carids || [];
                 me.c_fill(me.info);
@@ -63,6 +69,10 @@ function ui_userinfo(){
                 }else{
                     me.dom.order.hide();
                 }
+                if(me.info.carids.length > 0 && me.qcheck){
+                    setTimeout(function(){me.c_quit();});
+                }
+                
             });
         }
         ,c_showquit:function(isshow){
@@ -80,7 +90,7 @@ function ui_userinfo(){
             this.dom.pailist.empty().unbind();
             var row_head = this.dom.row_head.clone();
             if(carids.length==0){
-                row_head.find('name=row_head_hint').html('您还没有设置车牌，请添加');
+                row_head.find('[name=row_head_hint]').html('您还没有设置车牌，请添加');
             }
             this.dom.pailist.append(row_head);
             if(carids.length>0){
@@ -209,12 +219,6 @@ function ui_userinfo(){
             me.close();
         }
         ,r_init:function(){
-            var model = utils.tools.getUrlParam('m');
-            if('userinfo' == model || 'userorder' == model){
-                this.from_menu = true;
-                this.dom.coupon.show();
-                this.dom.order.show();
-            }
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.btreg.click(function(){

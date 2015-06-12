@@ -4,31 +4,30 @@
  
  var tabsarr = initmenu();
  
+ // 通过 postMessage 向子窗口发送数据
+ window.sendToIframe = function(data){
+ window.idata.curfame[0].contentWindow.postMessage(data,"*");
+ };
  
- window.idata = {};
- window.idata.iframes = {//frameobj,loaded
-        'iframe1':[$('#iframe1'),false]
-        ,'iframe2':[$('#iframe2'),false]
-        ,'iframe3':[$('#iframe3'),false]};
- window.idata.curfame = null;
- 
- window.idata.loadframe = function(target,href,force,unload){
- if(force || !window.idata.iframes[target][1]){
+ window.idata = {first:true,navtimer:0};
+ window.idata.curfame = $('#iframe1');
+ window.idata.loadframe = function(target,href,force){
+ if(window.idata.first || force){
+ window.idata.first = false;
  var myurl = 'http://t.duduche.me/html/userhtml/index.html?isapp=1&m={0}&time={1}';
- window.idata.iframes[target][0].attr('src',myurl.replace('{0}',href).replace('{1}',new Date-0));
- window.idata.iframes[target][1] = !unload;
+ window.idata.curfame.attr('src',myurl.replace('{0}',href).replace('{1}',new Date-0));
+ }else{
+ sendToIframe(JSON.stringify({t:'nav',d:href}));
+ window.idata.navtimer = setTimeout(function(){window.idata.first=true;},2000);//容错：2秒内没有应答，下次就重新加载
  }
- window.idata.curfame = window.idata.iframes[target][0];
- $.each(window.idata.iframes,function(k,v){
-        if(k == target){v[0].show();}else{v[0].hide();}
-        });
+ 
  var activeclassnamwe = 'mui-active';
  tabsarr.removeClass(activeclassnamwe);
  tabcontaion.find('[name='+target+']').addClass(activeclassnamwe);
  };
  
     var iframetop = 0;
-    var iframeheight = window.idata.iframes.iframe1[0].height();
+    var iframeheight = window.idata.curfame.height();
     var MOUSE_CLICK = 'click';//'touchend';
     tabsarr.bind(MOUSE_CLICK,function(){
         var tab = $(this);
@@ -44,15 +43,16 @@
         var iphonever = iOSversion();
         if(iphonever){
             if(parseInt(iphonever[0])>=7){        //ios大版本号》7  那么要注意手机的状态栏
-                var height = window.idata.iframes.iframe1[0].height();
+                var height = window.idata.curfame.height();
                 iframeheight = height-top;
                 iframetop = 20;
-                $.each(window.idata.iframes,function(k,v){v[0].css({
+                window.idata.curfame.css({
                                        top:iframetop + 'px'
                                        ,height:iframeheight+'px'
-                                       });});
+                                       });
             }
         }
+        window.idata.curfame.show();
         setTimeout(function(){
             $(tabsarr[0]).trigger(MOUSE_CLICK);
         });
@@ -114,21 +114,17 @@
             var target = evt.d.target;
             var href = evt.d.href;
             var force = evt.d.force;
-            var unload = evt.d.unload;
-            window.idata.loadframe(target,href,force,unload);
+            window.idata.loadframe(target,href,force);
+        }else if(evt.t == 'navack'){
+            if(window.idata.navtimer != 0){clearTimeout(window.idata.navtimer);window.idata.navtimer=0;}
         }
     }, false);
-
-    // 通过 postMessage 向子窗口发送数据
-    function sendToIframe(data){
-        window.idata.curfame[0].contentWindow.postMessage(data,"*");
-    }
 
     function weixinapppay(paydata){
 //        Pgwxpay.wxpay2({"appid":paydata.appid, "noncestr":paydata.noncestr, "partnerid":paydata.partnerid, "prepayid":paydata.prepayid, "timestamp":paydata.timestamp},
         Pgwxpay.wxpay2(paydata,
               function(success) {
-                  sendToIframe(JSON.stringify(success));
+                       sendToIframe(JSON.stringify({t:'pay',d:success}));
             }, function(fail) {
                 alert('支付调用失败:'+fail);
            });

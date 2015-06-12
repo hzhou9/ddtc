@@ -22,7 +22,7 @@
             case 100:   //没有登录
                 sysmanager.loginUI(function(){
                     myajax.userget(model,control,data, success, error, myprocess);
-                },'你的登录状态失效，请重新输入你的注册手机号');
+                },'本功能需要登录后才可以使用');
                 return false;
         }
     }

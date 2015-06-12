@@ -224,7 +224,9 @@ function ui_orderpay(){
         ,c_modifycarid:function(fn){
             var me = this;
             sysmanager.loadpage('views/', 'userinfo', null, '个人信息',function(v){
-                                
+                                if(fn){
+                                v.obj.qcheck = true;
+                                }
                                 v.obj.onclose = function(info){
                                 var defaultcarid = null;
                                 for(var i=0;i<info.carids.length;i++){
@@ -321,22 +323,22 @@ function ui_orderpay(){
         }
         ,innerpay_app_onmessage:function(event){         //接受支付信息返回
             var me = ui;
-            var success = JSON.parse(event.data);
-            
+            var data = JSON.parse(event.data);
+            if(data.t == 'pay'){
+                var success = data.d;
             if(0 == success.code){
                 me.c_startPayok();
             }else{
                 sysmanager.alert({'-1':'支付失败','-2':'支付参数错误'}[success.code+'']);
                 me.c_startPayfalid();
             }
+            }
         }
         ,c_startPayok:function(){           //预付款成功
             if(sysmanager.isapp){
-                this.innerpay_app_postmessage(JSON.stringify({t:'nav',d:{target:'iframe3',href:'userorder',force:1}}));
-                setTimeout(function(){$('#topheardpagecontainer [name=btupclose]').click();},100);
-            }else{
-                setTimeout(function(){location.href='index.html?m=userorder';},100);
-            }
+                this.innerpay_app_postmessage(JSON.stringify({t:'nav',d:{target:'iframe3',href:'userorder'}}));
+            }else{setTimeout(function(){window.clear2Init('userorder');});}
+            
             //支付成功：D6
             var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.A('D6');}
         }
@@ -346,7 +348,6 @@ function ui_orderpay(){
         }
         ,m_startPay:function(pid,cid, fn){
             var me = this;
-            
             window.myajax.userget('index','genorder',{pid:pid,cid:cid?cid:0}, function(result){
                                   me.couponlist = null;
                                   fn && fn(result.data);
