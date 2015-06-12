@@ -142,6 +142,15 @@ function ui_parkinfo(){
             var href='http://maps.apple.com/?q='+this.nowdata.address;
             window.open(href, '_system');
         }
+
+        ,c_daohang_baidu_app:function() {
+            var launcherinfo = {
+                type: 'baidu'
+                ,dist: [this.nowdata.lat, this.nowdata.lng]
+            };
+            window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
+        }
+
         ,c_daohang_baidu:function(){
             var iosinfo = {
             root:'baidumap://map/marker?'
@@ -182,6 +191,13 @@ function ui_parkinfo(){
             //console.log(href);
             window.open(href, '_system');
             
+        }
+        ,c_daohang_gaode_app:function() {
+            var launcherinfo = {
+                type: 'amap'
+                ,dist: [this.nowdata.lat, this.nowdata.lng]
+            };
+            window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
         }
         ,c_daohang_gaode:function(){
             var iosinfo = {
@@ -225,18 +241,18 @@ function ui_parkinfo(){
                 }
                 href+=k+'='+v;
             }
-            
+
             //alert(href);
             //console.log(href);
             window.open(href, '_system');
-            
+
         }
         ,r_init:function(){
             var me = this;
             if(utils.browser.versions.ios){
                 me.dom.btios.show();
             }
-            
+
             me.dom.btdaohang.click(function(){
 
                 if(window.Myweixinobj.isready){
@@ -265,11 +281,19 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
             me.dom.btgaode.aclick(function(){
-                me.c_daohang_gaode();
+                if (sysmanager.isapp) {
+                    me.c_daohang_gaode_app();
+                } else {
+                    me.c_daohang_gaode();
+                }
                 me.c_danghang_close();
             });
             me.dom.btbaidu.aclick(function(){
-                me.c_daohang_baidu();
+                if (sysmanager.isapp) {
+                    me.c_daohang_baidu_app();
+                } else {
+                    me.c_daohang_baidu();
+                }
                 me.c_danghang_close();
             });
             me.dom.close_map_list.aclick(function(){

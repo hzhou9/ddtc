@@ -106,8 +106,10 @@
     window.addEventListener('message', function(event){
         //e.origin
         var evt = JSON.parse(event.data);
-        if(evt.t == 'pay'){
+        if(evt.t == 'pay') {
             weixinapppay(evt.d);
+        }else if (evt.t == 'navi') {
+            navigator_launcher(evt.d);
         }else if(evt.t == 'nav'){//加载某tab
             var target = evt.d.target;
             var href = evt.d.href;
@@ -132,8 +134,16 @@
            });
     }
 
+    function navigator_launcher(data){
+        launchnavigator.navigate(
+            data.type,
+            data.dist,
+            data.orig,
+            function() {
+            },
+            function(error){
+                alert("导航启动失败: "+ error);
+            });
+    }
 })();
-
-
-
 
