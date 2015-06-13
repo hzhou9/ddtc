@@ -40,7 +40,7 @@
                 //jsonpCallback:'myjsonpReturn',                   //回调函数名
                 success:function(result){                  //成功执行处理，对应后台返回的getName(data)方法。
                     sysmanager.loading.hide();
-                    console.log(result);
+                    //console.log(result);
                     if(!!myprocess){
                         success && success(result);
                     }else if(process.apply(this, [result,model,control,data, success, error, myprocess])){
@@ -49,7 +49,8 @@
                 },
                 error:function(msg){
                     sysmanager.loading.hide();
-                    console.log(msg);
+                   sysmanager.alert('您现在的网络信号是否不稳定？','网络通信错误');
+                    //console.log(msg);
                 }
             }); 
         }
