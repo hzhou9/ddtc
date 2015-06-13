@@ -1,4 +1,6 @@
  (function($){
+  var errortxt = '您的网络好像不给力哦～<br>如果内容一直无法加载，您可以点击屏幕重新尝试';
+  var baseurl = 'http://static.duduche.me/redirect/user/indexhtml.php?isapp=1&m={0}&time={1}';
   
   var tabcontaion = $('.mui-bar-tab');
   
@@ -8,22 +10,57 @@
   window.sendToIframe = function(data){
   window.idata.curfame[0].contentWindow.postMessage(data,"*");
   };
-  
-  window.idata = {first:true,navtimer:0};
-  window.idata.curfame = $('#iframe1');
-  window.idata.loadframe = function(target,href,force){
+  // 支持出错检测的iframe加载
+  window.idata = {first:true,navtimer:0,curfame:$('#iframe1')};
+  window.idata.doload = function(href,force){
   if(window.idata.first || force){
+  window.idata.curfame.load(function (e) {//容错：加载成功判断
+                            sendToIframe(JSON.stringify({t:'ack'}));
+                            if(window.idata.navtimer == 0){
+                            window.idata.navtimer = setTimeout(function(){
+                                                               $('#startpage p').html(errortxt);
+                                                               $('#startpage').show();
+                                                               $('#startpage').unbind().click(function(){
+                                                                                              $('#startpage p').html('');
+                                                                                              window.idata.doload(href,true);//retry
+                                                                                              });
+                                                               },1000);//1秒内没有应答，就提示重新加载
+                            }else{
+                            setTimeout(function(){
+                                       $('#startpage p').html(errortxt);
+                                       },1000);
+                            }
+                            });
   window.idata.first = false;
-  var myurl = 'http://static.duduche.me/redirect/user/indexhtml.php?isapp=1&m={0}&time={1}';
+  var myurl = baseurl;
   window.idata.curfame.attr('src',myurl.replace('{0}',href).replace('{1}',new Date-0));
+  
   }else{
   sendToIframe(JSON.stringify({t:'nav',d:href}));
-  window.idata.navtimer = setTimeout(function(){window.idata.first=true;},2000);//容错：2秒内没有应答，下次就重新加载
+  if(window.idata.navtimer == 0){
+  window.idata.navtimer = setTimeout(function(){
+                                     $('#startpage p').html(errortxt);
+                                     $('#startpage').show();
+                                     $('#startpage').unbind().click(function(){
+                                                                    $('#startpage p').html('');
+                                                                    window.idata.doload(href,true);//retry
+                                                                    });
+                                     },1000);//1秒内没有应答，就提示重新加载
+  }else{
+  setTimeout(function(){
+             $('#startpage p').html(errortxt);
+             },1000);
   }
-  
+  }
+  };
+  window.idata.dotab = function(target){
   var activeclassnamwe = 'mui-active';
   tabsarr.removeClass(activeclassnamwe);
   tabcontaion.find('[name='+target+']').addClass(activeclassnamwe);
+  };
+  window.idata.loadframe = function(target,href,force){
+  window.idata.doload(href,force);
+  window.idata.dotab(target);
   };
   
   var iframetop = 0;
@@ -52,6 +89,8 @@
                            });
   }
   }
+  //首次加载
+  $('#startpage').height(iframeheight);
   window.idata.curfame.show();
   setTimeout(function(){
              $(tabsarr[0]).trigger(MOUSE_CLICK);
@@ -65,7 +104,7 @@
                    +'</div>'
                    +'<div class="mui-tab-item" href="discover" name="iframe2">'
                    +'<span class="mui-icon mui-icon-navigate"></span>'
-                   +'<span class="mui-tab-label">发现</span>'
+                   +'<span class="mui-tab-label">省钱</span>'
                    +'</div>'
                    +'<div class="mui-tab-item" href="userinfo" name="iframe3">'
                    +'<span class="mui-icon mui-icon-contact"></span>'
@@ -116,7 +155,10 @@
                          var force = evt.d.force;
                          window.idata.loadframe(target,href,force);
                          }else if(evt.t == 'navack'){
-                         if(window.idata.navtimer != 0){clearTimeout(window.idata.navtimer);window.idata.navtimer=0;}
+                         if(window.idata.navtimer != 0){
+                         clearTimeout(window.idata.navtimer);window.idata.navtimer=0;
+                         }
+                         if($('#startpage').is(":visible")){$('#startpage').hide();}
                          }
                          }, false);
  
@@ -143,4 +185,3 @@
                           });
  }
  })();
-
