@@ -233,7 +233,7 @@
         if(islogin){fn && fn();}
         else{
                 sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
-                    view.obj.onclose = function(){fn && fn();}
+                    view.obj.onclose = function(){if(myajax.uid()){fn && fn();}};
                 });
                             
         }
