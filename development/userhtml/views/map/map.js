@@ -31,6 +31,7 @@ function ui_map(){
         ,iscroll:null
         ,mapObj:null
         ,datas:null
+        ,center:null
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -262,10 +263,11 @@ function ui_map(){
                 row0.find('[name=head]').click(function(){freelist.toggle();});
                 this.dom.list.append(row0);
             }else if(datas.a){//最近的免费停车场
+                var me = this;
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);
                 row1.find('p').html(datas.a.n);
-                row1.find('[name=head]').click(function(){sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){});});
+                row1.find('[name=head]').click(function(){sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){if(me.center){v.obj.setdata(me.center.lng,me.center.lat);}});});
                 this.dom.list.append(row1);
             }
         }
@@ -523,6 +525,7 @@ function ui_map(){
             }
         }
         ,m_getdata:function(center, fn){
+            this.center = center;
             var clng = center.lng;
             var clat = center.lat;
             window.myajax.userget('public','search2',{lat:clat,lng:clng}, function(result){

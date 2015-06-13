@@ -45,6 +45,7 @@ function ui_freelist(){
         ,areas:['0','xh','ja','hp','cn','mh','pd','pt','hk','zb','yp','bs','lw','sj','jd','qp','js']
         ,tags:['0','1','2','3','4','5','6','7','8','9']
         ,homecontrol:null
+        ,ispos:false
         ,geopos:null
         ,iscroll:null
         ,mapObj:null
@@ -60,6 +61,13 @@ function ui_freelist(){
         ,c_init:function(){
             var me = this;
 
+        }
+        ,setdata:function(lng, lat){
+            var me = this;
+            this.ispos = true;
+            this.geopos = new AMap.LngLat(lng, lat);
+            //todo:根据坐标加载停车场
+            setTimeout(function(){me.loaddata(0,true);});
         }
         ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
             var me = this;
@@ -276,9 +284,11 @@ function ui_freelist(){
             sysmanager.loading.show();
             sysmanager.loadMapscript.load(function(){
                                           me.c_initMap(function(center){
+                                                       if(!me.ispos){
                                                        me.geopos = center;
                                                        //todo:根据坐标加载停车场
                                                        me.loaddata(0,true);
+                                                       }
                                                        }, null);
                                           });
         }
