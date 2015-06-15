@@ -32,6 +32,7 @@ function ui_map(){
         ,mapObj:null
         ,datas:null
         ,center:null
+        ,placename:''
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -62,7 +63,7 @@ function ui_map(){
             me.c_doSearch(function(placedata){
                 me.mapObj.clearMap();me.homecontrol.marker = null;
                 me.mapObj.setCenter(placedata);
-                me.mapObj.setZoom(16);
+                me.mapObj.setZoom(15);
                 setTimeout(function(){
                     me.homecontrol.setPosition(placedata,me.mapObj, true);
                     me.m_getdata(placedata,function(datas,area){
@@ -100,7 +101,9 @@ function ui_map(){
                                 view.obj.onclose = function(placedata,name){
                                 if(placedata){
                                 fn && fn(placedata);
-                                me.dom.destbar.txt.html(name);}
+                                me.dom.destbar.txt.html(name);
+                                    me.placename=name;
+                                }
                                 }
                                 });
         }
@@ -124,7 +127,7 @@ function ui_map(){
               view: new AMap.View2D({
                 //创建地图二维视口
               //center:position,//创建中心点坐标
-              zoom:16, //设置地图缩放级别
+              zoom:15, //设置地图缩放级别
               rotation:0 //设置地图旋转角度
              })
              ,lang:"zh_cn"//设置地图语言类型，默认：中文简体
@@ -267,7 +270,7 @@ function ui_map(){
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);
                 row1.find('p').html(datas.a.n);
-                row1.find('[name=head]').click(function(){sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){if(me.center){v.obj.setdata(me.center.lng,me.center.lat);}});});
+                row1.find('[name=head]').click(function(){sysmanager.loadpage('views/', 'freelist', null, me.placename+'附近免费停车点',function(v){if(me.center){v.obj.setdata(me.center.lng,me.center.lat);}});});
                 this.dom.list.append(row1);
             }
         }
@@ -305,11 +308,11 @@ function ui_map(){
             });
         }
         ,c_addpoint:function(map,datas){
-            for(var i=0;i<datas.p.length;i++){
+            for(var i=0;i<datas.p.length;i++){ // 信息化停车点
                 var data = datas.p[i];
                 this.c_getpoint(map,data, i);
             }
-            for(var i=0;i<datas.f.length;i++){
+            for(var i=0;i<datas.f.length;i++){ // 免费停车点
                 var data = datas.f[i];
                 this.c_getpoint(map,data, i);
             }

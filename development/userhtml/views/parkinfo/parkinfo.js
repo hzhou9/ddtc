@@ -259,7 +259,7 @@ function ui_parkinfo(){
 
             me.dom.btdaohang.click(function(){
 
-                if(window.Myweixinobj.isready){
+                if(window.Myweixinobj && window.Myweixinobj.isready){
 //                    alert([parseFloat(me.nowdata.lat),parseFloat(me.nowdata.lng)]);
                     wx.openLocation({
                         latitude: parseFloat(me.nowdata.lat),
