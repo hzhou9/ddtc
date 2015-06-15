@@ -14,6 +14,7 @@ function ui_parkinfo(){
             ,address:'[name=address]'
             ,address2:'[name=address2]'
             ,bg:'[name=bg]'
+            ,bg_map:'[name=bg_map]'
             ,name:'[name=name]'
             ,rules:'[name=rules]'
             ,spaces:'[name=spaces]'
@@ -61,15 +62,24 @@ function ui_parkinfo(){
         ,c_fill:function(){
             var me = this;
             this.dom.name.html(this.nowdata.n);
+            me.dom.bg_map.find('img').attr('src',sysmanager.getMapimage(me.nowdata.lng,me.nowdata.lat,15,me.dom.bgbox.width(),me.dom.bgbox.height()));
             var imgurl = this.nowdata.i;
             if(this.extinfo && imgurl && imgurl != '' && imgurl.indexOf('http://') != 0){
                 imgurl = this.extinfo.u+imgurl;
             }
-            this.dom.bgbox.hide();
             if(imgurl && imgurl != ''){
-                setTimeout(function(){
-                    me.dom.bg.attr('src',imgurl);
-                    me.dom.bg.load(function(){me.dom.bgbox.show();});
+                me.dom.bg.find('img').attr('src',imgurl);
+                me.dom.bg.find('img').load(function(){
+                    me.dom.bg.show();
+                    me.dom.bgbox.find('.mui-slider-indicator').show();
+                    me.dom.bg_map.unbind().bind('touchstart',function (e){
+                        me.dom.bg.show();
+                        me.dom.bgbox.find('.mui-slider-indicator>div').toggleClass('mui-active');
+                    });
+                    me.dom.bg.unbind().bind('touchstart',function (e){
+                        me.dom.bg.hide();
+                        me.dom.bgbox.find('.mui-slider-indicator>div').toggleClass('mui-active');
+                    });
                 });
             }
             if(this.nowdata.b){
@@ -127,9 +137,10 @@ function ui_parkinfo(){
             }
             //是否显示滚动
             setTimeout(function(){
-                       var thisvar = me.dom.bgbox.parent();
-                       var imgheight = (imgurl && imgurl != '')?me.dom.bgbox.height():0;
-                       var scrollheight = thisvar.height() - imgheight - me.dom.reserve.height();
+                       var scrollheight = me.dom.scrollparent.parent().height();
+                       if(me.showbt){
+                        scrollheight -= me.dom.reserve.height();
+                       }
                        var contentheight = me.dom.scrollparent.height();
                        if(contentheight > scrollheight){
                         me.dom.scrollparent.css('height',scrollheight+'px');

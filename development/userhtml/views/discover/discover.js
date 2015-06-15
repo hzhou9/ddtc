@@ -59,7 +59,7 @@ function ui_discover(){
                               me.dom.park_list.hide();
                               }
                               me.dom.num_park_free.html(result.data.f);
-                              setTimeout(function(){me.iscroll.refresh();});
+                              setTimeout(function(){me.iscroll.refresh();},100);
                               }, null, false);
         }
         ,c_getrow:function(data, edata){
@@ -267,7 +267,7 @@ function ui_discover(){
                 }
             }
             var me = this;
-            setTimeout(function(){me.iscroll.refresh();});
+            setTimeout(function(){me.iscroll.refresh();},1000);
         }
         ,c_getrow_defaultpoint:function(data){
             var me = this;
@@ -287,7 +287,11 @@ function ui_discover(){
                           row.find('.search_desc').hide();
                       }
                       blocklist.toggle();
-                      setTimeout(function(){me.iscroll.refresh();});
+                      setTimeout(function(){//让打开内容可见
+                                 var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
+                                 me.iscroll.refresh();
+                                 me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
+                                 });
                       });
             for(var i=0;i<data.sub.length;i++){
                 var sub = data.sub[i];
@@ -314,16 +318,17 @@ function ui_discover(){
         }
         ,r_init:function(){
             var me = this;
+            var scrollheight = this.context.height() - this.dom.form1.height();
+            this.dom.scrollparent.css('height',scrollheight+'px');
+            this.iscroll = new iScroll(me.dom.scrollarea[0], {desktopCompatibility:true});
+            
             this.dom.input.blur(function(){
-                                setTimeout(function(){me.dom.hintlist.empty().unbind();},1000);
+                                setTimeout(function(){me.dom.hintlist.empty().unbind();},100);
                                 });
             sysmanager.loadMapscript.load(function(){
                                           me.r_init_input();
                                           me.c_fill_defaulPointtList();
                                           });
-            var scrollheight = this.context.height() - this.dom.form1.height();
-            this.dom.scrollparent.css('height',scrollheight+'px');
-            this.iscroll = new iScroll(me.dom.scrollarea[0], {desktopCompatibility:true});
         }
         ,r_init_input:function(){
             var me = this;

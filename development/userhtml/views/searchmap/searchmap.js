@@ -298,7 +298,11 @@ function ui_searchmap(){
                         row.find('.search_desc').hide();
                     }
                       blocklist.toggle();
-                      setTimeout(function(){me.iscroll.refresh();});
+                      setTimeout(function(){//让打开内容可见
+                        var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
+                        me.iscroll.refresh();
+                        me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
+                      });
             });
             for(var i=0;i<data.sub.length;i++){
                 var sub = data.sub[i];
@@ -350,6 +354,11 @@ function ui_searchmap(){
         }
         ,r_init:function(){
             var me = this;
+            
+            var scrollheight = this.dom.searchmap_contaion.height() - this.dom.form1.height();
+            this.dom.scrollparent.css('height',scrollheight+'px');
+            me.iscroll = new iScroll(me.dom.scrollarea[0], {desktopCompatibility:true});
+            
             //this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.btetst.click(function(){
                 me.dom.input.blur();
@@ -365,10 +374,6 @@ function ui_searchmap(){
                 me.r_init_input();
                 me.c_fill_defaulPointtList();
             });
-            
-            var scrollheight = this.dom.searchmap_contaion.height() - this.dom.form1.height();
-            this.dom.scrollparent.css('height',scrollheight+'px');
-            me.iscroll = new iScroll(me.dom.scrollarea[0], {desktopCompatibility:true});
         }
         ,c_select:function(position,name){
             var me = this;

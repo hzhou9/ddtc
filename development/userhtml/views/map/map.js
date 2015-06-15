@@ -31,6 +31,7 @@ function ui_map(){
         ,iscroll:null
         ,mapObj:null
         ,datas:null
+        ,userpos:null
         ,center:null
         ,init:function(context){
             if (!this.isInit){
@@ -119,7 +120,7 @@ function ui_map(){
             });
         }
         ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
-
+            var me = this;
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid",{
               view: new AMap.View2D({
                 //创建地图二维视口
@@ -208,6 +209,7 @@ function ui_map(){
                         AMap.event.addListener(geolocation, 'complete', function(arg){
                             //console.log('定位成功', arg);
                             homecontrol.setPosition(arg.position,mapObj, true);
+                            me.userpos = arg.position;
                             if(!callbacking){
                                 fn && fn(arg.position);
                             }else{
@@ -526,9 +528,12 @@ function ui_map(){
         }
         ,m_getdata:function(center, fn){
             this.center = center;
-            var clng = center.lng;
-            var clat = center.lat;
-            window.myajax.userget('public','search2',{lat:clat,lng:clng}, function(result){
+            var args = {lat:center.lat,lng:center.lng};
+            if(this.userpos){
+                args['curlat'] = this.userpos.lat;
+                args['curlng'] = this.userpos.lng;
+            }
+            window.myajax.userget('public','search2', args, function(result){
                 var data = result.data.p;
                 for(var i=0;i<data.length;i++){
                     var d = data[i];
