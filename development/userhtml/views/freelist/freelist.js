@@ -34,6 +34,7 @@ function ui_freelist(){
             ,btn_more:'[name=btn_more]'
             ,btn_prev:'[name=btn_prev]'
             ,row_park:'.template [name=row_park]'
+            ,header:'header'
         }
         ,nowpage:0
         ,max:10
@@ -173,6 +174,10 @@ function ui_freelist(){
         }
         ,r_init:function(){
             var me = this;
+            var model = utils.tools.getUrlParam('m');
+            if(model=='freelist'){
+                this.dom.header.show();
+            }
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             
             this.dom.btadd.click(function(){

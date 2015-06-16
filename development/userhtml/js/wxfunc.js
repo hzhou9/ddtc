@@ -147,6 +147,11 @@
          return c
      })();
 
+var shareDescs = {
+'freelist':'上海最完整的免费停车攻略！'
+,'discover':'出发前用一下嘟嘟，发现目的地附近最省钱的停车场！'
+};
+
     function geswxcfg(fn){
         window.myajax.get('weixin','getJsConfig',{url:window.location.href}, function(result){
             fn && fn(result.data);
@@ -162,10 +167,11 @@
          */
 
         var type = utils.tools.getUrlParam('type') || '1';
+        var model = utils.tools.getUrlParam('m');
         if('10' != type){
             var imgUrl = urlPath+'/img/icon.png';
-             var lineLink = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd417c2e70f817f89&redirect_uri=http%3a%2f%2fdriver.duduche.me%2fdriver.php%2fhome%2fweixin%2fmenuCallBack%2f&response_type=code&scope=snsapi_base&state=near#wechat_redirect';
-             var descContent = "我在用嘟嘟停车,停车好方便.";
+             var lineLink = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd417c2e70f817f89&redirect_uri=http%3a%2f%2fdriver.duduche.me%2fdriver.php%2fhome%2fweixin%2fmenuCallBack%2f&response_type=code&scope=snsapi_base&state='+model+'#wechat_redirect';
+            var descContent = shareDescs[model]?shareDescs[model]:"我在用嘟嘟停车，停车好方便";
              var shareTitle = '嘟嘟停车';
              Myweixinobj.init(shareTitle, descContent, lineLink, imgUrl, function(){
              });
@@ -199,7 +205,7 @@
             myurl = myurl.replace('{hcode}', hcode).replace('{fromid}', fromid);
             myurl = encodeURIComponent(myurl);
             lineLink = lineLink.replace('{myurl}', myurl);
-             var descContent = "开车的小伙伴们,快来领嘟嘟停车红包吧!";
+             var descContent = "开车的小伙伴们，快来领嘟嘟停车红包吧!";
              var shareTitle = '嘟嘟停车发红包啦';
              Myweixinobj.init(shareTitle, descContent, lineLink, imgUrl, function(){
 
