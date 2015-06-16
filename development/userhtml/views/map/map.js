@@ -296,7 +296,7 @@ function ui_map(){
                 if(datas.f && datas.f.length > 0){
                     this.dom.pointlist.find('[name=nonerow]').html('按商圈查看');
                 }else{
-                    this.dom.pointlist.find('[name=nonerow]').html('附近没有合作停车场，您可以尝试：');
+                    this.dom.pointlist.find('[name=nonerow]').html('<div style="font-size:18px;margin-bottom:10px;">附近没有合作停车场</div><div>您可以尝试：</div>');
                 }
                 this.c_getnonerow(area);
                 this.dom.pointlist.show();
