@@ -58,6 +58,25 @@ function ui_parkinfo(){
             this.nowdata =  data;
             this.extinfo = ext;
             this.showbt = showbt;
+            this.c_tongji();
+        }
+        ,c_tongji:function() {
+
+            var label = "";
+            if (this.nowdata.c == 0) { // 信息化
+                label = "A0";
+            } else if (this.nowdata.c == 1) { // 收费
+                label = "A1";
+            } else if (this.nowdata.c == 2) { // 免费
+                label = "A2";
+            }
+
+            if (null != this.nowdata.i) {
+                label += "+B1"
+            }
+
+            window.TongjiObj.parkinfo('pv', label);
+
         }
         ,c_fill:function(){
             var me = this;
@@ -270,6 +289,8 @@ function ui_parkinfo(){
 
             me.dom.btdaohang.click(function(){
 
+                window.TongjiObj.parkinfo('click', 'navi');
+
                 if(window.Myweixinobj && window.Myweixinobj.isready){
 //                    alert([parseFloat(me.nowdata.lat),parseFloat(me.nowdata.lng)]);
                     wx.openLocation({
@@ -286,6 +307,7 @@ function ui_parkinfo(){
                 }
             });
             me.dom.btlocal.aclick(function(){
+                window.TongjiObj.parkinfo('navi', 'local');
                 sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
                     v.obj.settarget(me.nowdata);
                 });
@@ -296,6 +318,7 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
             me.dom.btgaode.aclick(function(){
+                window.TongjiObj.parkinfo('navi', 'gaode');
                 if (sysmanager.isapp) {
                     me.c_daohang_gaode_app();
                 } else {
@@ -304,6 +327,7 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
             me.dom.btbaidu.aclick(function(){
+                window.TongjiObj.parkinfo('navi', 'baidu');
                 if (sysmanager.isapp) {
                     me.c_daohang_baidu_app();
                 } else {
@@ -315,6 +339,9 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
             me.dom.reserve.aclick(function(){
+
+                window.TongjiObj.parkinfo('click', 'order');
+
                 sysmanager.loadpage('views/', 'orderpay', null, '预订：'+me.nowdata.n,function(v){
                     v.obj.setdata(me.nowdata,me.extinfo);
                 });
