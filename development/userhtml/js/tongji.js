@@ -28,10 +28,16 @@
                  不需要再缴费的状态：E1
                  需要缴费结清的状态：E2
                  拨打管理员电话：E3
+
+         停车场详情页面 - parkinfo - F
+         预付下单页面 - orderpay - D
+         支付成功页面 - userorder - E
+
      * @type {*}
      */
     window.TongjiObj = (function(){
         var obj = {
+
             /**
              *  category：事件类别，必填项，表示事件发生在谁身上，如“视频”、“小说”、“轮显层”等等。
                  action：事件操作，必填项，表示访客跟元素交互的行为动作，如"播放"、"收藏"、"翻层"等等。
@@ -67,7 +73,7 @@
             }
             ,
             /**
-             *     还没车牌的状态：D1
+             *   还没车牌的状态：D1
                  没有抵用劵的情况：D2
                  修改车牌号的情况：D3
                  点击导航按钮：D4
@@ -88,6 +94,16 @@
              */
             E:function(action){
                 this.push('E', action);
+            },
+
+            /**
+             * F0: 信息
+             * F1: 收费
+             * F2: 免费
+             * F3: 有引导图
+             */
+            parkinfo: function(action) {
+                this.push('F', action);
             }
         }
         return obj;

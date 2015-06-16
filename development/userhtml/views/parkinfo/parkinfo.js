@@ -58,6 +58,25 @@ function ui_parkinfo(){
             this.nowdata =  data;
             this.extinfo = ext;
             this.showbt = showbt;
+            this.c_tongji();
+        }
+        ,c_tongji:function() {
+
+            var action = "";
+            if (this.nowdata.c == 0) { // 信息化
+                action = "F0";
+            } else if (this.nowdata.c == 1) { // 收费
+                action = "F1";
+            } else if (this.nowdata.c == 2) { // 免费
+                action = "F2";
+            }
+
+            if (null != this.nowdata.i) {
+                action += "+F3"
+            }
+
+            window.TongjiObj.parkinfo(action);
+
         }
         ,c_fill:function(){
             var me = this;
