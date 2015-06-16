@@ -17,13 +17,13 @@ var viewManager = (function(){
     }
     var extstr = new Date()-0;
     view.prototype.renderer = function(contaion, arg){
-        var coverpage = $('#coverpage');
+        var coverpage = contaion.parent().find('[name=coverpage]');
         coverpage.show();
         this.dom.appendTo(contaion);
         var me = this;
         setTimeout(function(){
-            setTimeout(function(){coverpage.hide();});
-            me.obj.init(me.dom, arg);
+                   me.obj.init(me.dom, arg);
+                   setTimeout(function(){coverpage.hide();},100);
         });
     }
     var obj = {

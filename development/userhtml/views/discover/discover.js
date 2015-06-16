@@ -50,7 +50,7 @@ function ui_discover(){
                                 var label = "";
                               if(result.data.p && result.data.p.length>0){
                                   label += "A1";
-                              me.dom.park_list.empty().unbind();
+                              //me.dom.park_list.empty().unbind();
                               for(var i=0;i<result.data.p.length;i++){
                               var data = result.data.p[i];
                               var row = me.c_getrow(data, result.data.e);
@@ -297,9 +297,9 @@ function ui_discover(){
                       blocklist.toggle();
 
                       setTimeout(function(){//让打开内容可见
-                                 var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
+                                 //var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
                                  me.iscroll.refresh();
-                                 me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
+                                 //me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
                                  });
                       });
             for(var i=0;i<data.sub.length;i++){

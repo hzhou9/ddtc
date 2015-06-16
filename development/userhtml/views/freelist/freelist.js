@@ -49,6 +49,7 @@ function ui_freelist(){
         ,ispos:false
         ,geopos:null
         ,iscroll:null
+        ,iscroll_add:null
         ,mapObj:null
         ,params:""
         ,init:function(context){
@@ -184,8 +185,12 @@ function ui_freelist(){
             this.dom.btadd.click(function(){
                 me.dom.panelfreelist.hide();
                 me.dom.panelfreeadd.show();
-                me.iscroll.destroy();
-                me.iscroll = new iScroll(me.dom.panelfreeadd, {desktopCompatibility:true});
+                me.iscroll.disable();
+                                 if(me.iscroll_add){
+                                 me.iscroll_add.enable();
+                                 }else{
+                                 me.iscroll_add = new iScroll(me.dom.scrollarea_add[0], {desktopCompatibility:true});
+                                 }
                 window.TongjiObj.freelist('click', 'addpark');
             });
             this.dom.btaddok.click(function(){
@@ -208,7 +213,7 @@ function ui_freelist(){
                 var arr = {'name':name,'lat':pos.lat,'lng':pos.lng,'dsc':dsc,'note':note};
                 window.myajax.userget('index','addfreepark',arr, function(result){
                     me.dom.panelfreelist.show();me.dom.panelfreeadd.hide();
-                    me.iscroll.destroy();me.iscroll = new iScroll(me.context[0], {desktopCompatibility:true});
+                    me.iscroll_add.disable();me.iscroll.enable();
                     sysmanager.alert('感谢您的参与，我们工作人员会尽快进行审核，通过后我们会联系您，再次感谢！','信息提交成功');
                 }, null, false);
                 
@@ -216,7 +221,7 @@ function ui_freelist(){
             this.dom.btaddcancel.click(function(){
                 me.dom.panelfreeadd.hide();
                 me.dom.panelfreelist.show();
-                me.iscroll.destroy();me.iscroll = new iScroll(me.context[0], {desktopCompatibility:true});
+                me.iscroll_add.disable();me.iscroll.enable();
             });
             this.dom.tags_item_1.click(function(){
                                        me.dom.tags_item_1.toggleClass('tags-active');

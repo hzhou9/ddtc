@@ -101,6 +101,7 @@
         <!--copy css-->
         <copy todir='${pubdir}/${userdir}/fonts'>
             <fileset dir='${basedir}/golba_rs/fonts'></fileset>
+            <fileset dir='${basedir}/userhtml/fonts'></fileset>
         </copy>
         <copy file='${basedir}/golba_rs/css/mui.min.css' tofile='${pubdir}/${userdir}/css/mui.min.css' ></copy>
         <copy file='${basedir}/golba_rs/css/animate.min.css' tofile='${pubdir}/${userdir}/css/animate.css' ></copy>
