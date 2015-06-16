@@ -297,9 +297,9 @@ function ui_discover(){
                       blocklist.toggle();
 
                       setTimeout(function(){//让打开内容可见
-                                 var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
+                                 //var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
                                  me.iscroll.refresh();
-                                 me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
+                                 //me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
                                  });
                       });
             for(var i=0;i<data.sub.length;i++){
