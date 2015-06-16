@@ -3,7 +3,7 @@
 * 
 */
 
-define(VER , "v2.1");  //
+define(VER , "v3.0");  //
 define(VER_ADM , "v2.2");  //
 
 ?>
