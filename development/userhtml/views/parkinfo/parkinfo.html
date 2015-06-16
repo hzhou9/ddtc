@@ -1,10 +1,22 @@
 <div class="page_content userpage park-info" id="parkinfo_html">
     <style></style>
-    <div name='bgbox' class="pic-box" style="display:none">
-    <img name='bg' src=""/>
-    </div>
     <div name="scrollparent" style="overflow:hidden">
-    <ul name="infoarea" class="mui-table-view mui-table-view-chevron">
+        <div name="infoarea">
+        <div name="bgbox" class="pic-box">
+            <div class="mui-slider-group mui-slider-loop">
+                <div class="mui-slider-item mui-slider-item-duplicate" name="bg_map">
+                    <img/>
+                </div>
+                <div class="mui-slider-item" name="bg" style="display:none">
+                    <img/>
+                </div>
+            </div>
+            <div class="mui-slider-indicator" style="display:none">
+                <div class="mui-indicator"></div>
+                <div class="mui-indicator mui-active"></div>
+            </div>
+        </div>
+    <ul class="mui-table-view mui-table-view-chevron">
         <li class="mui-table-view-cell">
             <a class="mui-btn mui-btn-primary mui-btn-outlined" name="btdaohang">导航</a>
             <h4 name='address'>网友对停车场描述</h4>
@@ -25,6 +37,7 @@
             </p>
         </li>
     </ul>
+    </div>
     </div>
     <div class="reserve" name="reserve" style="z-index:99;display:none;">
         <a class="mui-btn mui-btn-primary mui-btn-block">立即预订</a>
