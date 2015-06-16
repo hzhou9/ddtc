@@ -132,7 +132,7 @@ function ui_parkinfo(){
                 var openwe=(this.nowdata.o[3] == this.nowdata.o[4])?'不开放':this.nowdata.o[3].substr(0,5)+'~'+this.nowdata.o[4].substr(0,5);
                 this.dom.spaces.html('现在不开放。开放时间：工作日<b>'+openwd+'</b>，休息日<b>'+openwe+'</b>');
             }else{
-                this.dom.spaces.hide();
+                this.dom.spaces.parent().hide();
             }
             if(this.nowdata.t){for(var i=0;i<this.nowdata.t.length;i++){
                 var tagstr = this.nowdata.t[i];
