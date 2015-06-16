@@ -119,6 +119,7 @@ function ui_map(){
                 view.obj.onclose = function(placedata,name){
                     fn && fn(placedata);
                     me.dom.destbar.txt.html(name);
+                    me.placename=name;
                 }
             });
         }
@@ -269,7 +270,7 @@ function ui_map(){
                 }
                 row0.find('[name=head]').click(function(){freelist.toggle();});
                 this.dom.list.append(row0);
-            }else if(datas.a){//最近的免费停车场
+            }else if(datas.a && datas.a.distance < 5000){ //最近的免费停车场
                 var me = this;
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);

@@ -184,7 +184,8 @@ function ui_freelist(){
             this.dom.btadd.click(function(){
                 me.dom.panelfreelist.hide();
                 me.dom.panelfreeadd.show();
-                me.iscroll.destroy();me.iscroll = new iScroll(me.dom.scrollarea_add[0], {desktopCompatibility:true});
+                me.iscroll.destroy();
+                me.iscroll = new iScroll(me.dom.panelfreeadd, {desktopCompatibility:true});
                 window.TongjiObj.freelist('click', 'addpark');
             });
             this.dom.btaddok.click(function(){
