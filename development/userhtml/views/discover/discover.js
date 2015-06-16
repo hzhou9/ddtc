@@ -50,7 +50,7 @@ function ui_discover(){
                                 var label = "";
                               if(result.data.p && result.data.p.length>0){
                                   label += "A1";
-                              me.dom.park_list.empty().unbind();
+                              //me.dom.park_list.empty().unbind();
                               for(var i=0;i<result.data.p.length;i++){
                               var data = result.data.p[i];
                               var row = me.c_getrow(data, result.data.e);

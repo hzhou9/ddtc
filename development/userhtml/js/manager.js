@@ -99,7 +99,7 @@ window.sysmanager = {
                    topmenuMnager.setMenu(view);
                }
                ,show:function(pagecaontaion){            //显示一个数据容器
-                   main_c.hide();//提升子窗口显示性能
+                   //main_c.hide();//提升子窗口显示性能
                    var animname = pagecaontaion.attr('animname');
 
                    if(animname){
@@ -115,7 +115,7 @@ window.sysmanager = {
                    }
                              
                    list.push(pagecaontaion);
-                   setTimeout(function(){main_c.show();},1000);//提升子窗口显示性能
+                   //setTimeout(function(){main_c.show();},2000);//提升子窗口显示性能
                }
                ,hide:function(pagecaontaion,force){                    //隐藏最上层的数据容器
                              var changetitle = true;
