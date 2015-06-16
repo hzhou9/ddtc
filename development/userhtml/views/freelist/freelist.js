@@ -49,6 +49,7 @@ function ui_freelist(){
         ,geopos:null
         ,iscroll:null
         ,mapObj:null
+        ,params:""
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -179,8 +180,10 @@ function ui_freelist(){
                 me.dom.panelfreelist.hide();
                 me.dom.panelfreeadd.show();
                 me.iscroll.destroy();me.iscroll = new iScroll(me.dom.scrollarea_add[0], {desktopCompatibility:true});
+                window.TongjiObj.freelist('click', 'addpark');
             });
             this.dom.btaddok.click(function(){
+                window.TongjiObj.freelist('click', 'addparkok');
                 var name = me.dom.txtName.val(); var dsc = me.dom.txtDsc.val();
                                    if(name == ''){
                                    sysmanager.alert('请给停车场起一个名称');
@@ -293,15 +296,21 @@ function ui_freelist(){
                                           });
         }
         ,loaddata:function(pg,force){
+            var me=this;
+            me.params = "";
             if(!this.parkdata[pg]){
                 var params = {lat:this.geopos.lat,lng:this.geopos.lng,province:'sh',city:'sh',page:pg,max:this.max};
             if(this.defaults.area_sel != '0'){
                 params.district = this.defaults.area_sel;
+                me.params += "+dist:" + params.district;
             }
             if(this.defaults.tag_sel != '0'){
                 params.note = this.defaults.tag_sel;
+                me.params += "+note:" + params.note;
             }
-            var me=this;
+
+                window.TongjiObj.freelist('pv', me.params);
+
             window.myajax.userget('public','getfreepark',params,function(result){
                                   if(force || (result.data.p && result.data.p.length > 0)){
                                   for(var i=0;i<result.data.p.length;i++){//预处理
@@ -326,6 +335,7 @@ function ui_freelist(){
                                   sysmanager.alert('暂时没有更多数据了','已经是最后一条啦~');
                                   me.dom.btn_more.hide();
                                   }
+
             }, null, false);
             }else{
                 this.showdata(this.parkdata[pg]);
@@ -370,6 +380,9 @@ function ui_freelist(){
         }
         ,c_daohang_my:function(data,ext){
             var me = this;
+
+            window.TongjiObj.freelist('click', 'parkinfo' + me.params);
+
             sysmanager.loadpage('views/', 'parkinfo', null, data.n,function(v){
                                 v.obj.setdata(data,ext,data.c == 1);
                                 });

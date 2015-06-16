@@ -47,7 +47,9 @@ function ui_discover(){
         ,get_discover:function(){
             var me = this;
             window.myajax.userget('public','discover',null, function(result){
+                                var label = "";
                               if(result.data.p && result.data.p.length>0){
+                                  label += "A1";
                               me.dom.park_list.empty().unbind();
                               for(var i=0;i<result.data.p.length;i++){
                               var data = result.data.p[i];
@@ -60,6 +62,9 @@ function ui_discover(){
                               }
                               me.dom.num_park_free.html(result.data.f);
                               setTimeout(function(){me.iscroll.refresh();},100);
+
+                                window.TongjiObj.discover('pv', label);
+
                               }, null, false);
         }
         ,c_getrow:function(data, edata){
@@ -114,6 +119,7 @@ function ui_discover(){
         }
         ,c_daohang_my:function(nowdata,edata){
             var me = this;
+            window.TongjiObj.discover('click', 'parkinfo');
             sysmanager.loadpage('views/', 'parkinfo', null, nowdata.n,function(v){
                                 v.obj.setdata(nowdata,edata,nowdata.c == 1);
                                 });
@@ -281,12 +287,15 @@ function ui_discover(){
                       expandbt.removeClass('mui-icon-arrowup');
                       expandbt.addClass('mui-icon-arrowdown');
                           row.find('.search_desc').show();
+                          window.TongjiObj.discover('click', 'collapse');
                       }else{
                       expandbt.removeClass('mui-icon-arrowdown');
                       expandbt.addClass('mui-icon-arrowup');
                           row.find('.search_desc').hide();
+                          window.TongjiObj.discover('click', 'expand');
                       }
                       blocklist.toggle();
+
                       setTimeout(function(){//让打开内容可见
                                  var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
                                  me.iscroll.refresh();
@@ -312,7 +321,10 @@ function ui_discover(){
             var block = this.dom.areablock.clone();
             if(sub){
                 block.find('.mui-media-body').html(sub.name);
-                block.click(function(){me.c_select(sub.location,sub.name);});
+                block.click(function(){
+                    me.c_select(sub.location,sub.name);
+                    window.TongjiObj.discover('click', 'subplace');
+                });
             }
             blocklist.append(block);
         }
@@ -348,6 +360,9 @@ function ui_discover(){
                                 return false;
                                 });
             this.dom.free_list.click(function(){
+
+                window.TongjiObj.discover('click', 'free_list');
+
                 sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){});
             });
         }

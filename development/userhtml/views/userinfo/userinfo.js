@@ -44,6 +44,7 @@ function ui_userinfo(){
             if('userorder' == model){
                 sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){v.obj.waittimes=3000;v.obj.onclose = function(){setTimeout(function(){me.iscroll && me.iscroll.refresh();});}});
             }
+            window.TongjiObj.userinfo('pv', "");
             this.m_getuserinfo(function(data){
                 var model = utils.tools.getUrlParam('m');
                 if('userinfo' == model || 'userorder' == model){
@@ -61,6 +62,7 @@ function ui_userinfo(){
                     me.dom.order.find('[name=address]').html(me.info.l_order.address);
                     me.dom.order.find('[name=time]').html(me.info.l_order.startTime);
                     me.dom.order.find('[name=row]').click(function(){
+                        window.TongjiObj.userinfo('click', 'myorder');
                         sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){
                             v.obj.initoid(me.info.l_order.oid);
                             v.obj.onclose = function(){};
@@ -72,7 +74,9 @@ function ui_userinfo(){
                 if(me.info.carids.length > 0 && me.qcheck){
                     setTimeout(function(){me.c_quit();});
                 }
-                
+
+                window.TongjiObj.userinfo('info', 'carid', me.info.carids.length);
+
             });
         }
         ,c_showquit:function(isshow){
@@ -103,6 +107,7 @@ function ui_userinfo(){
             var row_tail = this.dom.row_tail.clone();
             row_tail.find('[name=btadd]').click(function(){
                                               me.c_addCarid();
+                                                window.TongjiObj.userinfo('click', 'addcarid');
                                               });
             this.dom.pailist.append(row_tail);
         }
@@ -119,6 +124,7 @@ function ui_userinfo(){
             }
             row.find('a').click(function(){
                 me.c_rowcaridedit(row, data);
+                window.TongjiObj.userinfo('click', 'modcarid');
                 return false;
             });
             row.find('.table [name=btcancel]').click(function(){
@@ -222,6 +228,7 @@ function ui_userinfo(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.btreg.click(function(){
+                window.TongjiObj.userinfo('click', 'auth');
                 sysmanager.loginUI(function(){
                     me.c_init();
                 },'请输入要切换的手机号',true);
@@ -230,10 +237,12 @@ function ui_userinfo(){
                 $('#topheardpagecontainer [name=btupclose]').click();
             });
             this.dom.btmyorder.click(function(){
+                window.TongjiObj.userinfo('click', 'order');
                 sysmanager.loadpage('views/', 'myorder', null, '我的订单',function(v){
                 });
             });
             this.dom.coupon.click(function(){
+                window.TongjiObj.userinfo('click', 'coupon');
                 sysmanager.loadpage('views/', 'coupon', null, '我的优惠券',function(v){
                 });
             });

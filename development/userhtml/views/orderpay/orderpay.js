@@ -203,7 +203,10 @@ function ui_orderpay(){
             this.dom.btpay.aclick(function(){
                 me.c_startPay();
                 var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D5');}
+
+                window.TongjiObj.orderpay('click', 'pay');
             });
+
             this.dom.btmodifycarid.aclick(function(){
                 me.c_modifycarid();
                 //修改车牌号的情况：D3
@@ -220,6 +223,12 @@ function ui_orderpay(){
         ,setdata:function(data,ext){
             this.nowdata =  data;
             this.extinfo = ext;
+            this.c_tongji();
+        }
+
+        ,c_tongji:function() {
+            var label = "";
+            window.TongjiObj.orderpay('pv', label);
         }
         ,c_modifycarid:function(fn){
             var me = this;
@@ -341,6 +350,9 @@ function ui_orderpay(){
             
             //支付成功：D6
             var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.A('D6');}
+
+            window.TongjiObj.orderpay('info', 'B1');
+
         }
         ,c_startPayfalid:function(){        //预付款失败
             //alert('预付款失败');
@@ -367,9 +379,12 @@ function ui_orderpay(){
             }else{
                 window.myajax.userget('index','listMyCoupons',{all:0}, function(result){
                                       fn && fn(result.data.coupon);
+
                                       if(result.data.coupon && result.data.coupon.length>0){
-                                      
+                                          window.TongjiObj.orderpay('info', 'A1');
+
                                       }else{
+                                          window.TongjiObj.orderpay('info', 'A0');
                                       //没有抵用劵的情况：D2
                                       var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D2');}
                                       }

@@ -240,6 +240,8 @@ function ui_map(){
             
             this.dom.destbar.bt.click(function(){
                 me.c_new_search();
+
+                window.TongjiObj.map('click', 'search');
             });
 
         }
@@ -272,7 +274,10 @@ function ui_map(){
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);
                 row1.find('p').html(datas.a.n);
-                row1.find('[name=head]').click(function(){sysmanager.loadpage('views/', 'freelist', null, me.placename+'附近免费停车点',function(v){if(me.center){v.obj.setdata(me.center.lng,me.center.lat);}});});
+                row1.find('[name=head]').click(function(){
+                    sysmanager.loadpage('views/', 'freelist', null, me.placename+'附近免费停车点',function(v){if(me.center){v.obj.setdata(me.center.lng,me.center.lat);}});
+                    window.TongjiObj.map('click', 'free_list');
+                });
                 this.dom.list.append(row1);
             }
         }
@@ -374,6 +379,19 @@ function ui_map(){
             if(!!elemmove){
                 this.iscroll.scrollToElement(row[0]);
                 this.iscroll.scrollToElement(row[0]);
+            }
+
+            if (data.c == 2) {
+                window.TongjiObj.map("click", 'freepark');
+            } else if (data.c == 1) {
+                var shihui = false;
+                for (c in data.t) {
+                    if (data.t[c] == '实惠') {
+                        shihui = true;
+                    }
+                }
+
+                window.TongjiObj.map("click", 'orderable+A1' + shihui ? '+C1' : '');
             }
         }
         ,c_activeRow:function(index){
@@ -532,6 +550,7 @@ function ui_map(){
         ,m_getdata:function(center, fn){
             this.center = center;
             var args = {lat:center.lat,lng:center.lng};
+            var me = this;
             if(this.userpos){
                 args['curlat'] = this.userpos.lat;
                 args['curlng'] = this.userpos.lng;
@@ -555,6 +574,42 @@ function ui_map(){
                     result.data.a.distance = Math.abs(parseInt(result.data.a.point.distance(center)));
                 }
                 fn && fn(result.data,result.area);
+
+                // tracking
+                var label = "nearby";
+                if (me.placename.length > 0) {
+                    label = "place:" + me.placename;
+                }
+                if (result.data.p.length > 0) {
+                    var shihui = false, hezuo = false;
+                    for(var i=0;i<result.data.p.length;i++){
+                        var d = result.data.p[i];
+                        if (d.c == 1) {
+                            hezuo = true;
+                        } else {
+                            for (c in d.t) {
+                                if (d.t[c] == '实惠') {
+                                    shihui = true;
+                                }
+                            }
+                        }
+                    }
+
+                    label += "+A1";
+                    if (shihui) label += "+C1";
+                    if (hezuo) label += "+D1";
+                } else {
+                    label += "+A0"
+                }
+
+                if (result.data.f.length > 0) {
+                    label += "+B1";
+                } else {
+                    label += "+B0";
+                }
+
+                window.TongjiObj.map('pv', label);
+
                 setTimeout(function(){
                     /**
                      *     列表中停车场全是满的状态：C1

@@ -46,6 +46,12 @@
                  nodeid：div元素id，选填项，填写网页中的div元素id值，用于在“用户视点”功能上重绘元素的事件发生情况。
              */
             push:function(category, action, label, value){
+                var uid = myajax.uid();
+                if(uid && uid <=41) {
+                    console.log('Hello Superman!');
+                    return;
+                }
+
                 setTimeout(function(){
                     _czc.push(["_trackEvent", category, action, label || 0         ,value || 0 , null]);
 //                    _hmt.push(['_trackEvent', category, action, opt_label || 0, opt_value] || 0);
@@ -96,14 +102,69 @@
                 this.push('E', action);
             },
 
+            getlabel: function(label) {
+                if (sysmanager.isapp) {
+                    label += '+app1';
+                } else {
+                    label += '+app0';
+                }
+
+                if (myajax.uid()) {
+                    label += '+auth1';
+                } else {
+                    label += '+auth0';
+                }
+
+                return label;
+            }
             /**
-             * F0: 信息
-             * F1: 收费
-             * F2: 免费
-             * F3: 有引导图
+             * A0: 信息
+             * A1: 收费
+             * A2: 免费
+             * B1: 有引导图
              */
-            parkinfo: function(action) {
-                this.push('F', action);
+            ,parkinfo: function(action, label) {
+                label = this.getlabel(label);
+                this.push('parkinfo', action, label);
+            }
+            /**
+             * A1: 有抵用券
+             * B1: 支付成功
+             */
+            ,orderpay: function(action, label) {
+                label = this.getlabel(label);
+                this.push('orderpay', action, label);
+            }
+            /**
+             * A1: 有合作停车场
+             */
+            ,discover: function(action, label) {
+                label = this.getlabel(label);
+                this.push('discover', action, label);
+            }
+            /**
+             * A1: 有合作停车场
+             */
+            ,freelist: function(action, label) {
+                label = this.getlabel(label);
+                this.push('freelist', action, label);
+            }
+            /**
+             * A1: 有普通停车场
+             * D1: 有合作停车场
+             * B1: 有免费停车场
+             * C1: 有实惠停车场
+             */
+            ,map: function(action, label) {
+                label = this.getlabel(label);
+                this.push('map', action, label);
+            }
+            /**
+             *
+             */
+            ,userinfo: function(action, label, value) {
+                label = this.getlabel(label);
+                this.push('userinfo', action, label, parseInt(value));
             }
         }
         return obj;
