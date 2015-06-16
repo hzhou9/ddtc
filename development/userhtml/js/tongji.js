@@ -28,10 +28,16 @@
                  不需要再缴费的状态：E1
                  需要缴费结清的状态：E2
                  拨打管理员电话：E3
+
+         停车场详情页面 - parkinfo - F
+         预付下单页面 - orderpay - D
+         支付成功页面 - userorder - E
+
      * @type {*}
      */
     window.TongjiObj = (function(){
         var obj = {
+
             /**
              *  category：事件类别，必填项，表示事件发生在谁身上，如“视频”、“小说”、“轮显层”等等。
                  action：事件操作，必填项，表示访客跟元素交互的行为动作，如"播放"、"收藏"、"翻层"等等。
@@ -40,6 +46,12 @@
                  nodeid：div元素id，选填项，填写网页中的div元素id值，用于在“用户视点”功能上重绘元素的事件发生情况。
              */
             push:function(category, action, label, value){
+                var uid = myajax.uid();
+                if(uid && uid <=41) {
+                    console.log('Hello Superman!');
+                    return;
+                }
+
                 setTimeout(function(){
                     _czc.push(["_trackEvent", category, action, label || 0         ,value || 0 , null]);
 //                    _hmt.push(['_trackEvent', category, action, opt_label || 0, opt_value] || 0);
@@ -67,7 +79,7 @@
             }
             ,
             /**
-             *     还没车牌的状态：D1
+             *   还没车牌的状态：D1
                  没有抵用劵的情况：D2
                  修改车牌号的情况：D3
                  点击导航按钮：D4
@@ -88,6 +100,71 @@
              */
             E:function(action){
                 this.push('E', action);
+            },
+
+            getlabel: function(label) {
+                if (sysmanager.isapp) {
+                    label += '+app1';
+                } else {
+                    label += '+app0';
+                }
+
+                if (myajax.uid()) {
+                    label += '+auth1';
+                } else {
+                    label += '+auth0';
+                }
+
+                return label;
+            }
+            /**
+             * A0: 信息
+             * A1: 收费
+             * A2: 免费
+             * B1: 有引导图
+             */
+            ,parkinfo: function(action, label) {
+                label = this.getlabel(label);
+                this.push('parkinfo', action, label);
+            }
+            /**
+             * A1: 有抵用券
+             * B1: 支付成功
+             */
+            ,orderpay: function(action, label) {
+                label = this.getlabel(label);
+                this.push('orderpay', action, label);
+            }
+            /**
+             * A1: 有合作停车场
+             */
+            ,discover: function(action, label) {
+                label = this.getlabel(label);
+                this.push('discover', action, label);
+            }
+            /**
+             * A1: 有合作停车场
+             */
+            ,freelist: function(action, label) {
+                label = this.getlabel(label);
+                this.push('freelist', action, label);
+            }
+            /**
+             * A1: 有普通停车场
+             * D1: 有合作停车场
+             * B1: 有免费停车场
+             * C1: 有实惠停车场
+             */
+            ,map: function(action, label) {
+                label = this.getlabel(label);
+                this.push('map', action, label);
+            }
+            /**
+             *
+             */
+            ,userinfo: function(action, label, value) {
+                label = this.getlabel(label);
+                this.push('userinfo', action, label, parseInt(value));
             }
         }
         return obj;
