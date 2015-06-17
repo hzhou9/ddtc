@@ -302,7 +302,7 @@ function ui_parkinfo(){
                         infoUrl: ''
                     });
                 }else{
-                    me.dom.daohanglist.addClass('mui-active');
+                    me.dom.daohanglist.show();
                     me.dom.daohanglist_bg.show();
                 }
             });
@@ -348,7 +348,7 @@ function ui_parkinfo(){
             
         }
         ,c_danghang_close:function(){
-            this.dom.daohanglist.removeClass('mui-active');
+            this.dom.daohanglist.hide();
             this.dom.daohanglist_bg.hide();
         }
         ,close:function(){
