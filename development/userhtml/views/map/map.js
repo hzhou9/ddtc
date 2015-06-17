@@ -239,7 +239,7 @@ function ui_map(){
             var me = this;
             this.iscroll = new iScroll(this.dom.scrollarea[0], {desktopCompatibility:true});
             
-            this.dom.destbar.bt.click(function(){
+            this.dom.destbar.bt.aclick(function(){
                 me.c_new_search();
 
                 window.TongjiObj.map('click', 'search');
@@ -268,14 +268,14 @@ function ui_map(){
                 if(intro){
                     row0.find('.park-free-intro').html(intro);
                 }
-                row0.find('[name=head]').click(function(){freelist.toggle();});
+                row0.find('[name=head]').aclick(function(){freelist.toggle();});
                 this.dom.list.append(row0);
             }else if(datas.a && datas.a.distance < 5000){ //最近的免费停车场
                 var me = this;
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);
                 row1.find('p').html(datas.a.n);
-                row1.find('[name=head]').click(function(){
+                row1.find('[name=head]').aclick(function(){
                     sysmanager.loadpage('views/', 'freelist', null, me.placename+'附近免费停车点',function(v){if(me.center){v.obj.setdata(me.center.lng,me.center.lat);}});
                     window.TongjiObj.map('click', 'free_list');
                 });
@@ -462,7 +462,7 @@ function ui_map(){
             }
             }
 
-            row.click(function(){
+            row.aclick(function(){
                 //data.marker.setAnimation('AMAP_ANIMATION_DROP');
                 //me.mapObj.panTo(data.point);
                 me.c_setActiveRow(row, data);
@@ -487,7 +487,7 @@ function ui_map(){
             if(sub){
                 var me = this;
                 block.find('.mui-media-body').html(sub[0]);
-                block.click(function(){
+                block.aclick(function(){
                         me.dom.destbar.txt.html(sub[0]);
                         var lnglat = new  AMap.LngLat(sub[2], sub[1]);
                         //$(me).addClass('active');
@@ -503,7 +503,7 @@ function ui_map(){
             row.find('[name=desc]').html(data[1]);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            row.click(function(){
+            row.aclick(function(){
                       if(expandbt.hasClass('mui-icon-arrowup')){
                       expandbt.removeClass('mui-icon-arrowup');
                       expandbt.addClass('mui-icon-arrowdown');

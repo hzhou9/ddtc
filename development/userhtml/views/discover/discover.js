@@ -282,7 +282,7 @@ function ui_discover(){
             row.find('[name=desc]').html(data.desc);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            row.click(function(){
+            row.aclick(function(){
                       if(expandbt.hasClass('mui-icon-arrowup')){
                       expandbt.removeClass('mui-icon-arrowup');
                       expandbt.addClass('mui-icon-arrowdown');

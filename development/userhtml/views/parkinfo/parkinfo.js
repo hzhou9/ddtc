@@ -287,7 +287,7 @@ function ui_parkinfo(){
                 me.dom.btios.show();
             }
 
-            me.dom.btdaohang.click(function(){
+            me.dom.btdaohang.aclick(function(){
 
                 window.TongjiObj.parkinfo('click', 'navi');
 
@@ -338,10 +338,9 @@ function ui_parkinfo(){
             me.dom.close_map_list.aclick(function(){
                 me.c_danghang_close();
             });
+
             me.dom.reserve.aclick(function(){
-
                 window.TongjiObj.parkinfo('click', 'order');
-
                 sysmanager.loadpage('views/', 'orderpay', null, '预订：'+me.nowdata.n,function(v){
                     v.obj.setdata(me.nowdata,me.extinfo);
                 });
