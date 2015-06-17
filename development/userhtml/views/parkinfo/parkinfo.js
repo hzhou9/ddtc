@@ -81,7 +81,7 @@ function ui_parkinfo(){
         ,c_fill:function(){
             var me = this;
             this.dom.name.html(this.nowdata.n);
-            me.dom.bg_map.find('img').attr('src',sysmanager.getMapimage(me.nowdata.lng,me.nowdata.lat,15,me.dom.bgbox.width(),me.dom.bgbox.height()));
+            me.dom.bg_map.find('img').attr('src',sysmanager.getMapimage(me.nowdata.lng,me.nowdata.lat,16,me.dom.bgbox.width(),me.dom.bgbox.height()));
             var imgurl = this.nowdata.i;
             if(this.extinfo && imgurl && imgurl != '' && imgurl.indexOf('http://') != 0){
                 imgurl = this.extinfo.u+imgurl;
