@@ -56,27 +56,27 @@ function ui_searchmap(){
             var auto;
             this.searchNumber++;
             //加载输入提示插件
-            AMap.service(["AMap.Autocomplete"], function() {
-                var nowsearchNumber = this.searchNumber;
-                var autoOptions = {
-                    city: "" //城市，默认全国
-                };
-                auto = new AMap.Autocomplete(autoOptions);
-                //查询成功时返回查询结果
-                if ( keywords.length > 0) {
-                    AMap.event.addListener(auto,"complete",function(data){
-                        if(nowsearchNumber>me.searchResultNumber){
-                           me.searchResultNumber = nowsearchNumber;
-                            console.log(nowsearchNumber);
-                            me.c_search_callback(data);
-                        }
-
-                    });
-                    auto.search(keywords);
-                }
-                else {
-                }
-            });
+            //AMap.service(["AMap.Autocomplete"], function() {
+            //    var nowsearchNumber = this.searchNumber;
+            //    var autoOptions = {
+            //        city: "" //城市，默认全国
+            //    };
+            //    auto = new AMap.Autocomplete(autoOptions);
+            //    //查询成功时返回查询结果
+            //    if ( keywords.length > 0) {
+            //        AMap.event.addListener(auto,"complete",function(data){
+            //            if(nowsearchNumber>me.searchResultNumber){
+            //               me.searchResultNumber = nowsearchNumber;
+            //                console.log(nowsearchNumber);
+            //                //me.c_search_callback(data);
+            //            }
+            //
+            //        });
+            //        auto.search(keywords);
+            //    }
+            //    else {
+            //    }
+            //});
 
 //            AMap.service(["AMap.CitySearch"], function() {
 //                //实例化城市查询类
@@ -235,7 +235,7 @@ function ui_searchmap(){
              * type: "complete"
              */
             var me = this;
-            this.dom.hintlist.empty().unbind();
+            //this.dom.hintlist.empty().unbind();
             if(!data.geocodes || data.geocodes.length<=0){
                 var row = this.c_getrow_nodata();
                 this.dom.hintlist.append(row);
@@ -287,7 +287,7 @@ function ui_searchmap(){
             row.find('[name=desc]').html(data.desc);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            row.click(function(){
+            row.aclick(function(){
                     if(expandbt.hasClass('mui-icon-arrowup')){
                       expandbt.removeClass('mui-icon-arrowup');
                       expandbt.addClass('mui-icon-arrowdown');
@@ -368,7 +368,7 @@ function ui_searchmap(){
 
             });
             this.dom.input.blur(function(){
-                setTimeout(function(){me.dom.hintlist.empty().unbind();},1000);
+                //setTimeout(function(){me.dom.hintlist.empty().unbind();},1000);
             });
             sysmanager.loadMapscript.load(function(){
                 me.r_init_input();
@@ -392,12 +392,6 @@ function ui_searchmap(){
                 //me.c_search_geocoder();
                 me.c_search_PlaceSearch();
 
-            });
-            this.dom.form1.bind('submit', function(){
-                setTimeout(function(){
-                    me.c_search_PlaceSearch();
-                });
-               return false;
             });
             if(this.showclose){
                 this.dom.btetst.show();

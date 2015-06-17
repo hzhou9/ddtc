@@ -335,7 +335,7 @@ function ui_discover(){
             this.iscroll = new iScroll(me.dom.scrollarea[0], {desktopCompatibility:true});
             
             this.dom.input.blur(function(){
-                                setTimeout(function(){me.dom.hintlist.empty().unbind();},100);
+                                //setTimeout(function(){me.dom.hintlist.empty().unbind();},100);
                                 });
             sysmanager.loadMapscript.load(function(){
                                           me.r_init_input();
@@ -354,9 +354,7 @@ function ui_discover(){
                                 
                                 });
             this.dom.form1.bind('submit', function(){
-                                setTimeout(function(){
-                                           me.c_search_PlaceSearch();
-                                           });
+                                //me.c_search_PlaceSearch();
                                 return false;
                                 });
             this.dom.free_list.click(function(){
