@@ -243,6 +243,9 @@ window.sysmanager = {
                         ,uuid:result.data.uuid
                     }
                     window.myajax.userinfo(userinfo);
+                    if(sysmanager.isapp){
+                    setTimeout(function(){window.parent.postMessage(JSON.stringify({t:'pushid'}),'*');});//提交pushid
+                    }
                     callback && callback();
                 }
             });

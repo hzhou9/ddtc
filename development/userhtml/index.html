@@ -352,6 +352,11 @@
                               clear2Init(model);
                               }else if(data.t == 'ack'){//心跳信号
                               setTimeout(function(){window.parent.postMessage(JSON.stringify({t:'navack'}),'*');});
+                              }else if(data.t == 'pushid'){//提交pushid
+                                console.log('setPushid:'+data.d);
+                                window.myajax.userget('index','setPushid',{pushid:data.d}, function(result){
+                                    
+                                }, null, false);
                               }
       }, false );
 
