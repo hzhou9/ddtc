@@ -184,4 +184,29 @@
                           alert("导航启动失败");
                           });
  }
+ 
+ //cordova事件
+ window.onMsgData = function(data){
+ sendToIframe(JSON.stringify({t:'msgdata',d:data}));
+ };
+ 
+ function trackCordovaEvents(){
+ if(!window.cordova_onDeviceReady){
+ setTimeout(trackCordovaEvents,1000);
+ }else{
+ //返回按钮
+ document.addEventListener("backbutton", function(e){
+                           
+                           }, false);
+ //网络检测
+ document.addEventListener("offline", function(){
+                           
+                           }, false);
+ document.addEventListener("online", function(){
+                           
+                           }, false);
+ }
+ }
+ trackCordovaEvents();
+ 
  })();

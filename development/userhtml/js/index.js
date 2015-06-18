@@ -159,6 +159,11 @@
                 clearTimeout(window.idata.navtimer);window.idata.navtimer=0;
             }
             if($('#startpage').is(":visible")){$('#startpage').hide();}
+        }else if(evt.t == 'pushid'){
+                            console.log('index.js:pushid:'+app.pushid);
+            if(app.pushid){
+                sendToIframe(JSON.stringify({t:'pushid',d:app.pushid}));
+            }
         }
     }, false);
 
@@ -184,5 +189,30 @@
                 alert("导航启动失败");
             });
     }
+ 
+//cordova事件
+window.onMsgData = function(data){
+ sendToIframe(JSON.stringify({t:'msgdata',d:data}));
+};
+
+function trackCordovaEvents(){
+ if(!window.cordova_onDeviceReady){
+    setTimeout(trackCordovaEvents,1000);
+ }else{
+    //返回按钮
+    document.addEventListener("backbutton", function(e){
+                           
+    }, false);
+    //网络检测
+    document.addEventListener("offline", function(){
+                           
+    }, false);
+    document.addEventListener("online", function(){
+                    
+    }, false);
+ }
+}
+trackCordovaEvents();
+
 })();
 
