@@ -1,0 +1,30 @@
+/*IconFont*/
+@font-face {font-family: 'duduche'; src:url('../fonts/duduche.ttf') format('truetype'); font-weight: normal; font-style: normal;}
+[class^="icon-"], [class*=" icon-"] {
+    font-family: 'duduche'; speak:none; font-style:normal; font-weight:normal; font-variant:normal; text-transform:none; line-height:1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+}
+.icon-bankcard:before {content: "\e610";}
+.icon-coin:before {content: "\e611";}
+.icon-wallet:before {content: "\e612";}
+.icon-money:before {content: "\e60c";}
+.icon-parking:before {content: "\e60d";}
+.icon-tag:before {content: "\e60e";}
+.icon-warn:before {content: "\e60f";}
+.icon-phone:before {content: "\e60b";}
+.icon-compose:before {content: "\e60a";}
+.icon-place:before {content: "\e609";}
+.icon-discover_active:before {content: "\e600";}
+.icon-discover:before {content: "\e601";}
+.icon-gift_active:before {content: "\e602";}
+.icon-gift:before {content: "\e603";}
+.icon-location_active:before {content: "\e604";}
+.icon-location:before {content: "\e605";}
+.icon-search:before {content: "\e606";}
+.icon-user_active:before {content: "\e607";}
+.icon-user:before {content: "\e608";}
+/*FooterBar*/
+.mui-bar.mui-bar-tab {background:rgba(255,255,255,1); box-shadow:0 0 1px #ddd; height:48px;}
+.mui-bar .mui-tab-item .mui-icon {width:32px; height:32px; line-height:32px; font-size:22px;}
+.mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label {font-size:12px; height:16px; line-height:16px;;}
