@@ -192,7 +192,17 @@
  
  //cordova事件
  window.onMsgData = function(data){
- sendToIframe(JSON.stringify({t:'msgdata',d:data}));
+ var obj = JSON.parse(data);
+ if(obj.t == 'nav'){
+ var target = obj.target;
+ var href = obj.href;
+ var force = obj.force;
+ window.idata.loadframe(target,href,force);
+ }if(obj.t == 'reload'){
+ window.location.reload();
+ }else{
+ sendToIframe(JSON.stringify({t:'msgdata',d:obj}));
+ }
  };
  
  function trackCordovaEvents(){
