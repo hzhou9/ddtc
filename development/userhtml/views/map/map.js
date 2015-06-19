@@ -239,7 +239,7 @@ function ui_map(){
             var me = this;
             this.iscroll = new iScroll(this.dom.scrollarea[0], {desktopCompatibility:true});
             
-            this.dom.destbar.bt.aclick(function(){
+            this.dom.destbar.bt.click(function(){
                 me.c_new_search();
 
                 window.TongjiObj.map('click', 'search');
@@ -462,13 +462,13 @@ function ui_map(){
             }
             }
 
-            row.aclick(function(){
+            row.click(function(){
                 //data.marker.setAnimation('AMAP_ANIMATION_DROP');
                 //me.mapObj.panTo(data.point);
                 me.c_setActiveRow(row, data);
             });
             
-            row.find('.mui-btn').aclick(function(){
+            row.find('.mui-btn').click(function(){
                 me.c_daohang_my(data);
             });
 
@@ -487,7 +487,7 @@ function ui_map(){
             if(sub){
                 var me = this;
                 block.find('.mui-media-body').html(sub[0]);
-                block.aclick(function(){
+                block.click(function(){
                         me.dom.destbar.txt.html(sub[0]);
                         var lnglat = new  AMap.LngLat(sub[2], sub[1]);
                         //$(me).addClass('active');
@@ -503,7 +503,7 @@ function ui_map(){
             row.find('[name=desc]').html(data[1]);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            row.aclick(function(){
+            expandbt.aclick(function(){
                       if(expandbt.hasClass('mui-icon-arrowup')){
                       expandbt.removeClass('mui-icon-arrowup');
                       expandbt.addClass('mui-icon-arrowdown');

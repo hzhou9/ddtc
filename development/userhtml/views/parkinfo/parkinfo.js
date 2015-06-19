@@ -291,19 +291,22 @@ function ui_parkinfo(){
 
                 window.TongjiObj.parkinfo('click', 'navi');
 
-                if(window.Myweixinobj && window.Myweixinobj.isready){
-//                    alert([parseFloat(me.nowdata.lat),parseFloat(me.nowdata.lng)]);
-                    wx.openLocation({
-                        latitude: parseFloat(me.nowdata.lat),
-                        longitude:parseFloat(me.nowdata.lng),
-                        name: me.nowdata.n,
-                        address: me.nowdata.a,
-                        scale: 16,
-                        infoUrl: ''
-                    });
-                }else{
+                if (sysmanager.isapp) {
                     me.dom.daohanglist.show();
                     me.dom.daohanglist_bg.show();
+                } else {
+                    if (window.Myweixinobj && window.Myweixinobj.isready) {
+                        wx.openLocation({
+                            latitude: parseFloat(me.nowdata.lat),
+                            longitude: parseFloat(me.nowdata.lng),
+                            name: me.nowdata.n,
+                            address: me.nowdata.a,
+                            scale: 16,
+                            infoUrl: ''
+                        });
+                    } else {
+                        alert('页面载入中…');
+                    }
                 }
             });
             me.dom.btlocal.aclick(function(){
