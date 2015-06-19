@@ -555,6 +555,9 @@ function ui_map(){
                 args['curlat'] = this.userpos.lat;
                 args['curlng'] = this.userpos.lng;
             }
+            if(window.pushid){
+                args['pushid'] = window.pushid;
+            }
             window.myajax.userget('public','search2', args, function(result){
                 var data = result.data.p;
                 for(var i=0;i<data.length;i++){

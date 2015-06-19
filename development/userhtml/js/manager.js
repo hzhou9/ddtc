@@ -244,7 +244,14 @@ window.sysmanager = {
                     }
                     window.myajax.userinfo(userinfo);
                     if(sysmanager.isapp){
-                    setTimeout(function(){window.parent.postMessage(JSON.stringify({t:'pushid'}),'*');});//提交pushid
+                    setTimeout(function(){
+                        if(window.pushid){
+                            window.myajax.userget('index','setPushid',{pushid:window.pushid}, function(result){
+                            }, null, false);
+                        }else{
+                            window.parent.postMessage(JSON.stringify({t:'setpushid'}),'*');
+                        }
+                    });//提交pushid
                     }
                     callback && callback();
                 }

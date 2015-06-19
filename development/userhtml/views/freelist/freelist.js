@@ -311,6 +311,9 @@ function ui_freelist(){
             me.params = "";
             if(!this.parkdata[pg]){
                 var params = {lat:this.geopos.lat,lng:this.geopos.lng,province:'sh',city:'sh',page:pg,max:this.max};
+                if(window.pushid){
+                    params['pushid'] = window.pushid;
+                }
             if(this.defaults.area_sel != '0'){
                 params.district = this.defaults.area_sel;
                 me.params += "+dist:" + params.district;

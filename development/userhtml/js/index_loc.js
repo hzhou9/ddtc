@@ -159,10 +159,12 @@
                          clearTimeout(window.idata.navtimer);window.idata.navtimer=0;
                          }
                          if($('#startpage').is(":visible")){$('#startpage').hide();}
-                         }else if(evt.t == 'pushid'){
-                         console.log('index.js:pushid:'+app.pushid);
                          if(app.pushid){
                          sendToIframe(JSON.stringify({t:'pushid',d:app.pushid}));
+                         }
+                         }else if(evt.t == 'setpushid'){
+                         if(app.pushid){
+                         sendToIframe(JSON.stringify({t:'setpushid',d:app.pushid}));
                          }
                          }
                          }, false);
