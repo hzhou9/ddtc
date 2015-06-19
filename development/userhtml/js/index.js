@@ -103,7 +103,7 @@
                 +'<span class="mui-tab-label">附近</span>'
                 +'</div>'
                 +'<div class="mui-tab-item" href="discover" name="iframe2">'
-                +'<span class="mui-icon duduche icon-gift"></span>'
+                +'<span class="mui-icon duduche icon-coin"></span>'
                 +'<span class="mui-tab-label">省钱</span>'
                 +'</div>'
                 +'<div class="mui-tab-item" href="userinfo" name="iframe3">'
