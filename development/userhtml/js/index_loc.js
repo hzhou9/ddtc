@@ -20,14 +20,17 @@
                             window.idata.navtimer = setTimeout(function(){
                                                                $('#startpage p').html(errortxt);
                                                                $('#startpage').show();
+                                                               $('#loading').hide();
                                                                $('#startpage').unbind().click(function(){
                                                                                               $('#startpage p').html('');
+                                                                                              $('#loading').show();
                                                                                               window.idata.doload(href,true);//retry
                                                                                               });
                                                                },1000);//1秒内没有应答，就提示重新加载
                             }else{
                             setTimeout(function(){
                                        $('#startpage p').html(errortxt);
+                                       $('#loading').hide();
                                        },1000);
                             }
                             });
@@ -41,14 +44,17 @@
   window.idata.navtimer = setTimeout(function(){
                                      $('#startpage p').html(errortxt);
                                      $('#startpage').show();
+                                     $('#loading').hide();
                                      $('#startpage').unbind().click(function(){
                                                                     $('#startpage p').html('');
+                                                                    $('#loading').show();
                                                                     window.idata.doload(href,true);//retry
                                                                     });
                                      },1000);//1秒内没有应答，就提示重新加载
   }else{
   setTimeout(function(){
              $('#startpage p').html(errortxt);
+             $('#loading').hide();
              },1000);
   }
   }
@@ -158,7 +164,7 @@
                          if(window.idata.navtimer != 0){
                          clearTimeout(window.idata.navtimer);window.idata.navtimer=0;
                          }
-                         if($('#startpage').is(":visible")){$('#startpage').hide();}
+                         if($('#startpage').is(":visible")){$('#startpage').hide();$('#loading').hide();}
                          if(app.pushid){
                          sendToIframe(JSON.stringify({t:'pushid',d:app.pushid}));
                          }
@@ -194,6 +200,7 @@
  
  //cordova事件
  window.onMsgData = function(data){
+ console.log("window.onMsgData:"+data);
  var obj = JSON.parse(data);
  if(obj.t == 'nav'){
  var target = obj.target;
