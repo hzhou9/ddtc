@@ -163,6 +163,12 @@ window.sysmanager = {
                         this.hide(null,true);
                         this.showToptitle();
                     }
+                    $('#reg_dialog_pagecontainer').hide();$('#alert_pagecontainer').hide();$('#confirm_pagecontainer').hide();
+                    sysmanager.loading.hide();
+                }
+                ,onback:function(){
+                    this.hide(null,true);
+                    this.showToptitle();
                 }
            }
            return obj;
