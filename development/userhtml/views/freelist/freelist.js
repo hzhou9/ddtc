@@ -68,6 +68,8 @@ function ui_freelist(){
             this.geopos = new AMap.LngLat(lng, lat);
         }
         ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
+            sysmanager.loading.show();
+            
             var me = this;
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid2",{
                                                                         view: new AMap.View2D({
@@ -122,7 +124,7 @@ function ui_freelist(){
                     var center = mapobj.getCenter();
                     console.log(center);
                     homecontrol.setPosition(center,mapObj, true);
-                    setTimeout(function(){fn && fn(center,true);});//to make response faster
+                    //setTimeout(function(){fn && fn(center,true);});//to make response faster
                     
                     var callbacking = false;
                     mapObj.plugin('AMap.Geolocation', function () {
@@ -305,7 +307,7 @@ function ui_freelist(){
         ,loaddata:function(pg,force){
             var me=this;
             me.params = "";
-            if(!this.parkdata[pg]){
+            if(force || !this.parkdata[pg]){
                 var params = {lat:this.geopos.lat,lng:this.geopos.lng,province:'sh',city:'sh',page:pg,max:this.max};
                 if(window.pushid){
                     params['pushid'] = window.pushid;
