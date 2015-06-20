@@ -46,7 +46,6 @@ function ui_freelist(){
         ,areas:['0','xh','ja','hp','cn','mh','pd','pt','hk','zb','yp','bs','lw','sj','jd','qp','js']
         ,tags:['0','1','2','3','4','5','6','7','8','9']
         ,homecontrol:null
-        ,ispos:false
         ,geopos:null
         ,iscroll:null
         ,iscroll_add:null
@@ -66,11 +65,7 @@ function ui_freelist(){
 
         }
         ,setdata:function(lng, lat){
-            var me = this;
-            this.ispos = true;
             this.geopos = new AMap.LngLat(lng, lat);
-            //todo:根据坐标加载停车场
-            setTimeout(function(){me.loaddata(0,true);});
         }
         ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
             var me = this;
@@ -116,10 +111,6 @@ function ui_freelist(){
             
             
             function onmapload(mapobj){
-                var center = mapobj.getCenter();
-                console.log(center);
-                homecontrol.setPosition(center,mapObj, true);
-                setTimeout(function(){fn && fn(center);});//to make response faster
                 
                 if(placedata){
                     mapObj.setCenter(placedata);
@@ -128,6 +119,11 @@ function ui_freelist(){
                                fn && fn(placedata);
                                });
                 }else{
+                    var center = mapobj.getCenter();
+                    console.log(center);
+                    homecontrol.setPosition(center,mapObj, true);
+                    setTimeout(function(){fn && fn(center,true);});//to make response faster
+                    
                     var callbacking = false;
                     mapObj.plugin('AMap.Geolocation', function () {
                                   var geolocation = new AMap.Geolocation({
@@ -297,14 +293,14 @@ function ui_freelist(){
                    });
             sysmanager.loading.show();
             sysmanager.loadMapscript.load(function(){
-                                          me.c_initMap(function(center){
-                                                       if(!me.ispos){
-                                                       me.geopos = center;
-                                                       //todo:根据坐标加载停车场
-                                                       me.loaddata(0,true);
-                                                       }
-                                                       }, null);
-                                          });
+                me.c_initMap(function(center,istest){
+                    if(!istest || !me.geopos){
+                        me.geopos = center;
+                        //todo:根据坐标加载停车场
+                        me.loaddata(0,true);
+                    }
+                }, me.geopos);
+            });
         }
         ,loaddata:function(pg,force){
             var me=this;
