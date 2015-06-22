@@ -10,6 +10,7 @@ function ui_searchmap(){
     var ui = {
         isInit: false
         ,showclose:false
+        ,ctime:0
         ,context:null
         ,dom:{
             btetst:'[name=test]'
@@ -287,7 +288,8 @@ function ui_searchmap(){
             row.find('[name=desc]').html(data.desc);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            expandbt.aclick(function(){
+            row.click(function(){
+                    if (new Date().getTime() - me.ctime > 500) {
                     if(expandbt.hasClass('mui-icon-arrowup')){
                       expandbt.removeClass('mui-icon-arrowup');
                       expandbt.addClass('mui-icon-arrowdown');
@@ -303,6 +305,9 @@ function ui_searchmap(){
                         me.iscroll.refresh();
                         //me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
                       });
+                    }
+
+                me.ctime = new Date().getTime();
             });
             for(var i=0;i<data.sub.length;i++){
                 var sub = data.sub[i];

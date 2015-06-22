@@ -9,6 +9,7 @@ function ui_map(){
     var ui = {
         isInit: false
         ,context:null
+        ,ctime:0
         ,dom:{
             scrollarea:'[name=scrollarea]'
             ,list:'.innerlist .park-list'
@@ -247,6 +248,7 @@ function ui_map(){
 
         }
         ,c_fill_free:function(datas){//插入免费停车场
+            var me = this;
             if(datas.f && datas.f.length > 0){
                 var row0 = this.dom.row0.clone();
                 row0.find('b').html(datas.f.length);
@@ -268,16 +270,28 @@ function ui_map(){
                 if(intro){
                     row0.find('.park-free-intro').html(intro);
                 }
-                row0.find('[name=head]').aclick(function(){freelist.toggle();});
+                row0.find('[name=head]').click(function(){
+                    if (new Date().getTime() - me.ctime > 500) {
+                        freelist.toggle();
+                    }
+                    me.ctime = new Date().getTime();
+                });
                 this.dom.list.append(row0);
             }else if(datas.a && datas.a.distance < 5000){ //最近的免费停车场
-                var me = this;
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);
                 row1.find('p').html(datas.a.n);
-                row1.find('[name=head]').aclick(function(){
-                    sysmanager.loadpage('views/', 'freelist', null, me.placename+'附近免费停车点',function(v){if(me.center){v.obj.setdata(me.center.lng,me.center.lat);}});
-                    window.TongjiObj.map('click', 'free_list');
+                row1.find('[name=head]').click(function(){
+                    if (new Date().getTime() - me.ctime > 500) {
+                        sysmanager.loadpage('views/', 'freelist', null, me.placename + '附近免费停车点', function (v) {
+                            if (me.center) {
+                                v.obj.setdata(me.center.lng, me.center.lat);
+                            }
+                        });
+                        window.TongjiObj.map('click', 'free_list');
+                    }
+
+                    me.ctime = new Date().getTime();
                 });
                 this.dom.list.append(row1);
             }
@@ -503,18 +517,21 @@ function ui_map(){
             row.find('[name=desc]').html(data[1]);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            expandbt.aclick(function(){
-                      if(expandbt.hasClass('mui-icon-arrowup')){
-                      expandbt.removeClass('mui-icon-arrowup');
-                      expandbt.addClass('mui-icon-arrowdown');
-                          row.find('.search_desc').show();
-                      }else{
-                      expandbt.removeClass('mui-icon-arrowdown');
-                      expandbt.addClass('mui-icon-arrowup');
-                          row.find('.search_desc').hide();
-                      }
-                      blocklist.toggle();
-                      me.iscroll.refresh();
+            row.click(function(){
+                    if (new Date().getTime() - me.ctime > 500) {
+                        if (expandbt.hasClass('mui-icon-arrowup')) {
+                            expandbt.removeClass('mui-icon-arrowup');
+                            expandbt.addClass('mui-icon-arrowdown');
+                            row.find('.search_desc').show();
+                        } else {
+                            expandbt.removeClass('mui-icon-arrowdown');
+                            expandbt.addClass('mui-icon-arrowup');
+                            row.find('.search_desc').hide();
+                        }
+                        blocklist.toggle();
+                        me.iscroll.refresh();
+                    }
+                me.ctime = new Date().getTime();
                       });
             for(var j=0;j<data[2].length;j++){
                 var sub = data[2][j];

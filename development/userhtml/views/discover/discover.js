@@ -9,6 +9,7 @@ function ui_discover(){
     var ui = {
         isInit: false
         ,context:null
+        ,ctime:0
         ,dom:{
             form1:'[name=form1]'
             ,input:'[name=searchinpit]'
@@ -111,7 +112,7 @@ function ui_discover(){
                 row.find('[name=preorder]').hide();
             }
             
-            row.find('.mui-btn').aclick(function(){
+            row.find('.mui-btn').click(function(){
                                         me.c_daohang_my(data,edata);
                                         });
             
@@ -282,25 +283,31 @@ function ui_discover(){
             row.find('[name=desc]').html(data.desc);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            expandbt.aclick(function(e){
-                      if(expandbt.hasClass('mui-icon-arrowup')){
-                      expandbt.removeClass('mui-icon-arrowup');
-                      expandbt.addClass('mui-icon-arrowdown');
-                          row.find('.search_desc').show();
-                          window.TongjiObj.discover('click', 'collapse');
-                      }else{
-                      expandbt.removeClass('mui-icon-arrowdown');
-                      expandbt.addClass('mui-icon-arrowup');
-                          row.find('.search_desc').hide();
-                          window.TongjiObj.discover('click', 'expand');
-                      }
-                      blocklist.toggle();
+            row.bind('click', function(e){
+                if (new Date().getTime() - me.ctime > 500) {
+                    if (expandbt.hasClass('mui-icon-arrowup')) {
+                        expandbt.removeClass('mui-icon-arrowup');
+                        expandbt.addClass('mui-icon-arrowdown');
+                        row.find('.search_desc').show();
+                        window.TongjiObj.discover('click', 'collapse');
+                        blocklist.hide();
+                    } else {
+                        expandbt.removeClass('mui-icon-arrowdown');
+                        expandbt.addClass('mui-icon-arrowup');
+                        row.find('.search_desc').hide();
+                        window.TongjiObj.discover('click', 'expand');
+                        blocklist.show();
+                    }
 
-                      setTimeout(function(){//让打开内容可见
-                                 //var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
-                                 me.iscroll.refresh();
-                                 //me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
-                                 });
+                    setTimeout(function () {//让打开内容可见
+                        //var gap2max = me.iscroll.y - me.iscroll.maxScrollY;
+                        me.iscroll.refresh();
+                        //me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
+                    });
+                }
+
+                me.ctime = new Date().getTime();
+
                       });
             for(var i=0;i<data.sub.length;i++){
                 var sub = data.sub[i];
@@ -313,7 +320,7 @@ function ui_discover(){
                     emptynum++;
                 }
             }
-            
+
             return row;
         }
         ,c_get_defaultsub:function(blocklist,sub){
