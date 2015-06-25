@@ -8,6 +8,7 @@
   
   // 通过 postMessage 向子窗口发送数据
   window.sendToIframe = function(data){
+  console.log('window.sendToIframe:'+data);
   window.idata.curfame[0].contentWindow.postMessage(data,"*");
   };
   // 支持出错检测的iframe加载

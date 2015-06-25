@@ -242,7 +242,7 @@ window.sysmanager = {
 
         if('1' == type){      //非openid模式
             //window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
-            window.myajax.get('Public','login',{'phone':phone},function(result){
+            window.myajax.get('Public','login',{'phone':phone,'env':navigator.userAgent},function(result){
                 if(0 == result.code){
                     var userinfo = {
                         uid:result.data.uid
