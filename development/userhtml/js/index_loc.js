@@ -103,21 +103,6 @@
              $(tabsarr[0]).trigger(MOUSE_CLICK);
              });
 
-      //检查GPS是否可用
-      navigator.geolocation.getCurrentPosition(function(pos) {
-          window.TongjiObj.push('geolocation', 'success');
-      }, function(err) {
-          switch(err.code) {
-              case err.PERMISSION_DENIED:
-              case err.POSITION_UNAVAILABLE:
-                  alert('当前环境不支持获取定位，请在设置中允许使用[位置定位服务]');
-                  break;
-              case err.TIMEOUT:
-                  alert('获取当前位置超时，请在定位设置中启用[基于网络]的位置服务或在空旷的室外重新尝试');
-                  break;
-          }
-          window.TongjiObj.push('geolocation', 'failed', err.code);
-      } , { timeout: 30000, enableHighAccuracy: true });
   }
   function initmenu(){
   tabcontaion.html(
