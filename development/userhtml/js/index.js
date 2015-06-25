@@ -103,7 +103,9 @@
         });
 
         //检查GPS是否可用
-        navigator.geolocation.getCurrentPosition(function(pos) {}, function(err) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            window.TongjiObj.push('geolocation', 'success');
+        }, function(err) {
             switch(err.code) {
                 case err.PERMISSION_DENIED:
                 case err.POSITION_UNAVAILABLE:
@@ -113,7 +115,8 @@
                     alert('获取当前位置超时，请在定位设置中启用[基于网络]的位置服务或在空旷的室外重新尝试');
                     break;
             }
-        } , { timeout: 10000, enableHighAccuracy: true });
+            window.TongjiObj.push('geolocation', 'failed', err.code);
+        } , { timeout: 30000, enableHighAccuracy: true });
     }
     function initmenu(){
         tabcontaion.html(
