@@ -163,6 +163,12 @@ window.sysmanager = {
                         this.hide(null,true);
                         this.showToptitle();
                     }
+                    $('#reg_dialog_pagecontainer').hide();$('#alert_pagecontainer').hide();$('#confirm_pagecontainer').hide();
+                    sysmanager.loading.hide();
+                }
+                ,onback:function(){
+                    this.hide(null,true);
+                    this.showToptitle();
                 }
            }
            return obj;
@@ -236,7 +242,7 @@ window.sysmanager = {
 
         if('1' == type){      //非openid模式
             //window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
-            window.myajax.get('Public','login',{'phone':phone},function(result){
+            window.myajax.get('Public','login',{'phone':phone,'env':navigator.userAgent},function(result){
                 if(0 == result.code){
                     var userinfo = {
                         uid:result.data.uid
@@ -244,7 +250,14 @@ window.sysmanager = {
                     }
                     window.myajax.userinfo(userinfo);
                     if(sysmanager.isapp){
-                    setTimeout(function(){window.parent.postMessage(JSON.stringify({t:'pushid'}),'*');});//提交pushid
+                    setTimeout(function(){
+                        if(window.pushid){
+                            window.myajax.userget('index','setPushid',{pushid:window.pushid}, function(result){
+                            }, null, false);
+                        }else{
+                            window.parent.postMessage(JSON.stringify({t:'setpushid'}),'*');
+                        }
+                    });//提交pushid
                     }
                     callback && callback();
                 }

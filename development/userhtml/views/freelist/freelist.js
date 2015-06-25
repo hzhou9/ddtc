@@ -46,7 +46,6 @@ function ui_freelist(){
         ,areas:['0','xh','ja','hp','cn','mh','pd','pt','hk','zb','yp','bs','lw','sj','jd','qp','js']
         ,tags:['0','1','2','3','4','5','6','7','8','9']
         ,homecontrol:null
-        ,ispos:false
         ,geopos:null
         ,iscroll:null
         ,iscroll_add:null
@@ -66,13 +65,11 @@ function ui_freelist(){
 
         }
         ,setdata:function(lng, lat){
-            var me = this;
-            this.ispos = true;
             this.geopos = new AMap.LngLat(lng, lat);
-            //todo:根据坐标加载停车场
-            setTimeout(function(){me.loaddata(0,true);});
         }
         ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
+            sysmanager.loading.show();
+            
             var me = this;
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid2",{
                                                                         view: new AMap.View2D({
@@ -116,10 +113,6 @@ function ui_freelist(){
             
             
             function onmapload(mapobj){
-                var center = mapobj.getCenter();
-                console.log(center);
-                homecontrol.setPosition(center,mapObj, true);
-                setTimeout(function(){fn && fn(center);});//to make response faster
                 
                 if(placedata){
                     mapObj.setCenter(placedata);
@@ -128,12 +121,17 @@ function ui_freelist(){
                                fn && fn(placedata);
                                });
                 }else{
+                    var center = mapobj.getCenter();
+                    console.log(center);
+                    homecontrol.setPosition(center,mapObj, true);
+                    //setTimeout(function(){fn && fn(center,true);});//to make response faster
+                    
                     var callbacking = false;
                     mapObj.plugin('AMap.Geolocation', function () {
                                   var geolocation = new AMap.Geolocation({
                                                                          enableHighAccuracy: true,//是否使用高精度定位，默认:true
-                                                                         timeout: 5000,          //超过10秒后停止定位，默认：无穷大
-                                                                         maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                                                                         timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                                                                         maximumAge: 60000,           //定位结果缓存0毫秒，默认：0
                                                                          convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
                                                                          showButton: false,        //显示定位按钮，默认：true
                                                                          buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
@@ -297,20 +295,23 @@ function ui_freelist(){
                    });
             sysmanager.loading.show();
             sysmanager.loadMapscript.load(function(){
-                                          me.c_initMap(function(center){
-                                                       if(!me.ispos){
-                                                       me.geopos = center;
-                                                       //todo:根据坐标加载停车场
-                                                       me.loaddata(0,true);
-                                                       }
-                                                       }, null);
-                                          });
+                me.c_initMap(function(center,istest){
+                    if(!istest || !me.geopos){
+                        me.geopos = center;
+                        //todo:根据坐标加载停车场
+                        me.loaddata(0,true);
+                    }
+                }, me.geopos);
+            });
         }
         ,loaddata:function(pg,force){
             var me=this;
             me.params = "";
-            if(!this.parkdata[pg]){
+            if(force || !this.parkdata[pg]){
                 var params = {lat:this.geopos.lat,lng:this.geopos.lng,province:'sh',city:'sh',page:pg,max:this.max};
+                if(window.pushid){
+                    params['pushid'] = window.pushid;
+                }
             if(this.defaults.area_sel != '0'){
                 params.district = this.defaults.area_sel;
                 me.params += "+dist:" + params.district;

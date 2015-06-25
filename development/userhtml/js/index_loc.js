@@ -8,6 +8,7 @@
   
   // 通过 postMessage 向子窗口发送数据
   window.sendToIframe = function(data){
+  console.log('window.sendToIframe:'+data);
   window.idata.curfame[0].contentWindow.postMessage(data,"*");
   };
   // 支持出错检测的iframe加载
@@ -20,14 +21,17 @@
                             window.idata.navtimer = setTimeout(function(){
                                                                $('#startpage p').html(errortxt);
                                                                $('#startpage').show();
+                                                               $('#loading').hide();
                                                                $('#startpage').unbind().click(function(){
                                                                                               $('#startpage p').html('');
+                                                                                              $('#loading').show();
                                                                                               window.idata.doload(href,true);//retry
                                                                                               });
                                                                },1000);//1秒内没有应答，就提示重新加载
                             }else{
                             setTimeout(function(){
                                        $('#startpage p').html(errortxt);
+                                       $('#loading').hide();
                                        },1000);
                             }
                             });
@@ -41,14 +45,17 @@
   window.idata.navtimer = setTimeout(function(){
                                      $('#startpage p').html(errortxt);
                                      $('#startpage').show();
+                                     $('#loading').hide();
                                      $('#startpage').unbind().click(function(){
                                                                     $('#startpage p').html('');
+                                                                    $('#loading').show();
                                                                     window.idata.doload(href,true);//retry
                                                                     });
                                      },1000);//1秒内没有应答，就提示重新加载
   }else{
   setTimeout(function(){
              $('#startpage p').html(errortxt);
+             $('#loading').hide();
              },1000);
   }
   }
@@ -158,11 +165,13 @@
                          if(window.idata.navtimer != 0){
                          clearTimeout(window.idata.navtimer);window.idata.navtimer=0;
                          }
-                         if($('#startpage').is(":visible")){$('#startpage').hide();}
-                         }else if(evt.t == 'pushid'){
-                         console.log('index.js:pushid:'+app.pushid);
+                         if($('#startpage').is(":visible")){$('#startpage').hide();$('#loading').hide();}
                          if(app.pushid){
                          sendToIframe(JSON.stringify({t:'pushid',d:app.pushid}));
+                         }
+                         }else if(evt.t == 'setpushid'){
+                         if(app.pushid){
+                         sendToIframe(JSON.stringify({t:'setpushid',d:app.pushid}));
                          }
                          }
                          }, false);
@@ -192,7 +201,18 @@
  
  //cordova事件
  window.onMsgData = function(data){
- sendToIframe(JSON.stringify({t:'msgdata',d:data}));
+ console.log("window.onMsgData:"+data);
+ var obj = JSON.parse(data);
+ if(obj.t == 'nav'){
+ var target = obj.target;
+ var href = obj.href;
+ var force = obj.force;
+ window.idata.loadframe(target,href,force);
+ }if(obj.t == 'reload'){
+ window.location.reload();
+ }else{
+ sendToIframe(JSON.stringify({t:'msgdata',d:obj}));
+ }
  };
  
  function trackCordovaEvents(){
