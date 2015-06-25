@@ -173,8 +173,13 @@ function ui_parkinfo(){
             return row;
         }
         ,c_daohang_ios_official:function(){
-            var href='http://maps.apple.com/?q='+this.nowdata.address;
-            window.open(href, '_system');
+            var launcherinfo = {
+                type: 'amap'
+                ,dist: [this.nowdata.lat, this.nowdata.lng]
+            };
+            window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
+            //var href='http://maps.apple.com/?q='+this.nowdata.address;
+            //window.open(href, '_system');
         }
 
         ,c_daohang_baidu_app:function() {
@@ -283,17 +288,20 @@ function ui_parkinfo(){
         }
         ,r_init:function(){
             var me = this;
-            if(utils.browser.versions.ios){
-                me.dom.btios.show();
-            }
+            //if(utils.browser.versions.ios){
+            //    me.dom.btios.show();
+            //}
 
             me.dom.btdaohang.aclick(function(){
-
                 window.TongjiObj.parkinfo('click', 'navi');
 
                 if (sysmanager.isapp) {
-                    me.dom.daohanglist.show();
-                    me.dom.daohanglist_bg.show();
+                    if (utils.browser.versions.ios) {
+                        me.c_daohang_ios_official();
+                    } else {
+                        me.dom.daohanglist.show();
+                        me.dom.daohanglist_bg.show();
+                    }
                 } else {
                     if (window.Myweixinobj && window.Myweixinobj.isready) {
                         wx.openLocation({
