@@ -102,6 +102,7 @@
   setTimeout(function(){
              $(tabsarr[0]).trigger(MOUSE_CLICK);
              });
+
   }
   function initmenu(){
   tabcontaion.html(

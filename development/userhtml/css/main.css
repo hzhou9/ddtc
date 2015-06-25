@@ -417,7 +417,7 @@ p.tags {margin-top:-10px;}
 .park-info .mui-btn-outlined {top:15px; height:24px; line-height:24px; font-size:12px; padding:0 12px; -webkit-transform:none; transform:none;}
 .park-info .mui-table-view-cell .duduche {position:absolute; top:14px; color:#999; font-size:18px;}
 .park-info .mui-table-view-cell p {margin-left:24px;}
-.park-info .mui-table-view-cell:first-child p {margin-left:0;}
+#map-list .mui-table-view-cell p {margin-left:0px;}
 #mui-popover {bottom:0; left:0;}
 .mui-popover.mui-popover-action .mui-table-view {margin:0; color:#1e88e5; text-align:left; border-radius:0;}
 .mui-popover.mui-popover-action .mui-table-view .btn-cancel {text-align:center; color:#666;}
@@ -496,3 +496,5 @@ form[name="form1"].mui-input-group .mui-input-row {background:none;}
 .input-box .tags-item.tags-active {border-color:#1e88e5; color:#1e88e5;}
 .location-box {margin:-15px; height:200px;}
 .input-box .mui-btn {margin:15px; width:auto;}
+.mui-table-view-cell h4[name="address"] {margin-right:50px;}
+.mui-table-view[name="free_list"] .mui-media-body {overflow:auto;}
