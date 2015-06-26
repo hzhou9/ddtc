@@ -81,7 +81,7 @@ function ui_parkinfo(){
         ,c_fill:function(){
             var me = this;
             this.dom.name.html(this.nowdata.n);
-            me.dom.bg_map.find('img').attr('src',sysmanager.getMapimage(me.nowdata.lng,me.nowdata.lat,15,me.dom.bgbox.width(),me.dom.bgbox.height()));
+            me.dom.bg_map.find('img').attr('src',sysmanager.getMapimage(me.nowdata.lng,me.nowdata.lat,16,me.dom.bgbox.width(),me.dom.bgbox.height()));
             var imgurl = this.nowdata.i;
             if(this.extinfo && imgurl && imgurl != '' && imgurl.indexOf('http://') != 0){
                 imgurl = this.extinfo.u+imgurl;
@@ -173,8 +173,13 @@ function ui_parkinfo(){
             return row;
         }
         ,c_daohang_ios_official:function(){
-            var href='http://maps.apple.com/?q='+this.nowdata.address;
-            window.open(href, '_system');
+            var launcherinfo = {
+                type: 'amap'
+                ,dist: [this.nowdata.lat, this.nowdata.lng]
+            };
+            window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
+            //var href='http://maps.apple.com/?q='+this.nowdata.address;
+            //window.open(href, '_system');
         }
 
         ,c_daohang_baidu_app:function() {
@@ -283,27 +288,33 @@ function ui_parkinfo(){
         }
         ,r_init:function(){
             var me = this;
-            if(utils.browser.versions.ios){
-                me.dom.btios.show();
-            }
+            //if(utils.browser.versions.ios){
+            //    me.dom.btios.show();
+            //}
 
-            me.dom.btdaohang.click(function(){
-
+            me.dom.btdaohang.aclick(function(){
                 window.TongjiObj.parkinfo('click', 'navi');
 
-                if(window.Myweixinobj && window.Myweixinobj.isready){
-//                    alert([parseFloat(me.nowdata.lat),parseFloat(me.nowdata.lng)]);
-                    wx.openLocation({
-                        latitude: parseFloat(me.nowdata.lat),
-                        longitude:parseFloat(me.nowdata.lng),
-                        name: me.nowdata.n,
-                        address: me.nowdata.a,
-                        scale: 16,
-                        infoUrl: ''
-                    });
-                }else{
-                    me.dom.daohanglist.addClass('mui-active');
-                    me.dom.daohanglist_bg.show();
+                if (sysmanager.isapp) {
+                    if (utils.browser.versions.ios) {
+                        me.c_daohang_ios_official();
+                    } else {
+                        me.dom.daohanglist.show();
+                        me.dom.daohanglist_bg.show();
+                    }
+                } else {
+                    if (window.Myweixinobj && window.Myweixinobj.isready) {
+                        wx.openLocation({
+                            latitude: parseFloat(me.nowdata.lat),
+                            longitude: parseFloat(me.nowdata.lng),
+                            name: me.nowdata.n,
+                            address: me.nowdata.a,
+                            scale: 16,
+                            infoUrl: ''
+                        });
+                    } else {
+                        alert('页面载入中…');
+                    }
                 }
             });
             me.dom.btlocal.aclick(function(){
@@ -338,10 +349,9 @@ function ui_parkinfo(){
             me.dom.close_map_list.aclick(function(){
                 me.c_danghang_close();
             });
+
             me.dom.reserve.aclick(function(){
-
                 window.TongjiObj.parkinfo('click', 'order');
-
                 sysmanager.loadpage('views/', 'orderpay', null, '预订：'+me.nowdata.n,function(v){
                     v.obj.setdata(me.nowdata,me.extinfo);
                 });
@@ -349,7 +359,7 @@ function ui_parkinfo(){
             
         }
         ,c_danghang_close:function(){
-            this.dom.daohanglist.removeClass('mui-active');
+            this.dom.daohanglist.hide();
             this.dom.daohanglist_bg.hide();
         }
         ,close:function(){

@@ -105,15 +105,15 @@
     function initmenu(){
         tabcontaion.html(
                 '<div class="mui-tab-item" href="map" name="iframe1">'
-                +'<span class="mui-icon mui-icon-map"></span>'
+                +'<span class="mui-icon duduche icon-location"></span>'
                 +'<span class="mui-tab-label">附近</span>'
                 +'</div>'
                 +'<div class="mui-tab-item" href="discover" name="iframe2">'
-                +'<span class="mui-icon mui-icon-navigate"></span>'
+                +'<span class="mui-icon duduche icon-coin"></span>'
                 +'<span class="mui-tab-label">省钱</span>'
                 +'</div>'
                 +'<div class="mui-tab-item" href="userinfo" name="iframe3">'
-                +'<span class="mui-icon mui-icon-contact"></span>'
+                +'<span class="mui-icon duduche icon-user"></span>'
                 +'<span class="mui-tab-label">我的</span>'
                 +'</div>'
         )

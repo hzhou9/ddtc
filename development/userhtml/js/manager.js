@@ -553,6 +553,6 @@ window.sysmanager = {
            return obj;
         })()
         ,getMapimage:function(lng,lat,zoom,width,height){
-        return 'http://restapi.amap.com/v3/staticmap?location='+lng+','+lat+'&zoom='+zoom+'&size='+width+'*'+height+'&markers=mid,,停:'+lng+','+lat+'&key=b223c8ce027b44c518817337b4308ac8';
+        return 'http://restapi.amap.com/v3/staticmap?location='+lng+','+lat+'&scale=2&zoom='+zoom+'&size='+width+'*'+height+'&markers=mid,,停:'+lng+','+lat+'&key=b223c8ce027b44c518817337b4308ac8';
         }
    }
