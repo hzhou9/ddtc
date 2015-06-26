@@ -26,6 +26,7 @@ function ui_orderpay(){
             ,qurow_1:'.template [name=row-1]'
             ,qurow_0:'.template [name=row-0]'
             ,my_invisible_radio:'#my_invisible_radio'
+            ,pay_method:'[name=pay_method]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -218,7 +219,10 @@ function ui_orderpay(){
                                                    }else{
                                                    me.dom.coupon_panel.addClass('mui-active');
                                                    }
+                                                   me.iscroll.refresh();
             });
+            
+            setTimeout(function(){me.dom.pay_method.show();me.iscroll.refresh();});
         }
         ,setdata:function(data,ext){
             this.nowdata =  data;
