@@ -1,6 +1,7 @@
  (function($){
   var errortxt = '您的网络好像不给力哦～<br>如果内容一直无法加载，您可以点击屏幕重新尝试';
   var baseurl = 'http://static.duduche.me/redirect/user/indexhtml.php?isapp=1&m={0}&time={1}';
+  var MOUSE_CLICK = 'touchstart';//'click';
   
   var tabcontaion = $('.mui-bar-tab');
   
@@ -72,7 +73,6 @@
   
   var iframetop = 0;
   var iframeheight = window.idata.curfame.height();
-  var MOUSE_CLICK = 'click';//'touchend';
   tabsarr.bind(MOUSE_CLICK,function(){
                var tab = $(this);
                var href = tab.attr('href');
