@@ -471,7 +471,7 @@ form[name="form1"].mui-input-group .mui-input-row {background:none;}
 .pailist>li.edit>.table{display: block;}
 .pailist>li>span{position: relative; top: 6px; display: inline-block; width: 28px; height: 26px; -webkit-appearance: none; background-color: transparent; border: solid 1px #16a7de; border-radius: 50%;}
 .pailist>li.mui-active>span{background-color: #16a7de;}
-.table input,.mui-table-view-cell input {height:34px; line-height:34px; margin:0;}
+.table input,.mui-table-view-cell input {height:34px;margin:0;padding:0 15px;}
 .table input {width:58%;}
 .mui-table-view-cell input[name="input_add"] {width:78%; margin:0;}
 .pailist b {color:#666;}
