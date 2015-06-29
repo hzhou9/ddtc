@@ -174,14 +174,15 @@ function ui_map(){
 
             function onmapload(mapobj){
                 var center = mapobj.getCenter();
-                homecontrol.setPosition(center,mapObj, true);
-                console.log(center);                /**
+                homecontrol.setPosition(center, mapObj, true);
+                console.log(center);
+                /**
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
                  */
                 if(placedata){
                     mapObj.setCenter(placedata);
                     setTimeout(function(){
-                        homecontrol.setPosition(placedata,mapObj, true);
+                        homecontrol.setPosition(placedata, mapObj, true);
                         fn && fn(placedata);
                     });
                 }else{
@@ -199,7 +200,7 @@ function ui_map(){
                     mapObj.plugin('AMap.Geolocation', function () {
                         var geolocation = new AMap.Geolocation({
                             enableHighAccuracy: true,//是否使用高精度定位，默认:true
-                            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                            timeout: 5000,          //超过10秒后停止定位，默认：无穷大
                             maximumAge: 60000,           //定位结果缓存0毫秒，默认：0
                             convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
                             showButton: false,        //显示定位按钮，默认：true
@@ -212,13 +213,29 @@ function ui_map(){
                         });
                         mapObj.addControl(geolocation);
                         AMap.event.addListener(geolocation, 'complete', function(arg){
-                            //console.log('定位成功', arg);
-                            homecontrol.setPosition(arg.position,mapObj, true);
-                            me.userpos = arg.position;
-                            if(!callbacking){
-                                fn && fn(arg.position);
-                            }else{
-                                callbacking = true;
+                            if (arg.accuracy != null) {
+                                console.log('定位成功:' + JSON.stringify(arg));
+                                homecontrol.setPosition(arg.position, mapObj, true);
+                                me.userpos = arg.position;
+                                if (!callbacking) {
+                                    fn && fn(arg.position);
+                                } else {
+                                    callbacking = true;
+                                }
+                            } else {
+                                setTimeout(function() {
+                                    window._map_location_callback = function(pos) {
+                                        // set location
+                                        var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
+                                        mapObj.setCenter(locposition);
+                                        homecontrol.setPosition(locposition, mapObj, true);
+                                        me.userpos = locposition;
+                                        fn && fn(locposition);
+                                        // reset handler
+                                        window._map_location_callback = null;
+                                    };
+                                    window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
+                                });
                             }
                         });//返回定位信息
                         AMap.event.addListener(geolocation, 'error', function(){
@@ -230,6 +247,7 @@ function ui_map(){
                     });
 
                 }
+
                 /*mapObj.gotoHome = function(){
                     this.panTo(homecontrol.position);
                 }*/
