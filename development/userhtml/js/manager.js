@@ -393,7 +393,7 @@ window.sysmanager = {
                         me.c_reg();
                     });
                     this.dom.btclose.aclick(function(){
-                        me.c_quit(false);
+                        me.c_quit(true);
                     });
                 }
                 ,close:function(){

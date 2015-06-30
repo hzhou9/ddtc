@@ -20,9 +20,13 @@
                 sysmanager.alert(result.data);
                 return false;
             case 100:   //没有登录
-                sysmanager.loginUI(function(){
+ sysmanager.loginUI(function(isclickquit){
+                    if(isclickquit){
+                    sysmanager.pagecontainerManager.onback();
+                    }else{
                     myajax.userget(model,control,data, success, error, myprocess);
-                },'本功能需要登录后才可以使用');
+                    }
+                    },'本功能需要登录后才可以使用',true);
                 return false;
         }
     }
