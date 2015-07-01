@@ -77,10 +77,11 @@ function ui_coupon(){
                     break;
             }
             var now = new Date();
+            var nowstr = now.Format("yyyy-MM-dd hh:mm:ss");
             if(parseInt(data.u) > 0){//已使用
                 row.addClass('copuon-expired');
                 row.find('.mui-badge').html('已使用');
-            }else if(new Date(data.e)<now){//已过期
+            }else if(data.e<nowstr){//已过期
                 row.addClass('copuon-expired');
                 row.find('.mui-badge').html('已过期');
             }else{
