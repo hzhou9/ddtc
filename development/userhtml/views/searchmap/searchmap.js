@@ -366,14 +366,35 @@ function ui_searchmap(){
             
             //this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.btetst.click(function(){
+                var addr = me.dom.input.val();
+                if(addr != ''){
+                var MGeocoder;
+                //加载地理编码插件
+                AMap.service(["AMap.Geocoder"], function() {
+                    MGeocoder = new AMap.Geocoder({
+                        city:'021' //城市，默认：“全国”
+                        //,radius:1000 //范围，默认：500
+                    });
+                    //返回地理编码结果
+                    MGeocoder.getLocation(addr, function(status, result){
+                        if(status === 'complete' && result.info === 'OK' && result.geocodes.length > 0){
+                            //for(var i = 0;i<result.geocodes.length;i++){
+                            //}
+                            var data = result.geocodes[0];
+                            me.c_save_history(data.location,data.formattedAddress);
+                            me.c_select(data.location,data.formattedAddress);
+                                          
+                        }else{
+                            sysmanager.alert('您可以输入附近地标信息试试~','未找到相关信息');
+                        }
+                    });
+                });
+                }
                 me.dom.input.blur();
-                var c = me.context.parent().parent();
-                //me.close();
-                sysmanager.pagecontainerManager.hide(c);
 
             });
             this.dom.input.blur(function(){
-                //setTimeout(function(){me.dom.hintlist.empty().unbind();},1000);
+                setTimeout(function(){me.dom.hintlist.empty().unbind();},1000);
             });
             sysmanager.loadMapscript.load(function(){
                 me.r_init_input();
