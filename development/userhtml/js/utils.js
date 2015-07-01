@@ -159,6 +159,15 @@
     $.fn.endclick = function(func){
         $(this).bind('touchend', func);
     }
+    window.fclicktime = new Date().getTime();
+    $.fn.fclick = function(func){
+        return $(this).bind('click', function(e) {
+            if (new Date().getTime() - window.fclicktime > 400) {
+                func(e);
+            }
+            window.fclicktime = new Date().getTime();
+        });
+    }
     $.fn.touchSlider =(function(){
                     var touchSlider = {
 

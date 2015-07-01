@@ -261,12 +261,12 @@ function ui_freelist(){
             this.dom.tags_item_8.click(function(){
                                        me.dom.tags_item_8.toggleClass('tags-active');
                                        });
-            this.dom.bttag.click(function(){
+            this.dom.bttag.fclick(function(){
                                  //me.dom.bttag.toggleClass("mui-navigate-down");me.dom.bttag.toggleClass("mui-navigate-up");
                                     me.dom.paneltag.toggle();
                                     me.dom.panelarea.hide();
                                  });
-            this.dom.btarea.click(function(){
+            this.dom.btarea.fclick(function(){
                                 //me.dom.btarea.toggleClass("mui-navigate-down");me.dom.btarea.toggleClass("mui-navigate-up");
                                     me.dom.panelarea.toggle();
                                     me.dom.paneltag.hide();
