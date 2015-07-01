@@ -394,6 +394,8 @@
             } else if (data.t == 'setlocation') {//提交pushid
                 if (typeof(window._map_location_callback) != null) {
                     window._map_location_callback(data.d);
+                } else {
+                    window.TongjiObj.map('geolocation', 'nocallback');
                 }
             } else if (data.t == 'msgdata') {//消息
                 var msg = data.d;//json消息对象

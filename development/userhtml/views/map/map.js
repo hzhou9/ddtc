@@ -186,6 +186,20 @@ function ui_map(){
                         fn && fn(placedata);
                     });
                 }else{
+                    setTimeout(function() {
+                        window._map_location_callback = function(pos) {
+                            // set location
+                            var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
+                            mapObj.setCenter(locposition);
+                            homecontrol.setPosition(locposition, mapObj, true);
+                            me.userpos = locposition;
+                            fn && fn(locposition);
+                            // reset handler
+                            window._map_location_callback = null;
+                        };
+                        window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
+                    });
+
                     /**
                     AMap.event.addListener(maptool,'location',function callback(e){
                         var locposition = e.lnglat;
@@ -196,6 +210,7 @@ function ui_map(){
                      */
 
                     /***/
+
                     var callbacking = false;
                     mapObj.plugin('AMap.Geolocation', function () {
                         var geolocation = new AMap.Geolocation({
@@ -212,8 +227,11 @@ function ui_map(){
                             zoomToAccuracy:false      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
                         });
                         mapObj.addControl(geolocation);
+
+                        window.TongjiObj.map('geolocation', 'start');
                         AMap.event.addListener(geolocation, 'complete', function(arg){
                             if (arg.accuracy != null) {
+                                window.TongjiObj.map('geolocation', 'browser', arg.accuracy);
                                 console.log('定位成功:' + JSON.stringify(arg));
                                 homecontrol.setPosition(arg.position, mapObj, true);
                                 me.userpos = arg.position;
@@ -223,8 +241,10 @@ function ui_map(){
                                     callbacking = true;
                                 }
                             } else {
+                                window.TongjiObj.map('geolocation', 'timeout');
                                 setTimeout(function() {
                                     window._map_location_callback = function(pos) {
+                                        window.TongjiObj.map('geolocation', 'native');
                                         // set location
                                         var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
                                         mapObj.setCenter(locposition);
