@@ -241,8 +241,11 @@ window.sysmanager = {
         var type = utils.tools.getUrlParam('type') || '1';
 
         if('1' == type){      //非openid模式
-            //window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
-            window.myajax.get('Public','login',{'phone':phone,'env':navigator.userAgent},function(result){
+            var params = {'phone':phone,'env':navigator.userAgent};
+            if(carid){
+                params['carid'] = carid;
+            }
+            window.myajax.get('Public','login',params,function(result){
                 if(0 == result.code){
                     var userinfo = {
                         uid:result.data.uid
@@ -264,8 +267,11 @@ window.sysmanager = {
             });
         }else{
             var openid = utils.tools.getUrlParam('openid');
-            //window.myajax.get('Public','wxlogin',{openid:openid,'phone':phone,'carid':carid},function(result){
-            window.myajax.get('Public','wxlogin',{openid:openid,'phone':phone},function(result){
+            var params = {openid:openid,'phone':phone};
+            if(carid){
+                params['carid'] = carid;
+            }
+            window.myajax.get('Public','wxlogin',params,function(result){
                 if(0 == result.code){
                     var userinfo = {
                         uid:result.data.uid
