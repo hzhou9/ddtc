@@ -72,7 +72,7 @@ function ui_userinfo(){
                     me.dom.order.hide();
                 }
                 if(me.info.carids.length > 0 && me.qcheck){
-                    setTimeout(function(){me.c_quit();});
+                    setTimeout(function(){me.c_quit();},1000);
                 }
 
                 window.TongjiObj.userinfo('info', 'carid', me.info.carids.length);
