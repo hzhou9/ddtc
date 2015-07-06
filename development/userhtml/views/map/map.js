@@ -9,7 +9,6 @@ function ui_map(){
     var ui = {
         isInit: false
         ,context:null
-        ,ctime:0
         ,dom:{
             scrollarea:'[name=scrollarea]'
             ,list:'.innerlist .park-list'
@@ -174,17 +173,32 @@ function ui_map(){
 
             function onmapload(mapobj){
                 var center = mapobj.getCenter();
-                homecontrol.setPosition(center,mapObj, true);
-                console.log(center);                /**
+                homecontrol.setPosition(center, mapObj, true);
+                console.log(center);
+                /**
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
                  */
                 if(placedata){
                     mapObj.setCenter(placedata);
                     setTimeout(function(){
-                        homecontrol.setPosition(placedata,mapObj, true);
+                        homecontrol.setPosition(placedata, mapObj, true);
                         fn && fn(placedata);
                     });
                 }else{
+                    setTimeout(function() {
+                        window._map_location_callback = function(pos) {
+                            // set location
+                            var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
+                            mapObj.setCenter(locposition);
+                            homecontrol.setPosition(locposition, mapObj, true);
+                            me.userpos = locposition;
+                            fn && fn(locposition);
+                            // reset handler
+                            window._map_location_callback = null;
+                        };
+                        window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
+                    });
+
                     /**
                     AMap.event.addListener(maptool,'location',function callback(e){
                         var locposition = e.lnglat;
@@ -195,11 +209,12 @@ function ui_map(){
                      */
 
                     /***/
+
                     var callbacking = false;
                     mapObj.plugin('AMap.Geolocation', function () {
                         var geolocation = new AMap.Geolocation({
                             enableHighAccuracy: true,//是否使用高精度定位，默认:true
-                            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                            timeout: 5000,          //超过10秒后停止定位，默认：无穷大
                             maximumAge: 60000,           //定位结果缓存0毫秒，默认：0
                             convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
                             showButton: false,        //显示定位按钮，默认：true
@@ -211,14 +226,35 @@ function ui_map(){
                             zoomToAccuracy:false      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
                         });
                         mapObj.addControl(geolocation);
+
+                        window.TongjiObj.map('geolocation', 'start');
                         AMap.event.addListener(geolocation, 'complete', function(arg){
-                            //console.log('定位成功', arg);
-                            homecontrol.setPosition(arg.position,mapObj, true);
-                            me.userpos = arg.position;
-                            if(!callbacking){
-                                fn && fn(arg.position);
-                            }else{
-                                callbacking = true;
+                            if (arg.accuracy != null) {
+                                window.TongjiObj.map('geolocation', 'browser', arg.accuracy);
+                                console.log('定位成功:' + JSON.stringify(arg));
+                                homecontrol.setPosition(arg.position, mapObj, true);
+                                me.userpos = arg.position;
+                                if (!callbacking) {
+                                    fn && fn(arg.position);
+                                } else {
+                                    callbacking = true;
+                                }
+                            } else {
+                                window.TongjiObj.map('geolocation', 'timeout');
+                                setTimeout(function() {
+                                    window._map_location_callback = function(pos) {
+                                        window.TongjiObj.map('geolocation', 'native');
+                                        // set location
+                                        var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
+                                        mapObj.setCenter(locposition);
+                                        homecontrol.setPosition(locposition, mapObj, true);
+                                        me.userpos = locposition;
+                                        fn && fn(locposition);
+                                        // reset handler
+                                        window._map_location_callback = null;
+                                    };
+                                    window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
+                                });
                             }
                         });//返回定位信息
                         AMap.event.addListener(geolocation, 'error', function(){
@@ -230,6 +266,7 @@ function ui_map(){
                     });
 
                 }
+
                 /*mapObj.gotoHome = function(){
                     this.panTo(homecontrol.position);
                 }*/
@@ -270,28 +307,21 @@ function ui_map(){
                 if(intro){
                     row0.find('.park-free-intro').html(intro);
                 }
-                row0.find('[name=head]').click(function(){
-                    if (new Date().getTime() - me.ctime > 500) {
-                        freelist.toggle();
-                    }
-                    me.ctime = new Date().getTime();
+                row0.find('[name=head]').fclick(function(){
+                    freelist.toggle();
                 });
                 this.dom.list.append(row0);
             }else if(datas.a && datas.a.distance < 5000){ //最近的免费停车场
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);
                 row1.find('p').html(datas.a.n);
-                row1.find('[name=head]').click(function(){
-                    if (new Date().getTime() - me.ctime > 500) {
-                        sysmanager.loadpage('views/', 'freelist', null, me.placename + '附近免费停车点', function (v) {
-                            if (me.center) {
-                                v.obj.setdata(me.center.lng, me.center.lat);
-                            }
-                        });
-                        window.TongjiObj.map('click', 'free_list');
-                    }
-
-                    me.ctime = new Date().getTime();
+                row1.find('[name=head]').fclick(function(){
+                    sysmanager.loadpage('views/', 'freelist', null, me.placename + '附近免费停车点', function (v) {
+                        if (me.center) {
+                            v.obj.setdata(me.center.lng, me.center.lat);
+                        }
+                    });
+                    window.TongjiObj.map('click', 'free_list');
                 });
                 this.dom.list.append(row1);
             }
@@ -476,7 +506,7 @@ function ui_map(){
             }
             }
 
-            row.click(function(){
+            row.fclick(function(){
                 //data.marker.setAnimation('AMAP_ANIMATION_DROP');
                 //me.mapObj.panTo(data.point);
                 me.c_setActiveRow(row, data);
@@ -517,8 +547,7 @@ function ui_map(){
             row.find('[name=desc]').html(data[1]);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            row.click(function(){
-                    if (new Date().getTime() - me.ctime > 500) {
+            row.fclick(function(){
                         if (expandbt.hasClass('mui-icon-arrowup')) {
                             expandbt.removeClass('mui-icon-arrowup');
                             expandbt.addClass('mui-icon-arrowdown');
@@ -530,8 +559,6 @@ function ui_map(){
                         }
                         blocklist.toggle();
                         me.iscroll.refresh();
-                    }
-                me.ctime = new Date().getTime();
                       });
             for(var j=0;j<data[2].length;j++){
                 var sub = data[2][j];

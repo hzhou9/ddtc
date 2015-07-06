@@ -9,7 +9,6 @@ function ui_discover(){
     var ui = {
         isInit: false
         ,context:null
-        ,ctime:0
         ,dom:{
         btetst:'[name=test]'
             ,form1:'[name=form1]'
@@ -284,8 +283,7 @@ function ui_discover(){
             row.find('[name=desc]').html(data.desc);
             var expandbt = row.find('.mui-icon');
             var blocklist = row.find('[name=areablocks]');
-            row.bind('click', function(e){
-                if (new Date().getTime() - me.ctime > 500) {
+            row.fclick(function(e){
                     if (expandbt.hasClass('mui-icon-arrowup')) {
                         expandbt.removeClass('mui-icon-arrowup');
                         expandbt.addClass('mui-icon-arrowdown');
@@ -305,9 +303,6 @@ function ui_discover(){
                         me.iscroll.refresh();
                         //me.iscroll.scrollTo(0,gap2max+me.iscroll.maxScrollY);
                     });
-                }
-
-                me.ctime = new Date().getTime();
 
                       });
             for(var i=0;i<data.sub.length;i++){
