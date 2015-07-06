@@ -313,7 +313,9 @@ function ui_parkinfo(){
                             infoUrl: ''
                         });
                     } else {
-                        alert('页面载入中…');
+                        sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
+                            v.obj.settarget(me.nowdata);
+                        });
                     }
                 }
             });
