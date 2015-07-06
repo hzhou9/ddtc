@@ -185,19 +185,19 @@ function ui_map(){
                         fn && fn(placedata);
                     });
                 }else{
-                    setTimeout(function() {
-                        window._map_location_callback = function(pos) {
-                            // set location
-                            var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
-                            mapObj.setCenter(locposition);
-                            homecontrol.setPosition(locposition, mapObj, true);
-                            me.userpos = locposition;
-                            fn && fn(locposition);
-                            // reset handler
-                            window._map_location_callback = null;
-                        };
-                        window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
-                    });
+                    //setTimeout(function() {
+                    //    window._map_location_callback = function(pos) {
+                    //        // set location
+                    //        var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
+                    //        mapObj.setCenter(locposition);
+                    //        homecontrol.setPosition(locposition, mapObj, true);
+                    //        me.userpos = locposition;
+                    //        fn && fn(locposition);
+                    //        // reset handler
+                    //        window._map_location_callback = null;
+                    //    };
+                    //    window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
+                    //});
 
                     /**
                     AMap.event.addListener(maptool,'location',function callback(e){
