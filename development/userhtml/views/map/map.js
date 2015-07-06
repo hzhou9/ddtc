@@ -229,20 +229,41 @@ function ui_map(){
 
                         window.TongjiObj.map('geolocation', 'start');
                         AMap.event.addListener(geolocation, 'complete', function(arg){
-                            if (arg.accuracy != null) {
-                                window.TongjiObj.map('geolocation', 'browser', arg.accuracy);
-                                console.log('定位成功:' + JSON.stringify(arg));
-                                homecontrol.setPosition(arg.position, mapObj, true);
-                                me.userpos = arg.position;
-                                if (!callbacking) {
-                                    fn && fn(arg.position);
-                                } else {
-                                    callbacking = true;
-                                }
+                            window.TongjiObj.map('geolocation', 'browser', arg.accuracy);
+                            console.log('定位成功:' + JSON.stringify(arg));
+                            homecontrol.setPosition(arg.position, mapObj, true);
+                            me.userpos = arg.position;
+                            if (!callbacking) {
+                                fn && fn(arg.position);
                             } else {
+                                callbacking = true;
+                            }
+
+                            if (arg.accuracy == null) { // 高德使用IP定位精度返回为null
                                 window.TongjiObj.map('geolocation', 'timeout');
                                 setTimeout(function() {
                                     window._map_location_callback = function(pos) {
+                                        if (null != pos) {
+                                            window.TongjiObj.map('geolocation', 'native');
+                                            // set location
+                                            var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
+                                            mapObj.setCenter(locposition);
+                                            homecontrol.setPosition(locposition, mapObj, true);
+                                            me.userpos = locposition;
+                                            fn && fn(locposition);
+                                            // reset handler
+                                            window._map_location_callback = null;
+                                        }
+                                    };
+                                    window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
+                                });
+                            }
+                        });//返回定位信息
+                        AMap.event.addListener(geolocation, 'error', function(){
+                            window.TongjiObj.map('geolocation', 'error');
+                            setTimeout(function() {
+                                window._map_location_callback = function(pos) {
+                                    if (null != pos) {
                                         window.TongjiObj.map('geolocation', 'native');
                                         // set location
                                         var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
@@ -252,14 +273,12 @@ function ui_map(){
                                         fn && fn(locposition);
                                         // reset handler
                                         window._map_location_callback = null;
-                                    };
-                                    window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
-                                });
-                            }
-                        });//返回定位信息
-                        AMap.event.addListener(geolocation, 'error', function(){
+                                    }
+                                };
+                                window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
+                            });
                             //返回定位出错信息
-                            alert('当前环境不支持获取定位,请在设置中允许使用[位置定位服务]');
+                            //alert('当前环境不支持获取定位,请在设置中允许使用[位置定位服务]');
                         });
                         geolocation.getCurrentPosition();
 

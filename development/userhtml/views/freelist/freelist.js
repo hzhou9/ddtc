@@ -143,29 +143,32 @@ function ui_freelist(){
                                                                          });
                                   mapObj.addControl(geolocation);
                                   AMap.event.addListener(geolocation, 'complete', function(arg) {
-                                      if (arg.accuracy != null) {
-                                          console.log('定位成功:' + JSON.stringify(arg));
-                                          homecontrol.setPosition(arg.position, mapObj, true);
-                                          if (!callbacking && (!me.geopos || Math.abs(me.geopos.lng - arg.position.lng) > 0.001 || Math.abs(me.geopos.lat - arg.position.lat) > 0.001)) {
-                                              fn && fn(arg.position);
-                                              callbacking = true;
-                                          }
-                                      } else {
+                                      console.log('定位成功:' + JSON.stringify(arg));
+                                      homecontrol.setPosition(arg.position, mapObj, true);
+                                      if (!callbacking && (!me.geopos || Math.abs(me.geopos.lng - arg.position.lng) > 0.001 || Math.abs(me.geopos.lat - arg.position.lat) > 0.001)) {
+                                          fn && fn(arg.position);
+                                          callbacking = true;
+                                      }
+
+                                      if (arg.accuracy == null) {
                                           setTimeout(function () {
                                               window._map_location_callback = function (pos) {
-                                                  // set location
-                                                  var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
-                                                  homecontrol.setPosition(locposition, mapObj, true);
-                                                  mapObj.setCenter(locposition);
-                                                  if ((!me.geopos || Math.abs(me.geopos.lng - pos.position.lng) > 0.001 || Math.abs(me.geopos.lat - pos.position.lat) > 0.001)) {
-                                                      fn && fn(locposition);
+                                                  if (null != pos) {
+                                                      // set location
+                                                      var locposition = new AMap.LngLat(pos.position.lng, pos.position.lat);
+                                                      homecontrol.setPosition(locposition, mapObj, true);
+                                                      mapObj.setCenter(locposition);
+                                                      if ((!me.geopos || Math.abs(me.geopos.lng - pos.position.lng) > 0.001 || Math.abs(me.geopos.lat - pos.position.lat) > 0.001)) {
+                                                          fn && fn(locposition);
+                                                      }
+                                                      // reset handler
+                                                      window._map_location_callback = null;
                                                   }
-                                                  // reset handler
-                                                  window._map_location_callback = null;
                                               };
                                               window.parent.postMessage(JSON.stringify({t: 'setlocation'}), '*');
                                           });
                                       }
+
                                   });//返回定位信息
                                   AMap.event.addListener(geolocation, 'error', function(){
                                                          //返回定位出错信息
