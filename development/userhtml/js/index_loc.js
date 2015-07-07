@@ -78,6 +78,7 @@
         var href = tab.attr('href');
         var target = tab.attr('name');
         window.idata.loadframe(target, href, false);
+        setCookie('defaulttab', target);
     });
 
     function init() {
@@ -99,9 +100,13 @@
         $('#startpage').height(iframeheight);
         window.idata.curfame.show();
         setTimeout(function () {
-            $(tabsarr[0]).trigger(MOUSE_CLICK);
+            var defaulttab = getCookie('defaulttab');
+            if (null !== defaulttab && tabcontaion.find('[name=' + defaulttab + ']').size() > 0) {
+                tabcontaion.find('[name=' + defaulttab + ']').trigger(MOUSE_CLICK);
+            } else {
+                $(tabsarr[1]).trigger(MOUSE_CLICK);
+            }
         });
-
     }
 
     function initmenu() {
@@ -130,6 +135,26 @@
             var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
             return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
         } else {
+            return false;
+        }
+    }
+
+    function setCookie(name, value) {
+        try {
+            window.localStorage.setItem(name, value);
+            console.log('setCookie [' + name + ']:' + value);
+        } catch(e) {
+            return false;
+        }
+
+    }
+
+    function getCookie(name) {
+        try {
+            var value = window.localStorage.getItem(name);
+            console.log('getCookie [' + name + ']:' + value);
+            return value;
+        } catch(e) {
             return false;
         }
     }
