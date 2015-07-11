@@ -203,6 +203,14 @@
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'setpushid', d: app.pushid}));
             }
+        } else if (evt.t == 'windowopen') {
+            var win = window.open(evt.d, '_blank', 'location=no');
+            win.addEventListener('loadstop', function(e) {
+                if (e.url.match("close")) {
+                    win.close();
+                    sendToIframe(JSON.stringify({t: 'windowclose', d: e.url}));
+                }
+            });
         } else if (evt.t == 'setlocation') {
             var noop = function () {};
             if ((/android/i).test(navigator.userAgent)) {

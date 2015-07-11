@@ -18,6 +18,7 @@ function ui_discover(){
             ,num_park_free:'[name=num_park_free]'
             ,park_list:'[name=park_list]'
             ,free_list:'[name=free_list]'
+            ,cinema_list:'#e_cinema'
             ,coop:'[name=coop]'
             ,hintlist:'[name=hint]'
             ,list:'[name=coop] .innerlist'
@@ -392,6 +393,22 @@ function ui_discover(){
                 window.TongjiObj.discover('click', 'free_list');
 
                 sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){});
+            });
+
+            this.dom.cinema_list.click(function() {
+                window._map_windowclose_callback = function(url) {
+                    alert(1);alert(url);
+                    var lng = url.match(/lng=(\d+(\.\d+)*)/)[1];
+                    var lat = url.match(/lat=(\d+(\.\d+)*)/)[1];
+                    var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
+
+                    var location = new AMap.LngLat(lng, lat);
+                    me.c_select(location, txt);
+                }
+                window.parent.postMessage(JSON.stringify({
+                    t: 'windowopen'
+                    , d: 'http://t.duduche.me/html/userhtml/events/cinema/'
+                    }), '*');
             });
         }
         ,c_select:function(position,name){

@@ -202,6 +202,7 @@
 <script src="./views/orderpay/orderpay.js" __del__></script>
 <script src="./views/discover/discover.js" __del__></script>
 <script src="./views/freelist/freelist.js" __del__></script>
+<script src="./views/evtcinema/evtcinema.js" __del__></script>
 
 <script __scrolljs__></script>
 <script __alljs__></script>
@@ -382,7 +383,9 @@
             } else if (data.t == 'setpushid') {//提交pushid
                 window.pushid = data.d;
                 window.myajax.userget('index', 'setPushid', {pushid: data.d}, function (result) {}, null, false);
-            } else if (data.t == 'setlocation') {//提交pushid
+            } else if (data.t == 'windowclose') {//windowclose
+                window._map_windowclose_callback(data.d);
+            } else if (data.t == 'setlocation') {
                 if (typeof(window._map_location_callback) != null) {
                     window._map_location_callback(data.d);
                 } else {
