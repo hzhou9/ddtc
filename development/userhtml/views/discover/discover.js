@@ -397,12 +397,9 @@ function ui_discover(){
 
             this.dom.cinema_list.click(function() {
                 window._map_windowclose_callback = function(url) {
-                    alert(1);alert(url);
-                    var lng = url.match(/lng=(\d+(\.\d+)*)/)[1];
-                    var lat = url.match(/lat=(\d+(\.\d+)*)/)[1];
+                    var pos = url.match(/pos=([^&]+)/)[1].split(',');
                     var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
-
-                    var location = new AMap.LngLat(lng, lat);
+                    var location = new AMap.LngLat(pos[0], pos[1]);
                     me.c_select(location, txt);
                 }
                 window.parent.postMessage(JSON.stringify({
