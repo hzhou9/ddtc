@@ -143,7 +143,7 @@
         try {
             window.localStorage.setItem(name, value);
             console.log('setCookie [' + name + ']:' + value);
-        } catch(e) {
+        } catch (e) {
             return false;
         }
 
@@ -154,7 +154,7 @@
             var value = window.localStorage.getItem(name);
             console.log('getCookie [' + name + ']:' + value);
             return value;
-        } catch(e) {
+        } catch (e) {
             return false;
         }
     }
@@ -204,8 +204,17 @@
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'setpushid', d: app.pushid}));
             }
+        } else if (evt.t == 'windowopen') {
+            var win = window.open(evt.d, '_blank', 'location=no');
+            win.addEventListener('loadstop', function (e) {
+                if (e.url.match("close")) {
+                    win.close();
+                    sendToIframe(JSON.stringify({t: 'windowclose', d: e.url}));
+                }
+            });
         } else if (evt.t == 'setlocation') {
-            var noop = function () {};
+            var noop = function () {
+            };
             if ((/android/i).test(navigator.userAgent)) {
                 window.locationService.getCurrentPosition(function (pos) {
                     sendToIframe(JSON.stringify({t: 'setlocation', d: pos}));

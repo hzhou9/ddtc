@@ -122,7 +122,7 @@
             + '<span class="mui-icon duduche icon-user"></span>'
             + '<span class="mui-tab-label">我的</span>'
             + '</div>'
-        )
+        );
 
         return $('.mui-bar-tab>*');
 
@@ -142,7 +142,7 @@
         try {
             window.localStorage.setItem(name, value);
             console.log('setCookie [' + name + ']:' + value);
-        } catch(e) {
+        } catch (e) {
             return false;
         }
 
@@ -153,7 +153,7 @@
             var value = window.localStorage.getItem(name);
             console.log('getCookie [' + name + ']:' + value);
             return value;
-        } catch(e) {
+        } catch (e) {
             return false;
         }
     }
@@ -205,14 +205,15 @@
             }
         } else if (evt.t == 'windowopen') {
             var win = window.open(evt.d, '_blank', 'location=no');
-            win.addEventListener('loadstop', function(e) {
+            win.addEventListener('loadstop', function (e) {
                 if (e.url.match("close")) {
                     win.close();
                     sendToIframe(JSON.stringify({t: 'windowclose', d: e.url}));
                 }
             });
         } else if (evt.t == 'setlocation') {
-            var noop = function () {};
+            var noop = function () {
+            };
             if ((/android/i).test(navigator.userAgent)) {
                 window.locationService.getCurrentPosition(function (pos) {
                     sendToIframe(JSON.stringify({t: 'setlocation', d: pos}));
