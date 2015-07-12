@@ -43,6 +43,9 @@ function ui_discover(){
         }
         ,c_init:function(){
             this.get_discover();
+            if (sysmanager.isapp) {
+                this.dom.cinema_list.show();
+            }
             //var me = this;
             //setInterval(function(){me.get_discover();}, 3600000);//每小时刷新数据一次
         }
