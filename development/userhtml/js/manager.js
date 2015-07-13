@@ -291,6 +291,7 @@ window.sysmanager = {
                     userpanel_phone:'[name=userpanel_phone]'
                     ,userpanel_chepai:'[name=userpanel_chepai]'
                     ,btreg:'[name=btreg]'
+                    ,btarea:'[name=btarea]'
                     ,msg:'[name=msg]'
                     ,btclose:'[name=btclose]'
                     ,title1:'h1'
@@ -345,7 +346,7 @@ window.sysmanager = {
                 ,c_reg:function(){
                     var me = this;
                     var phone = this.dom.userpanel_phone.val();
-                    var chepai = this.dom.userpanel_chepai.val();
+                    var chepai = this.dom.btarea.text() + this.dom.userpanel_chepai.val();
                     this.dom.userpanel_phone.blur();
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
@@ -362,7 +363,7 @@ window.sysmanager = {
                 ,c_reg_openid:function(){
                     var me = this;
                     var phone = this.dom.userpanel_phone.val();
-                    var chepai = this.dom.userpanel_chepai.val();
+                    var chepai = this.dom.btarea.text() + this.dom.userpanel_chepai.val();
                     var openid =  utils.tools.getUrlParam('openid');
                     this.dom.userpanel_phone.blur();
                     this.dom.userpanel_chepai.blur();
@@ -394,7 +395,12 @@ window.sysmanager = {
                     var type = utils.tools.getUrlParam('type') || 1;
                     this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
 
-
+                    me.dom.btarea.aclick(function(){
+                        sysmanager.areaKeyboardUI(function(selarea){
+                            me.dom.btarea.text(selarea);
+                            me.dom.userpanel_chepai.focus();
+                        });
+                    });
                     me.dom.btreg.aclick(function(){
                         me.c_reg();
                     });
@@ -425,6 +431,30 @@ window.sysmanager = {
                 }
             });
         }
+    }
+    ,areaKeyboardUI:function(callback){
+        if(!this.areaKeyboardInit){           //初始化
+            var me = this;
+            this.areaKeyboardInit = true;
+            var closeme = function(){
+                $('#keyboard-area-list').hide();
+                setTimeout(function(){$('#keyboard-area-list-bg').hide();});
+            };
+            $('#keyboard-area-list [name=close_keyboard-area-list]').click(closeme);
+            var areas_tag = ['京','沪','浙','苏','粤','鲁','晋','冀','豫','川','渝','辽','吉','黑','皖','鄂','湘','赣','闽','陕','甘','宁','蒙','津','贵','云','桂','琼','青','新','藏'];
+            var arealst = $('#keyboard-area-list [name=provinces-list]');
+            $.each(areas_tag,function(i,v){
+                   var item = $('<li>'+v+'</li>');//<li>京</li>
+                   item.click(function(){
+                        me.areaKeyboardCallback && me.areaKeyboardCallback(v);
+                        closeme();
+                    });
+                   arealst.append(item);
+            });
+        }
+        this.areaKeyboardCallback = callback;
+        $('#keyboard-area-list-bg').show();
+        $('#keyboard-area-list').show();
     }
     ,checkLogin:function(callback){
         var me = this;
