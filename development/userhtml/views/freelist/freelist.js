@@ -232,6 +232,8 @@ function ui_freelist(){
                     me.dom.panelfreelist.show();me.dom.panelfreeadd.hide();
                     me.iscroll_add.disable();me.iscroll.enable();
                     sysmanager.alert('感谢您的参与，我们工作人员会尽快进行审核，通过后我们会联系您，再次感谢！','信息提交成功');
+                    me.dom.txtName.val('');
+                    me.dom.txtDsc.val('');
                 }, null, false);
                 
             });
