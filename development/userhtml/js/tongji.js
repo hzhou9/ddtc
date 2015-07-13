@@ -48,14 +48,14 @@
             push:function(category, action, label, value){
                 var uid = myajax.uid();
                 if(uid && uid <=41) {
-                    console.log('Hello Superman!');
+                    //console.log('Hello Superman!');
                     return;
                 }
 
                 setTimeout(function(){
                     _czc.push(["_trackEvent", category, action, label || 0         ,value || 0 , null]);
 //                    _hmt.push(['_trackEvent', category, action, opt_label || 0, opt_value] || 0);
-                    console.log('_czc.push','_trackEvent', category, action, label, value);
+//                    console.log('_czc.push','_trackEvent', category, action, label, value);
                 });
             }
             ,clickLink:function(action){          //模块链接

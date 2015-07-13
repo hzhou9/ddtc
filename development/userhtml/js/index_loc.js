@@ -9,7 +9,7 @@
 
     // 通过 postMessage 向子窗口发送数据
     window.sendToIframe = function (data) {
-        console.log('window.sendToIframe:' + data);
+        //console.log('window.sendToIframe:' + data);
         window.idata.curfame[0].contentWindow.postMessage(data, "*");
     };
     // 支持出错检测的iframe加载
@@ -142,7 +142,7 @@
     function setCookie(name, value) {
         try {
             window.localStorage.setItem(name, value);
-            console.log('setCookie [' + name + ']:' + value);
+            //console.log('setCookie [' + name + ']:' + value);
         } catch (e) {
             return false;
         }
@@ -152,7 +152,7 @@
     function getCookie(name) {
         try {
             var value = window.localStorage.getItem(name);
-            console.log('getCookie [' + name + ']:' + value);
+            //console.log('getCookie [' + name + ']:' + value);
             return value;
         } catch (e) {
             return false;
@@ -244,14 +244,14 @@
             function () {
             },
             function (error) {
-                console.log(error);
+                //console.log(error);
                 alert("导航启动失败");
             });
     }
 
     //cordova事件
     window.onMsgData = function (data) {
-        console.log("window.onMsgData:" + data);
+        //console.log("window.onMsgData:" + data);
         var obj = JSON.parse(data);
         if (obj.t == 'nav') {
             var target = obj.target;

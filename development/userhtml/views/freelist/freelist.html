@@ -56,6 +56,10 @@
         
         overflow: hidden;
     }
+    #map_html_mapid2 {display: none;}
+    @media (min-height: 500px) {
+        #map_html_mapid2 {display: block;}
+    }
     </style>
     <header class="mui-bar mui-bar-nav" style="position: relative;display:none;">
         <h1 class="mui-title">上海免费停车场大全</h1>
@@ -212,7 +216,8 @@
             </ul>
             </div>
         </form>
-        <a class="mui-btn mui-btn-warning" name="addcancel">取消</a>
-        <a class="mui-btn mui-btn-primary mui-pull-right" name="addok">提交</a>
+        <!--<a class="mui-btn mui-btn-warning" name="addcancel">取消</a>-->
+        <!--<a class="mui-btn mui-btn-primary mui-pull-right" name="addok">提交</a>-->
+        <a class="mui-btn mui-btn-primary mui-btn-block" name="addok">提交</a>
     </div>
 </div>
