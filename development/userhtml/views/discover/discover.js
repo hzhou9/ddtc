@@ -265,7 +265,7 @@ function ui_discover(){
                     var d = window.cfg.defaultpoint[i];
                     var p = {name:d[0],desc:d[1],sub:[]};
                     for(var j=0;j<d[2].length;j++){
-                        p.sub[j] = {name:d[2][j][0],location:new AMap.LngLat(d[2][j][2],d[2][j][1])};
+                        p.sub[j] = {name:d[2][j][0],count:d[2][j][3],location:new AMap.LngLat(d[2][j][2],d[2][j][1])};
                     }
                     this.defaulPointtList.push(p);
                 }
@@ -327,7 +327,7 @@ function ui_discover(){
             var me = this;
             var block = this.dom.areablock.clone();
             if(sub){
-                block.find('.mui-media-body').html(sub.name);
+                block.find('.mui-media-body').html(sub.name + ' <small>(' + sub.count + ')</small>');
                 block.click(function(){
                     me.c_select(sub.location,sub.name);
                     window.TongjiObj.discover('click', 'subplace');
