@@ -13,6 +13,7 @@ function ui_searchmap(){
         ,context:null
         ,dom:{
             btetst:'[name=test]'
+            ,exit:'[name=exit]'
             ,form1:'[name=form1]'
             ,input:'[name=searchinpit]'
             ,list:'[name=coop] .innerlist'
@@ -391,6 +392,11 @@ function ui_searchmap(){
             this.dom.input.blur(function(){
                 setTimeout(function(){me.dom.hintlist.empty().unbind();},1000);
             });
+            this.dom.exit.click(function(){
+                                me.dom.input.blur();
+                                var c = me.context.parent().parent();
+                                sysmanager.pagecontainerManager.hide(c);
+            });
             sysmanager.loadMapscript.load(function(){
                 me.r_init_input();
                 me.c_fill_defaulPointtList();
@@ -415,9 +421,9 @@ function ui_searchmap(){
 
             });
             if(this.showclose){
-                this.dom.btetst.show();
+                this.dom.exit.show();
             }else{
-                this.dom.btetst.hide();
+                this.dom.exit.hide();
             }
         }
         ,close:function(data,name){
