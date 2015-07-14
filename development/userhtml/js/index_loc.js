@@ -200,6 +200,12 @@
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'pushid', d: app.pushid}));
             }
+        } else if (evt.t == 'toggletabbar') {
+            if (evt.d == 'hide') {
+                $('.mui-bar-tab').hide();
+            } else {
+                $('.mui-bar-tab').show();
+            }
         } else if (evt.t == 'setpushid') {
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'setpushid', d: app.pushid}));

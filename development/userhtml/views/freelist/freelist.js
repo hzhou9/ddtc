@@ -329,7 +329,14 @@ function ui_freelist(){
                     }
                 }, me.geopos);
             });
-        }
+
+            var addParkSegmentControl = $('#segmentedControl').find('a'), addParkFormTab = $('.mui-control-content');
+            addParkSegmentControl.click(function() {
+                addParkSegmentControl.removeClass('mui-active');
+                addParkFormTab.removeClass('mui-active');
+                $($(this).addClass('mui-active').data('target')).addClass('mui-active');
+            });
+        } // init
         ,loaddata:function(pg,force){
             var me=this;
             me.params = "";
