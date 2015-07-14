@@ -202,6 +202,7 @@ function ui_freelist(){
             this.dom.btadd.click(function(){
                 me.dom.panelfreelist.hide();
                 me.dom.panelfreeadd.show();
+                window.parent.postMessage(JSON.stringify({t: 'toggletabbar', d: 'hide'}), '*');
                 me.iscroll.disable();
                                  if(me.iscroll_add){
                                  me.iscroll_add.enable();
