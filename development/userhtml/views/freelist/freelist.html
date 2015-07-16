@@ -57,7 +57,7 @@
         overflow: hidden;
     }
     #map_html_mapid2 {display: none;}
-    @media (min-height: 500px) {
+    @media (min-height: 450px) {
         #map_html_mapid2 {display: block;}
     }
     </style>
@@ -200,23 +200,23 @@
             提示：请拖动地图，标记停车点入口准确位置
         </div>
 
-        <form class="mui-input-group list">
+        <form class="mui-input-group list" onsubmit="return false;">
 
             <div class="innerlist">
                 <div name='scrollarea_add'>
 
                 <div class="mui-table-view-cell" style="background:#ffffff">
                     <div id="segmentedControl" class="mui-segmented-control">
-                        <a class="mui-control-item mui-active" data-target="#item1mobile" href="###">
+                        <a class="mui-control-item mui-active" data-target="add_free" href="###">
                             免费
                         </a>
-                        <a class="mui-control-item" data-target="#item2mobile" href="###">
+                        <a class="mui-control-item" data-target="add_normal" href="###">
                             收费
                         </a>
                     </div>
                 </div>
 
-                <ul id="item1mobile" class="mui-control-content mui-active mui-table-view">
+                <ul id="add_free" class="mui-control-content mui-active mui-table-view">
                     <li class="mui-table-view-cell">
                         <input name="txtName" type="text" placeholder="请在这里输入名称">
                     </li>
@@ -229,16 +229,21 @@
                     </li>
                 </ul>
 
-                <ul id="item2mobile" class="mui-control-content mui-table-view">
+                <ul id="add_normal" class="mui-control-content mui-table-view">
                     <li class="mui-table-view-cell">
                         <input name="txtName" type="text" placeholder="请在这里输入名称">
                     </li>
                     <li class="mui-table-view-cell">
                         <textarea name="txtDsc" rows="2" placeholder="请在这里对价格、地址、入口、空忙时间等停车场情况进行描述，越详细对大家帮助越大"></textarea>
                     </li>
-                    <li class="mui-table-view-cell">
+                    <li class="mui-table-view-cell" class="panel-tags">
                         <p style="margin-top:15px;">请选择标签</p>
-                        <span class="tags-item" name="tags_item_1">有时间限制</span><span class="tags-item" name="tags_item_2">门店停车位</span><span class="tags-item" name="tags_item_3">画有停车线</span><span class="tags-item" name="tags_item_4">小道旁</span><span class="tags-item" name="tags_item_5">断头路</span><span class="tags-item" name="tags_item_6">空地</span><span class="tags-item" name="tags_item_7">小区</span><span class="tags-item" name="tags_item_8">老厂房</span>
+                        <span class="tags-item" name="tags_item_ZDZJCR">有闸机</span>
+                        <span class="tags-item" name="tags_item_LDCD">流动车多</span>
+                        <span class="tags-item" name="tags_item_XQ">小区</span>
+                        <span class="tags-item" name="tags_item_LUB">道路</span>
+                        <span class="tags-item" name="tags_item_GWZX">商场</span>
+                        <span class="tags-item" name="tags_item_SYXZL">写字楼</span>
                     </li>
                 </ul>
                 </div>

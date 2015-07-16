@@ -39,12 +39,14 @@ function ui_freelist(){
         ,nowpage:0
         ,max:10
         ,parkdata:[]
+        ,addfreetype:'add_free'
         ,defaults:{
             area_sel:'0'
             ,tag_sel:'0'
         }
         ,areas:['0','xh','ja','hp','cn','mh','pd','pt','hk','zb','yp','bs','lw','sj','jd','qp','js']
         ,tags:['0','1','2','3','4','5','6','7','8','9']
+        ,add_normal_tags_mapping: [['DM','地面'],['DXK','地下库'],['LTCK','立体车库'],['LUB','路侧边'],['XQ','普通小区'],['GDXQ','高档小区'],['GWZX','购物中心'],['DXCS','大型超市'],['FWMD','消费门店'],['SYXZL','商业写字楼'],['JD','酒店'],['YY','医院'],['DWJG','单位机构'],['SYTCC','商业停车场'],['LYJD','景点'],['ZDZJCR','自动闸机进入'],['USERFX','人工放行'],['ZYSF','中央收费'],['BDWKF','不对外开放'],['LDCD','流动车多'],['SH','实惠'],['WYTG','网友提供']]
         ,homecontrol:null
         ,geopos:null
         ,iscroll:null
@@ -191,6 +193,15 @@ function ui_freelist(){
             }
             
         }
+        ,addfree_panel_close:function() {
+            this.dom.panelfreelist.show();
+            this.dom.panelfreeadd.hide();
+            window.parent.postMessage(JSON.stringify({t: 'toggletabbar', d: 'show'}), '*');
+
+            this.iscroll_add.disable();
+            this.iscroll.enable();
+            sysmanager.alert('感谢您的参与，我们工作人员会尽快进行审核，通过后我们会联系您，再次感谢！', '信息提交成功');
+        }
         ,r_init:function(){
             var me = this;
             var model = utils.tools.getUrlParam('m');
@@ -211,36 +222,65 @@ function ui_freelist(){
                                  }
                 window.TongjiObj.freelist('click', 'addpark');
             });
-            this.dom.btaddok.click(function(){
+            this.dom.btaddok.click(function () {
                 window.TongjiObj.freelist('click', 'addparkok');
-                var name = me.dom.txtName.val(); var dsc = me.dom.txtDsc.val();
-                                   if(name == ''){
-                                   sysmanager.alert('请给停车场起一个名称');
-                                   return;
-                                   }else if(dsc == ''){
-                                   sysmanager.alert('请给停车场写一些文字描述');
-                                   return;
-                                   }
-                var note = '|';
-                                   for(var i=1;i<=8;i++){
-                                   if(me.dom.scrollarea_add.find('[name=tags_item_'+i+']').hasClass('tags-active')){
-                                   note += i+'|';
-                                   }
-                                   }
-                var pos = me.mapObj.getCenter();
-                var arr = {'name':name,'lat':pos.lat,'lng':pos.lng,'dsc':dsc,'note':note};
-                window.myajax.userget('index','addfreepark',arr, function(result){
-                    me.dom.panelfreelist.show();
-                    me.dom.panelfreeadd.hide();
-                    window.parent.postMessage(JSON.stringify({t: 'toggletabbar', d: 'show'}), '*');
 
-                    me.iscroll_add.disable();me.iscroll.enable();
-                    sysmanager.alert('感谢您的参与，我们工作人员会尽快进行审核，通过后我们会联系您，再次感谢！','信息提交成功');
-                    me.dom.txtName.val('');
-                    me.dom.txtDsc.val('');
-                }, null, false);
+                console.log(me.addfreetype);
+
+                var $container = me.addfreetype == 'add_normal' ? $('#add_normal') : $('#add_free');
+
+                var $nameField = $container.find('[name="txtName"]');
+                var $dscField = $container.find('[name="txtDsc"]');
+
+                console.log($container, $nameField);
+
+                var name = $nameField.val();
+                var dsc = $dscField.val();
+
+                if (name == '') {
+                    sysmanager.alert('请给停车场起一个名称');
+                    return;
+                } else if (dsc == '') {
+                    sysmanager.alert('请给停车场写一些文字描述');
+                    return;
+                }
+
+                var pos = me.mapObj.getCenter();
+
+                if (me.addfreetype == 'add_normal') {
+                    var note = '|WYTG|';
+                    for (var i = 0; i <= me.add_normal_tags_mapping.length; i++) {
+                        if (me.add_normal_tags_mapping[i]) {
+                            var tagName = me.add_normal_tags_mapping[i][0];
+                            if ($container.find('[name=tags_item_' + tagName + ']').hasClass('tags-active')) {
+                                note += tagName + '|';
+                            }
+                        }
+                    }
+
+                    var arr = {'name': name, 'lat': pos.lat, 'lng': pos.lng, 'dsc': dsc, 'note': note};
+                    window.myajax.userget('index', 'addpaidpark', arr, function (result) {
+                        me.addfree_panel_close();
+                        $nameField.val('');
+                        $dscField.val('');
+                    }, null, false);
+                } else {
+                    var note = '|';
+                    for (var i = 1; i <= 8; i++) {
+                        if ($container.find('[name=tags_item_' + i + ']').hasClass('tags-active')) {
+                            note += i + '|';
+                        }
+                    }
+                    var arr = {'name': name, 'lat': pos.lat, 'lng': pos.lng, 'dsc': dsc, 'note': note};
+                    window.myajax.userget('index', 'addfreepark', arr, function (result) {
+                        me.addfree_panel_close();
+                        $nameField.val('');
+                        $dscField.val('');
+                    }, null, false);
+                }
                 
             });
+
             this.dom.btaddcancel.click(function(){
                 me.dom.panelfreeadd.hide();
                 me.dom.panelfreelist.show();
@@ -248,30 +288,9 @@ function ui_freelist(){
 
                 me.iscroll_add.disable();me.iscroll.enable();
             });
-            this.dom.tags_item_1.click(function(){
-                                       me.dom.tags_item_1.toggleClass('tags-active');
+            $('.tags-item').click(function () {
+                $(this).toggleClass('tags-active');
             });
-            this.dom.tags_item_2.click(function(){
-                                       me.dom.tags_item_2.toggleClass('tags-active');
-                                       });
-            this.dom.tags_item_3.click(function(){
-                                       me.dom.tags_item_3.toggleClass('tags-active');
-                                       });
-            this.dom.tags_item_4.click(function(){
-                                       me.dom.tags_item_4.toggleClass('tags-active');
-                                       });
-            this.dom.tags_item_5.click(function(){
-                                       me.dom.tags_item_5.toggleClass('tags-active');
-                                       });
-            this.dom.tags_item_6.click(function(){
-                                       me.dom.tags_item_6.toggleClass('tags-active');
-                                       });
-            this.dom.tags_item_7.click(function(){
-                                       me.dom.tags_item_7.toggleClass('tags-active');
-                                       });
-            this.dom.tags_item_8.click(function(){
-                                       me.dom.tags_item_8.toggleClass('tags-active');
-                                       });
             this.dom.bttag.fclick(function(){
                                  //me.dom.bttag.toggleClass("mui-navigate-down");me.dom.bttag.toggleClass("mui-navigate-up");
                                     me.dom.paneltag.toggle();
@@ -335,8 +354,11 @@ function ui_freelist(){
             addParkSegmentControl.click(function() {
                 addParkSegmentControl.removeClass('mui-active');
                 addParkFormTab.removeClass('mui-active');
-                $($(this).addClass('mui-active').data('target')).addClass('mui-active');
+                me.addfreetype = $(this).addClass('mui-active').data('target');
+                console.log(me.addfreetype);
+                $('#'+me.addfreetype).addClass('mui-active');
             });
+
         } // init
         ,loaddata:function(pg,force){
             var me=this;
