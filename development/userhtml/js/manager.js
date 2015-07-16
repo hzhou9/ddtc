@@ -404,9 +404,16 @@ window.sysmanager = {
                     me.dom.btreg.aclick(function(){
                         me.c_reg();
                     });
-                    this.dom.btclose.aclick(function(){
+                    me.dom.btclose.aclick(function(){
                         me.c_quit(true);
                     });
+                    me.dom.userpanel_chepai.bind('keyup', function(event){
+                                           var txt = me.dom.userpanel_chepai.val();
+                                           var upper = txt.toUpperCase();
+                                           if(txt != upper){
+                                           me.dom.userpanel_chepai.val(upper);
+                                           }
+                                           });
                 }
                 ,close:function(){
                     this.onclose && this.onclose();

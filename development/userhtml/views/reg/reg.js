@@ -110,7 +110,13 @@ function ui_reg(){
             me.dom.btreg.aclick(function(){
                 me.c_reg();
             });
-
+            me.dom.userpanel_chepai.bind('keyup', function(event){
+                var txt = me.dom.userpanel_chepai.val();
+                var upper = txt.toUpperCase();
+                if(txt != upper){
+                    me.dom.userpanel_chepai.val(upper);
+                }
+            });
         }
         ,close:function(){
             this.onclose && this.onclose();

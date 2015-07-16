@@ -17,6 +17,8 @@ function ui_freelist(){
             ,list:'[name=list]'
             ,panelfreeadd:'[name=freeadd]'
             ,scrollarea_add:'[name=scrollarea_add]'
+            ,scrollpanel:'[name=scrollpanel]'
+            ,scrollparent:'[name=scrollparent]'
             ,tags_item_1:'[name=tags_item_1]'
             ,tags_item_2:'[name=tags_item_2]'
             ,tags_item_3:'[name=tags_item_3]'
@@ -35,6 +37,7 @@ function ui_freelist(){
             ,btn_prev:'[name=btn_prev]'
             ,row_park:'.template [name=row_park]'
             ,header:'header'
+            ,select_menu:'.select-menu'
         }
         ,nowpage:0
         ,max:10
@@ -205,10 +208,13 @@ function ui_freelist(){
         ,r_init:function(){
             var me = this;
             var model = utils.tools.getUrlParam('m');
+            var scrollheight = this.context.height() - this.dom.select_menu.height();
             if(model=='freelist'){
                 this.dom.header.show();
+                scrollheight -= this.dom.header.height();
             }
-            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            this.dom.scrollparent.height(scrollheight);
+            this.iscroll = new iScroll(me.dom.scrollpanel[0], {desktopCompatibility:true});
             
             this.dom.btadd.click(function(){
                 me.dom.panelfreelist.hide();

@@ -131,7 +131,7 @@
                 <input name="userpanel_phone" type="text" class="mui-input-clear" placeholder="请输入您的手机号" >
                 <p>新用户请填写车牌</p>
                 <table cellpadding=0 cellspacing=0 style="width:100%;">
-                    <tr><td style="vertical-align:top;"><b class="mui-navigate-down" name="btarea" style="line-height:40px;">沪</b></td><td><input name="userpanel_chepai" type="text" class="mui-input-clear" placeholder="车牌用于停车场确认" ></td></tr>
+                    <tr><td style="vertical-align:top;"><b class="mui-navigate-down" name="btarea" style="line-height:40px;">沪</b></td><td><input name="userpanel_chepai" type="text" maxlength=6 pattern="^[A-z0-9]{6}$" class="mui-input-clear" placeholder="车牌用于停车场确认" ></td></tr>
                 </table>
                 <button name="btreg" class="mui-btn mui-btn-warning mui-btn-block">确认</button>
             </div>
