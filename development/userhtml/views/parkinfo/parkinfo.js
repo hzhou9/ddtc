@@ -37,6 +37,7 @@ function ui_parkinfo(){
             ,close_map_list:'[name=close_map-list]'
             ,tags_item:'.template [name=tags-item]'
             ,mytag:'[name=spaces] mytag'
+            ,share:'#share_park_info'
         }
         ,iscroll:null
         ,nowdata:null
@@ -358,7 +359,17 @@ function ui_parkinfo(){
                     v.obj.setdata(me.nowdata,me.extinfo);
                 });
             });
-            
+
+            me.dom.share.click(function(){
+                //window.Myweixinobj.setDesc('你停车，我买单，停车只要1元！').setTitle('嘟嘟停车，请你停车').initBind();
+                window.parent.postMessage(JSON.stringify({t: 'wechatshare', d: {
+                    scene: 1,
+                    title:"嘟嘟停车",
+                    description: "上海停车省钱神器",
+                    url: "http://duduche.me",
+                    thumb: null
+                }}), '*');
+            });
         }
         ,c_danghang_close:function(){
             this.dom.daohanglist.hide();
