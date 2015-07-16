@@ -174,7 +174,7 @@ function ui_map(){
             function onmapload(mapobj){
                 var center = mapobj.getCenter();
                 homecontrol.setPosition(center, mapObj, true);
-                console.log(center);
+                //console.log(center);
                 /**
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
                  */
@@ -230,7 +230,7 @@ function ui_map(){
                         window.TongjiObj.map('geolocation', 'start');
                         AMap.event.addListener(geolocation, 'complete', function(arg){
                             window.TongjiObj.map('geolocation', 'browser', arg.accuracy);
-                            console.log('定位成功:' + JSON.stringify(arg));
+                            //console.log('定位成功:' + JSON.stringify(arg));
                             homecontrol.setPosition(arg.position, mapObj, true);
                             me.userpos = arg.position;
                             if (!callbacking) {

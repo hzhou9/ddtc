@@ -853,15 +853,15 @@ utils.cache = (function(){
     }
    var obj =  {
       setItem:function(key, val){
-          console.log('setItem', key, val);
+          //console.log('setItem', key, val);
           SetCookie(key, val);
       }
       ,removeItem:function(key){
-          console.log('removeItem', key);
+          //console.log('removeItem', key);
            delCookie(key);
       }
       ,getItem:function(key){
-          console.log('getItem', key);
+          //console.log('getItem', key);
           return getCookie(key);
       }
   };

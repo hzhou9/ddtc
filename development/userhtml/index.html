@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../golba_rs/css/animate.css">
     <link rel="stylesheet" href="./css/main.css">
     <style>
-        #keyboard-area-list [name=provinces-list] {overflow:hidden; margin:0; padding:0 0 3%; background:#fff;}
+        #keyboard-area-list [name=provinces-list] {overflow:hidden; margin:-15px -15px 0; padding:0 0 3%; background:#fff;}
         #keyboard-area-list [name=provinces-list] li {font-size:14px; list-style:none; float:left; width:9%; margin:3% 0 0 3%; text-align:center; padding:2% 0; border:1px solid #e3e3e3; border-radius:3px;}
     </style>
 </head>
@@ -399,11 +399,15 @@
                 });
             } else if (data.t == 'pushid') {
                 window.pushid = data.d;
+            } else if (data.t == 'wechatshare') {
+                if (window._wechatshare_callback) {
+                    window._wechatshare_callback(data.d);
+                }
             } else if (data.t == 'setpushid') {//提交pushid
                 window.pushid = data.d;
                 window.myajax.userget('index', 'setPushid', {pushid: data.d}, function (result) {}, null, false);
-            } else if (data.t == 'setlocation') {//提交pushid
-                if (typeof(window._map_location_callback) != null) {
+            } else if (data.t == 'setlocation') {
+                if (window._map_location_callback != null) {
                     window._map_location_callback(data.d);
                 } else {
                     window.TongjiObj.map('geolocation', 'nocallback');

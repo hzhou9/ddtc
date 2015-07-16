@@ -56,6 +56,10 @@
         
         overflow: hidden;
     }
+    #map_html_mapid2 {display: none;}
+    @media (min-height: 500px) {
+        #map_html_mapid2 {display: block;}
+    }
     </style>
     <header class="mui-bar mui-bar-nav" style="position: relative;display:none;">
         <h1 class="mui-title">上海免费停车场大全</h1>
@@ -197,22 +201,51 @@
         </div>
 
         <form class="mui-input-group list">
+
             <div class="innerlist">
-            <ul class="mui-table-view" name='scrollarea_add'>
-                <li class="mui-table-view-cell">
-	                			<input name="txtName" type="text" placeholder="请在这里输入名称">
-                                    </li>
-	            			<li class="mui-table-view-cell">
-                                <textarea name="txtDsc" rows="4" placeholder="请在这里对地址、入口、空忙时间等停车场情况进行描述，越详细对大家帮助越大"></textarea>
-                </li>
-                <li class="mui-table-view-cell">
-                                <p style="margin-top:15px;">请选择标签</p>
-                                <span class="tags-item" name="tags_item_1">有时间限制</span><span class="tags-item" name="tags_item_2">门店停车位</span><span class="tags-item" name="tags_item_3">画有停车线</span><span class="tags-item" name="tags_item_4">小道旁</span><span class="tags-item" name="tags_item_5">断头路</span><span class="tags-item" name="tags_item_6">空地</span><span class="tags-item" name="tags_item_7">小区</span><span class="tags-item" name="tags_item_8">老厂房</span>
-                            </li>
-            </ul>
+                <div name='scrollarea_add'>
+
+                <div class="mui-table-view-cell" style="background:#ffffff">
+                    <div id="segmentedControl" class="mui-segmented-control">
+                        <a class="mui-control-item mui-active" data-target="#item1mobile" href="###">
+                            免费
+                        </a>
+                        <a class="mui-control-item" data-target="#item2mobile" href="###">
+                            收费
+                        </a>
+                    </div>
+                </div>
+
+                <ul id="item1mobile" class="mui-control-content mui-active mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <input name="txtName" type="text" placeholder="请在这里输入名称">
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <textarea name="txtDsc" rows="2" placeholder="请在这里对地址、入口、空忙时间等停车场情况进行描述，越详细对大家帮助越大"></textarea>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <p>请选择标签</p>
+                        <span class="tags-item" name="tags_item_1">有时间限制</span><span class="tags-item" name="tags_item_2">门店停车位</span><span class="tags-item" name="tags_item_3">画有停车线</span><span class="tags-item" name="tags_item_4">小道旁</span><span class="tags-item" name="tags_item_5">断头路</span><span class="tags-item" name="tags_item_6">空地</span><span class="tags-item" name="tags_item_7">小区</span><span class="tags-item" name="tags_item_8">老厂房</span>
+                    </li>
+                </ul>
+
+                <ul id="item2mobile" class="mui-control-content mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <input name="txtName" type="text" placeholder="请在这里输入名称">
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <textarea name="txtDsc" rows="2" placeholder="请在这里对价格、地址、入口、空忙时间等停车场情况进行描述，越详细对大家帮助越大"></textarea>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <p style="margin-top:15px;">请选择标签</p>
+                        <span class="tags-item" name="tags_item_1">有时间限制</span><span class="tags-item" name="tags_item_2">门店停车位</span><span class="tags-item" name="tags_item_3">画有停车线</span><span class="tags-item" name="tags_item_4">小道旁</span><span class="tags-item" name="tags_item_5">断头路</span><span class="tags-item" name="tags_item_6">空地</span><span class="tags-item" name="tags_item_7">小区</span><span class="tags-item" name="tags_item_8">老厂房</span>
+                    </li>
+                </ul>
+                </div>
             </div>
         </form>
         <a class="mui-btn mui-btn-warning" name="addcancel">取消</a>
         <a class="mui-btn mui-btn-primary mui-pull-right" name="addok">提交</a>
+        <!--<a class="mui-btn mui-btn-primary mui-btn-block" name="addok">提交</a>-->
     </div>
 </div>

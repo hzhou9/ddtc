@@ -15,14 +15,21 @@
     <div name="scrollparent" style="overflow:hidden;">
         <div class="list" name="scrollarea">
             <ul class="mui-table-view innerlist" name="hint"></ul>
-            <ul class="mui-table-view" name="free_list">
-                <li class="mui-table-view-cell mui-media">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-media" name="free_list">
                     <img class="mui-media-object mui-pull-left" src="img/icon-free-location@2x.png">
-                        <div class="mui-media-body mui-navigate-right">
-                            <h4 style="margin-top:4px">免费停车点（<span name="num_park_free">0</span>）</h4>
-                            <p class='mui-ellipsis'>上海最全的免费停车点</p>
-                        </div>
-                        </li>
+                    <div class="mui-media-body mui-navigate-right">
+                        <h4 style="margin-top:4px">免费停车点（<span name="num_park_free">0</span>）</h4>
+                        <p class='mui-ellipsis'>上海最全的免费停车点</p>
+                    </div>
+                </li>
+                <li class="mui-table-view-cell mui-media" id="e_cinema" style="display:none">
+                    <img class="mui-media-object mui-pull-left" src="img/icon-cinema@2x.png">
+                    <div class="mui-media-body mui-navigate-right">
+                        <h4 style="margin-top:4px">看电影，车停哪儿最省钱？</h4>
+                        <p class='mui-ellipsis'>28家影院实惠停车点指南</p>
+                    </div>
+                </li>
             </ul>
             <ul name="park_list" class="mui-table-view park-list">
                 <li class="mui-table-view-divider">正在优惠的停车场</li>

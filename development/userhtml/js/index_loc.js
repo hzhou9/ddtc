@@ -9,7 +9,7 @@
 
     // 通过 postMessage 向子窗口发送数据
     window.sendToIframe = function (data) {
-        console.log('window.sendToIframe:' + data);
+        //console.log('window.sendToIframe:' + data);
         window.idata.curfame[0].contentWindow.postMessage(data, "*");
     };
     // 支持出错检测的iframe加载
@@ -142,8 +142,8 @@
     function setCookie(name, value) {
         try {
             window.localStorage.setItem(name, value);
-            console.log('setCookie [' + name + ']:' + value);
-        } catch(e) {
+            //console.log('setCookie [' + name + ']:' + value);
+        } catch (e) {
             return false;
         }
 
@@ -152,9 +152,9 @@
     function getCookie(name) {
         try {
             var value = window.localStorage.getItem(name);
-            console.log('getCookie [' + name + ']:' + value);
+            //console.log('getCookie [' + name + ']:' + value);
             return value;
-        } catch(e) {
+        } catch (e) {
             return false;
         }
     }
@@ -200,12 +200,27 @@
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'pushid', d: app.pushid}));
             }
+        } else if (evt.t == 'toggletabbar') {
+            if (evt.d == 'hide') {
+                $('.mui-bar-tab').hide();
+            } else {
+                $('.mui-bar-tab').show();
+            }
         } else if (evt.t == 'setpushid') {
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'setpushid', d: app.pushid}));
             }
+        } else if (evt.t == 'windowopen') {
+            var win = window.open(evt.d, '_blank', 'location=no');
+            win.addEventListener('loadstop', function (e) {
+                if (e.url.match("close")) {
+                    win.close();
+                    sendToIframe(JSON.stringify({t: 'windowclose', d: e.url}));
+                }
+            });
         } else if (evt.t == 'setlocation') {
-            var noop = function () {};
+            var noop = function () {
+            };
             if ((/android/i).test(navigator.userAgent)) {
                 window.locationService.getCurrentPosition(function (pos) {
                     sendToIframe(JSON.stringify({t: 'setlocation', d: pos}));
@@ -235,14 +250,14 @@
             function () {
             },
             function (error) {
-                console.log(error);
+                //console.log(error);
                 alert("导航启动失败");
             });
     }
 
     //cordova事件
     window.onMsgData = function (data) {
-        console.log("window.onMsgData:" + data);
+        //console.log("window.onMsgData:" + data);
         var obj = JSON.parse(data);
         if (obj.t == 'nav') {
             var target = obj.target;

@@ -457,6 +457,7 @@ form[name="form1"].mui-input-group .mui-input-row {background:none;}
 .search-tips .mui-table-view-cell:last-child:after {height:1px; left:0;}
 .mui-table-view-cell .mui-grid-view {margin:20px -15px -15px; background:#f8f8f8; width:auto;}
 .innerlist .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {margin-top:0; height:auto; min-height:15px;}
+.innerlist .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body small {color:#999}
 .mui-grid-view.mui-grid-9 .mui-table-view-cell {padding:15px 7px;}
 .searchmap_contaion .mui-input-group .mui-input-row,form.mui-input-group {background:none;}
 /*Profile*/
@@ -496,6 +497,6 @@ form[name="form1"].mui-input-group .mui-input-row {background:none;}
 .input-box .tags-item {color:#999;}
 .input-box .tags-item.tags-active {border-color:#1e88e5; color:#1e88e5;}
 .location-box {margin:-15px; height:200px;}
-.input-box .mui-btn {margin:15px; width:auto;}
+.input-box .mui-btn {margin:10px; width:auto;}
 .mui-table-view-cell h4[name="address"] {margin-right:50px;}
 .mui-table-view[name="free_list"] .mui-media-body {overflow:auto;}

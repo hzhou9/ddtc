@@ -122,7 +122,7 @@ function ui_freelist(){
                                });
                 }else{
                     var center = mapobj.getCenter();
-                    console.log(center);
+                    //console.log(center);
                     homecontrol.setPosition(center,mapObj, true);
                     //setTimeout(function(){fn && fn(center,true);});//to make response faster
 
@@ -143,7 +143,7 @@ function ui_freelist(){
                                                                          });
                                   mapObj.addControl(geolocation);
                                   AMap.event.addListener(geolocation, 'complete', function(arg) {
-                                      console.log('定位成功:' + JSON.stringify(arg));
+                                      //console.log('定位成功:' + JSON.stringify(arg));
                                       homecontrol.setPosition(arg.position, mapObj, true);
                                       if (!callbacking && (!me.geopos || Math.abs(me.geopos.lng - arg.position.lng) > 0.001 || Math.abs(me.geopos.lat - arg.position.lat) > 0.001)) {
                                           fn && fn(arg.position);
@@ -202,6 +202,7 @@ function ui_freelist(){
             this.dom.btadd.click(function(){
                 me.dom.panelfreelist.hide();
                 me.dom.panelfreeadd.show();
+                window.parent.postMessage(JSON.stringify({t: 'toggletabbar', d: 'hide'}), '*');
                 me.iscroll.disable();
                                  if(me.iscroll_add){
                                  me.iscroll_add.enable();
@@ -229,15 +230,22 @@ function ui_freelist(){
                 var pos = me.mapObj.getCenter();
                 var arr = {'name':name,'lat':pos.lat,'lng':pos.lng,'dsc':dsc,'note':note};
                 window.myajax.userget('index','addfreepark',arr, function(result){
-                    me.dom.panelfreelist.show();me.dom.panelfreeadd.hide();
+                    me.dom.panelfreelist.show();
+                    me.dom.panelfreeadd.hide();
+                    window.parent.postMessage(JSON.stringify({t: 'toggletabbar', d: 'show'}), '*');
+
                     me.iscroll_add.disable();me.iscroll.enable();
                     sysmanager.alert('感谢您的参与，我们工作人员会尽快进行审核，通过后我们会联系您，再次感谢！','信息提交成功');
+                    me.dom.txtName.val('');
+                    me.dom.txtDsc.val('');
                 }, null, false);
                 
             });
             this.dom.btaddcancel.click(function(){
                 me.dom.panelfreeadd.hide();
                 me.dom.panelfreelist.show();
+                window.parent.postMessage(JSON.stringify({t: 'toggletabbar', d: 'show'}), '*');
+
                 me.iscroll_add.disable();me.iscroll.enable();
             });
             this.dom.tags_item_1.click(function(){
@@ -322,7 +330,14 @@ function ui_freelist(){
                     }
                 }, me.geopos);
             });
-        }
+
+            var addParkSegmentControl = $('#segmentedControl').find('a'), addParkFormTab = $('.mui-control-content');
+            addParkSegmentControl.click(function() {
+                addParkSegmentControl.removeClass('mui-active');
+                addParkFormTab.removeClass('mui-active');
+                $($(this).addClass('mui-active').data('target')).addClass('mui-active');
+            });
+        } // init
         ,loaddata:function(pg,force){
             var me=this;
             me.params = "";
@@ -421,7 +436,7 @@ function ui_freelist(){
             
         }
         ,close:function(){
-
+            window.parent.postMessage(JSON.stringify({t: 'toggletabbar', d: 'show'}), '*');
         }
     };
     return  ui;
