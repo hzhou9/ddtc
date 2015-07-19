@@ -19,6 +19,7 @@ function ui_discover(){
             ,park_list:'[name=park_list]'
             ,free_list:'[name=free_list]'
             ,cinema_list:'#e_cinema'
+            ,concert_list:'#e_concert'
             ,coop:'[name=coop]'
             ,hintlist:'[name=hint]'
             ,list:'[name=coop] .innerlist'
@@ -44,7 +45,7 @@ function ui_discover(){
         ,c_init:function(){
             this.get_discover();
             if (sysmanager.isapp) {
-                this.dom.cinema_list.show();
+                $('#event_banner').show();
             }
             //var me = this;
             //setInterval(function(){me.get_discover();}, 3600000);//每小时刷新数据一次
@@ -396,6 +397,19 @@ function ui_discover(){
                 window.TongjiObj.discover('click', 'free_list');
 
                 sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){});
+            });
+
+            this.dom.concert_list.click(function() {
+                window._map_windowclose_callback = function(url) {
+                    var pos = url.match(/pos=([^&]+)/)[1].split(',');
+                    var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
+                    var location = new AMap.LngLat(pos[0], pos[1]);
+                    me.c_select(location, txt);
+                }
+                window.parent.postMessage(JSON.stringify({
+                    t: 'windowopen'
+                    , d: 'http://t.duduche.me/html/userhtml/events/concert/'
+                }), '*');
             });
 
             this.dom.cinema_list.click(function() {
