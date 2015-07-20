@@ -32,9 +32,11 @@ function ui_parkinfo(){
             ,reserve:'[name=reserve]'
             ,scrollparent:'[name=scrollparent]'
             ,bgbox:'[name=bgbox]'
-            ,daohanglist:'#map-list'
-            ,daohanglist_bg:'#map-list-bg'
+            ,daohanglist:'#map_list'
+            ,sharelist:'#share_list'
+            ,action_list_bg:'#action-list-bg'
             ,close_map_list:'[name=close_map-list]'
+            ,close_share_list:'[name=close_share-list]'
             ,tags_item:'.template [name=tags-item]'
             ,mytag:'[name=spaces] mytag'
             ,share:'#share_park_info'
@@ -314,7 +316,8 @@ function ui_parkinfo(){
             //    me.dom.btios.show();
             //}
 
-            me.dom.btdaohang.aclick(function(){
+            me.dom.btdaohang.click(function(){
+
                 window.TongjiObj.parkinfo('click', 'navi');
 
                 if (sysmanager.isapp) {
@@ -322,7 +325,7 @@ function ui_parkinfo(){
                         me.c_daohang_ios_official();
                     } else {
                         me.dom.daohanglist.show();
-                        me.dom.daohanglist_bg.show();
+                        me.dom.action_list_bg.show();
                     }
                 } else {
                     if (window.Myweixinobj && window.Myweixinobj.isready) {
@@ -335,24 +338,27 @@ function ui_parkinfo(){
                             infoUrl: ''
                         });
                     } else {
-                        sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
+                        sysmanager.loadpage('views/', 'daohang', null, '导航：' + me.nowdata.n,function(v) {
                             v.obj.settarget(me.nowdata);
                         });
                     }
                 }
             });
-            me.dom.btlocal.aclick(function(){
+
+            me.dom.btlocal.click(function(){
                 window.TongjiObj.parkinfo('navi', 'local');
                 sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
                     v.obj.settarget(me.nowdata);
                 });
                 me.c_danghang_close();
             });
-            me.dom.btios.aclick(function(){
+
+            me.dom.btios.click(function(){
                 me.c_daohang_ios_official();
                 me.c_danghang_close();
             });
-            me.dom.btgaode.aclick(function(){
+
+            me.dom.btgaode.click(function(){
                 window.TongjiObj.parkinfo('navi', 'gaode');
                 if (sysmanager.isapp) {
                     me.c_daohang_gaode_app();
@@ -361,7 +367,8 @@ function ui_parkinfo(){
                 }
                 me.c_danghang_close();
             });
-            me.dom.btbaidu.aclick(function(){
+
+            me.dom.btbaidu.click(function(){
                 window.TongjiObj.parkinfo('navi', 'baidu');
                 if (sysmanager.isapp) {
                     me.c_daohang_baidu_app();
@@ -370,47 +377,73 @@ function ui_parkinfo(){
                 }
                 me.c_danghang_close();
             });
-            me.dom.close_map_list.aclick(function(){
+
+            me.dom.close_map_list.click(function(){
                 me.c_danghang_close();
             });
 
-            me.dom.reserve.aclick(function(){
+            me.dom.close_share_list.click(function(){
+                me.c_share_close();
+            });
+
+            me.dom.reserve.click(function(){
                 window.TongjiObj.parkinfo('click', 'order');
-                sysmanager.loadpage('views/', 'orderpay', null, '预订：'+me.nowdata.n,function(v){
+                sysmanager.loadpage('views/', 'orderpay', null, '预订：' + me.nowdata.n,function(v){
                     v.obj.setdata(me.nowdata,me.extinfo);
                 });
             });
 
-            console.log(me.nowdata);
-            
             var title = '嘟嘟停车'
                 , desc = '上海停车省钱神器'
-                , url = 'app.duduche.me/redirect/user/indexhtml.php?m=parkinfo&n=' + me.nowdata.lat
+                , url = 'http://app.duduche.me/redirect/user/indexhtml.php?m=parkinfo&n=' + me.nowdata.sn
                 , thumb = null;
+
             if (sysmanager.isapp) {
-                me.show_weixin_share(title, desc, url, thumb);
-                me.dom.share.show();
+
+                $('#share_to_friends').click(function() {
+                    window.parent.postMessage(JSON.stringify({
+                        t: 'wechatshare', d: {
+                            scene: 1, // session
+                            title: title,
+                            description: desc,
+                            url: url,
+                            thumb: thumb
+                        }
+                    }), '*');
+                    me.c_share_close();
+                });
+
+                $('#share_to_moments').click(function() {
+                    window.parent.postMessage(JSON.stringify({
+                        t: 'wechatshare', d: {
+                            scene: 2, // timeline
+                            title: title,
+                            description: desc,
+                            url: url,
+                            thumb: thumb
+                        }
+                    }), '*');
+                    me.c_share_close();
+                });
+
+                me.dom.share.click(function() {
+                    me.dom.sharelist.show();
+                    me.dom.action_list_bg.show();
+                });
+
             } else {
-                window.Myweixinobj.setDesc(desc).setTitle(title).initBind();
+                me.dom.share.parent().hide();
+                window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
+
             }
-        }
-        ,show_weixin_share: function(title, desc, url, thumb) {
-            var me = this;
-            me.dom.share.click(function () {
-                window.parent.postMessage(JSON.stringify({
-                    t: 'wechatshare', d: {
-                        scene: 1,
-                        title: title,
-                        description: desc,
-                        url: url,
-                        thumb: thumb
-                    }
-                }), '*');
-            });
         }
         ,c_danghang_close:function(){
             this.dom.daohanglist.hide();
-            this.dom.daohanglist_bg.hide();
+            this.dom.action_list_bg.hide();
+        }
+        ,c_share_close:function(){
+            this.dom.sharelist.hide();
+            this.dom.action_list_bg.hide();
         }
         ,close:function(){
 
