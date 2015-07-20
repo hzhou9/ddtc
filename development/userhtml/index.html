@@ -26,7 +26,7 @@
         <div id="canvaswrap" class="mui-off-canvas-wrap page">
             <div class="mui-inner-wrap">
                 <div class="mui-content mytabs">
-                    <div id="tabbar-with-user" class="mui-control-content" name='login'>
+                    <div id="tabbar-with-user" class="mui-control-content" name='parkinfo'>
                     </div>
                     <div id="tabbar-with-collection" class="mui-control-content" name='map'>
                     </div>
@@ -243,7 +243,7 @@
         var tabs = window.testtabs = utils.jq.initTab(tabcontrols, tabcards, '  mui-active');
         var nowview = null;
 
-        tabs.activeHandle[6] = tabs.activeHandle[5] = tabs.activeHandle[4] = tabs.activeHandle[3] = tabs.activeHandle[2] = tabs.activeHandle[1] = function (context) {
+        tabs.activeHandle[6] = tabs.activeHandle[5] = tabs.activeHandle[4] = tabs.activeHandle[3] = tabs.activeHandle[2] = tabs.activeHandle[1] = tabs.activeHandle[0] = function (context) {
             viewManager.viewroot('views/');
             var viewname = context.attr('name');
             var view = viewManager.loadview(viewname, function (v) {
@@ -304,6 +304,9 @@
                     iCheckLogin(function () {
                         tabs.activeTab(6, true);
                     });
+                    break;
+                case 'parkinfo':
+                    tabs.activeTab(0, true);
                     break;
                 case "map":
                 case "mapsearch":
