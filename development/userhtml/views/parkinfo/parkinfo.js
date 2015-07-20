@@ -179,16 +179,16 @@ function ui_parkinfo(){
             }
             }
             //是否显示滚动
-            setTimeout(function(){
-                       var scrollheight = me.dom.scrollparent.parent().height();
-                       if(me.showbt){
-                        scrollheight -= me.dom.reserve.height();
-                       }
-                       var contentheight = me.dom.scrollparent.height();
-                       if(contentheight > scrollheight){
-                        me.dom.scrollparent.css('height',scrollheight+'px');
-                        me.iscroll = new iScroll(me.dom.infoarea[0], {desktopCompatibility:true});
-                       }
+            setTimeout(function () {
+                var scrollheight = $('.userpage').parent().height();
+                if (me.showbt) {
+                    scrollheight -= me.dom.reserve.height();
+                }
+                var contentheight = me.dom.scrollparent.height();
+                if (contentheight > scrollheight) {
+                    me.dom.scrollparent.css('height', scrollheight - 44 + 'px');
+                    me.iscroll = new iScroll(me.dom.infoarea[0], {desktopCompatibility: true});
+                }
             });
         }
         ,c_gettags:function(str){
@@ -432,7 +432,7 @@ function ui_parkinfo(){
                 });
 
             } else {
-                me.dom.share.parent().hide();
+                me.dom.share.hide();
                 window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
 
             }
