@@ -43,6 +43,25 @@ function ui_parkinfo(){
         ,nowdata:null
         ,extinfo:null
         ,init:function(context){
+            if(!this.nowdata){
+                context.hide();
+                var model = utils.tools.getUrlParam('m');
+                if('parkinfo' == model){
+                    var shortname = utils.tools.getUrlParam('n');
+                    var me = this;
+                    window.myajax.get('Public','parkinfo',{'n':shortname},function(result){
+                                      if(0 == result.code && result.data.p){
+                                      me.setdata(result.data.p,result.data.e);
+                                      me.init(context);
+                                      }else{
+                                      sysmanager.alert('参数错误，无法获得停车场信息');
+                                      }
+                                      },null,true);
+                }
+                return;
+            }else{
+                context.show();
+            }
             if (!this.isInit){
                 this.isInit = true;
                 this.context = context;
@@ -115,7 +134,7 @@ function ui_parkinfo(){
                     var tags=this.nowdata.t.split("|");
                     for(var i=0;i<tags.length;i++){
                     var tagstr = window.cfg.freeparktags[tags[i]];
-                    if(tagstr){var row = this.c_gettags(tagstr);this.dom.tags.append(row);}
+                    if(tagstr && tagstr != ''){var row = this.c_gettags(tagstr);this.dom.tags.append(row);}
                 }}
             }else{
             this.dom.address.html(this.nowdata.a);
@@ -137,8 +156,10 @@ function ui_parkinfo(){
             }
             if(this.nowdata.t){for(var i=0;i<this.nowdata.t.length;i++){
                 var tagstr = this.nowdata.t[i];
+                if(tagstr && tagstr != ''){
                 var row = this.c_gettags(tagstr);
                 this.dom.tags.append(row);
+                }
             }}
             if(this.showbt){
                 this.dom.reserve.show();
