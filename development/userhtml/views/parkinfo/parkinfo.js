@@ -360,16 +360,32 @@ function ui_parkinfo(){
                 });
             });
 
-            //me.dom.share.click(function(){
-            //    //window.Myweixinobj.setDesc('你停车，我买单，停车只要1元！').setTitle('嘟嘟停车，请你停车').initBind();
-            //    window.parent.postMessage(JSON.stringify({t: 'wechatshare', d: {
-            //        scene: 1,
-            //        title:"嘟嘟停车",
-            //        description: "上海停车省钱神器",
-            //        url: "http://duduche.me",
-            //        thumb: null
-            //    }}), '*');
-            //});
+            console.log(me.nowdata);
+            
+            var title = '嘟嘟停车'
+                , desc = '上海停车省钱神器'
+                , url = 'app.duduche.me/redirect/user/indexhtml.php?m=parkinfo&n=' + me.nowdata.lat
+                , thumb = null;
+            if (sysmanager.isapp) {
+                me.show_weixin_share(title, desc, url, thumb);
+                me.dom.share.show();
+            } else {
+                window.Myweixinobj.setDesc(desc).setTitle(title).initBind();
+            }
+        }
+        ,show_weixin_share: function(title, desc, url, thumb) {
+            var me = this;
+            me.dom.share.click(function () {
+                window.parent.postMessage(JSON.stringify({
+                    t: 'wechatshare', d: {
+                        scene: 1,
+                        title: title,
+                        description: desc,
+                        url: url,
+                        thumb: thumb
+                    }
+                }), '*');
+            });
         }
         ,c_danghang_close:function(){
             this.dom.daohanglist.hide();

@@ -252,6 +252,7 @@
             thumb: msgdata.thumb ? msgdata.thumb : null
         };
 
+        alert(JSON.stringify(msg));
         WeChat.share(msg, null != msgdata.scene ? msgdata.scene : WeChat.Scene.session, function(success) {
             sendToIframe(JSON.stringify({t: 'wechatshare', d: success}));
         }, function(fail) {
