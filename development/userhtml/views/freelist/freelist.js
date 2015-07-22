@@ -74,7 +74,7 @@ function ui_freelist(){
         }
         ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
             sysmanager.loading.show();
-            
+
             var me = this;
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid2",{
                                                                         view: new AMap.View2D({
@@ -86,14 +86,14 @@ function ui_freelist(){
                                                                        ,lang:"zh_cn"//设置地图语言类型，默认：中文简体
                                                                       ,resizeEnable:true
                                                                       });//创建地图实例
-            
+
             var homecontrol = this.homecontrol = new AMap.myHomeControl({
                                                                         offset:new AMap.Pixel(10,100)
                                                                         });
             var maptool = null;
-            
+
             mapObj.plugin(["AMap.ToolBar","AMap.Scale"],function(){
-                          
+
                           //加载工具条
                           maptool = window.maptool = new AMap.ToolBar({
                                                                       direction:false,//隐藏方向导航
@@ -115,10 +115,10 @@ function ui_freelist(){
                                        onmapload(mapobj);
                                        });
             }
-            
-            
+
+
             function onmapload(mapobj){
-                
+
                 if(placedata){
                     mapObj.setCenter(placedata);
                     setTimeout(function(){
@@ -182,7 +182,7 @@ function ui_freelist(){
                                   geolocation.getCurrentPosition();
 
                                   });
-                    
+
                 }
                 AMap.event.addListener(mapObj,'moveend',function(){
                                        setposition();
@@ -194,7 +194,7 @@ function ui_freelist(){
                     homecontrol.setPosition(mapObj.getCenter(),mapObj,true);
                 }
             }
-            
+
         }
         ,addfree_panel_close:function() {
             this.dom.panelfreelist.show();
@@ -215,7 +215,7 @@ function ui_freelist(){
             }
             this.dom.scrollparent.height(scrollheight);
             this.iscroll = new iScroll(me.dom.scrollpanel[0], {desktopCompatibility:true});
-            
+
             this.dom.btadd.click(function(){
                 me.dom.panelfreelist.hide();
                 me.dom.panelfreeadd.show();
@@ -284,7 +284,7 @@ function ui_freelist(){
                         $dscField.val('');
                     }, null, false);
                 }
-                
+
             });
 
             this.dom.btaddcancel.click(function(){
@@ -314,7 +314,7 @@ function ui_freelist(){
             this.dom.btn_prev.click(function(){
                                     me.loaddata(me.nowpage-1);
                                     });
-            
+
             //地区点击
             $.each(this.areas, function(idx, obj) {
                    var areastr = obj;
@@ -461,7 +461,7 @@ function ui_freelist(){
                                 v.obj.setdata(data,ext,data.c == 1);
                                 });
             var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D4');}
-            
+
         }
         ,close:function(){
             window.parent.postMessage(JSON.stringify({t: 'toggletabbar', d: 'show'}), '*');

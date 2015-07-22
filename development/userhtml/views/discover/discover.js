@@ -20,6 +20,7 @@ function ui_discover(){
             ,free_list:'[name=free_list]'
             ,cinema_list:'#e_cinema'
             ,concert_list:'#e_concert'
+            ,banner_survey:'#banner_cinema'
             ,coop:'[name=coop]'
             ,hintlist:'[name=hint]'
             ,list:'[name=coop] .innerlist'
@@ -423,6 +424,19 @@ function ui_discover(){
                     t: 'windowopen'
                     , d: 'http://t.duduche.me/html/userhtml/events/cinema/'
                     }), '*');
+            });
+
+            this.dom.banner_survey.click(function() {
+                window._map_windowclose_callback = function(url) {
+                    var pos = url.match(/pos=([^&]+)/)[1].split(',');
+                    var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
+                    var location = new AMap.LngLat(pos[0], pos[1]);
+                    me.c_select(location, txt);
+                }
+                window.parent.postMessage(JSON.stringify({
+                    t: 'windowopen'
+                    , d: 'https://jinshuju.net/f/w7A4nC'
+                }), '*');
             });
         }
         ,c_select:function(position,name){

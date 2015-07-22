@@ -213,9 +213,9 @@
                 sendToIframe(JSON.stringify({t: 'setpushid', d: app.pushid}));
             }
         } else if (evt.t == 'windowopen') {
-            var win = window.open(evt.d, '_blank', 'location=no');
+            var win = window.open(evt.d, '_blank', evt.f ? evt.f : 'location=no');
             win.addEventListener('loadstop', function (e) {
-                if (e.url.match("close")) {
+                if (e.url.match("close|success")) {
                     win.close();
                     sendToIframe(JSON.stringify({t: 'windowclose', d: e.url}));
                 }
