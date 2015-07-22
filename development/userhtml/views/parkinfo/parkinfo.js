@@ -24,7 +24,6 @@ function ui_parkinfo(){
             ,numberstatus2t:'[name=numberstatus2t]'
             ,activity:'[name=activity]'
             ,tags:'[name=tags]'
-            ,btios:'#map-list [name=btios]'
             ,btbaidu:'#map-list [name=btbaidu]'
             ,btgaode:'#map-list [name=btgaode]'
             ,btlocal:'#map-list [name=btlocal]'
@@ -249,7 +248,6 @@ function ui_parkinfo(){
                 href+=k+'='+v;
             }
             //alert(href);
-            //console.log(href);
             window.open(href, '_system');
             
         }
@@ -304,15 +302,11 @@ function ui_parkinfo(){
             }
 
             //alert(href);
-            //console.log(href);
             window.open(href, '_system');
 
         }
         ,r_init:function(){
             var me = this;
-            //if(utils.browser.versions.ios){
-            //    me.dom.btios.show();
-            //}
 
             me.dom.btdaohang.click(function(){
 
@@ -343,7 +337,7 @@ function ui_parkinfo(){
                 }
             });
 
-            me.dom.btlocal.click(function(){
+            $('#btn_local_navigator').click(function(){
                 window.TongjiObj.parkinfo('navi', 'local');
                 sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
                     v.obj.settarget(me.nowdata);
@@ -351,12 +345,7 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
 
-            me.dom.btios.click(function(){
-                me.c_daohang_ios_official();
-                me.c_danghang_close();
-            });
-
-            me.dom.btgaode.click(function(){
+            $('#btn_amap_navigator').click(function(){
                 window.TongjiObj.parkinfo('navi', 'gaode');
                 if (sysmanager.isapp) {
                     me.c_daohang_gaode_app();
@@ -366,7 +355,7 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
 
-            me.dom.btbaidu.click(function(){
+            $('#btn_baidu_navigator').click(function(){
                 window.TongjiObj.parkinfo('navi', 'baidu');
                 if (sysmanager.isapp) {
                     me.c_daohang_baidu_app();
@@ -374,6 +363,13 @@ function ui_parkinfo(){
                     me.c_daohang_baidu();
                 }
                 me.c_danghang_close();
+            });
+
+            me.dom.reserve.click(function(){
+                window.TongjiObj.parkinfo('click', 'order');
+                sysmanager.loadpage('views/', 'orderpay', null, '预订：' + me.nowdata.n,function(v){
+                    v.obj.setdata(me.nowdata,me.extinfo);
+                });
             });
 
             me.dom.close_map_list.click(function(){
@@ -384,12 +380,6 @@ function ui_parkinfo(){
                 me.c_share_close();
             });
 
-            me.dom.reserve.click(function(){
-                window.TongjiObj.parkinfo('click', 'order');
-                sysmanager.loadpage('views/', 'orderpay', null, '预订：' + me.nowdata.n,function(v){
-                    v.obj.setdata(me.nowdata,me.extinfo);
-                });
-            });
 
             var title = '嘟嘟停车'
                 , desc = '上海停车省钱神器'
@@ -429,8 +419,9 @@ function ui_parkinfo(){
                     me.dom.action_list_bg.show();
                 });
 
+                //me.dom.share.show();
+
             } else {
-                me.dom.share.hide();
                 window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
 
             }
