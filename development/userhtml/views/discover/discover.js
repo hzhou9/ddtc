@@ -19,6 +19,8 @@ function ui_discover(){
             ,park_list:'[name=park_list]'
             ,free_list:'[name=free_list]'
             ,cinema_list:'#e_cinema'
+            ,concert_list:'#e_concert'
+            ,banner_survey:'#banner_cinema'
             ,coop:'[name=coop]'
             ,hintlist:'[name=hint]'
             ,list:'[name=coop] .innerlist'
@@ -44,7 +46,7 @@ function ui_discover(){
         ,c_init:function(){
             this.get_discover();
             if (sysmanager.isapp) {
-                this.dom.cinema_list.show();
+                $('#event_banner').show();
             }
             //var me = this;
             //setInterval(function(){me.get_discover();}, 3600000);//每小时刷新数据一次
@@ -398,8 +400,25 @@ function ui_discover(){
                 sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){});
             });
 
-            this.dom.cinema_list.click(function() {
+            this.dom.concert_list.click(function() {
+                window.TongjiObj.discover('click', 'banner_concert');
                 window._map_windowclose_callback = function(url) {
+                    window.TongjiObj.discover('click', 'banner_concert_place');
+                    var pos = url.match(/pos=([^&]+)/)[1].split(',');
+                    var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
+                    var location = new AMap.LngLat(pos[0], pos[1]);
+                    me.c_select(location, txt);
+                }
+                window.parent.postMessage(JSON.stringify({
+                    t: 'windowopen'
+                    , d: 'http://t.duduche.me/html/userhtml/events/concert/'
+                }), '*');
+            });
+
+            this.dom.cinema_list.click(function() {
+                window.TongjiObj.discover('click', 'banner_cinema');
+                window._map_windowclose_callback = function(url) {
+                    window.TongjiObj.discover('click', 'banner_cinema_place');
                     var pos = url.match(/pos=([^&]+)/)[1].split(',');
                     var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
                     var location = new AMap.LngLat(pos[0], pos[1]);
@@ -409,6 +428,17 @@ function ui_discover(){
                     t: 'windowopen'
                     , d: 'http://t.duduche.me/html/userhtml/events/cinema/'
                     }), '*');
+            });
+
+            this.dom.banner_survey.click(function() {
+                window.TongjiObj.discover('click', 'banner_survey');
+                window._map_windowclose_callback = function(url) {
+                    window.TongjiObj.discover('click', 'banner_survey_success');
+                }
+                window.parent.postMessage(JSON.stringify({
+                    t: 'windowopen'
+                    , d: 'https://jinshuju.net/f/w7A4nC'
+                }), '*');
             });
         }
         ,c_select:function(position,name){

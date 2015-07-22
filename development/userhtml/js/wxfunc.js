@@ -131,6 +131,10 @@
                title = _title;
                return this;
            }
+           ,setUrl:function(_url){
+               linkUrl = _url;
+               return this;
+           }
        }
         return obj;
     })();

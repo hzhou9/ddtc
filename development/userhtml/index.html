@@ -409,6 +409,8 @@
             } else if (data.t == 'setpushid') {//提交pushid
                 window.pushid = data.d;
                 window.myajax.userget('index', 'setPushid', {pushid: data.d}, function (result) {}, null, false);
+            } else if (data.t == 'windowclose') {//windowclose
+                window._map_windowclose_callback(data.d);
             } else if (data.t == 'setlocation') {
                 if (window._map_location_callback != null) {
                     window._map_location_callback(data.d);

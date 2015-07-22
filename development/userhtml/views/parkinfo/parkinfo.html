@@ -1,46 +1,51 @@
 <div class="page_content userpage park-info" id="parkinfo_html">
-    <style></style>
     <div name="scrollparent" style="overflow:hidden">
         <div name="infoarea">
-        <div name="bgbox" class="pic-box">
-            <div class="mui-slider-group mui-slider-loop">
-                <div class="mui-slider-item mui-slider-item-duplicate" name="bg_map">
-                    <img/>
+            <div name="bgbox" class="pic-box">
+                <div class="mui-slider-group mui-slider-loop">
+                    <div class="mui-slider-item mui-slider-item-duplicate" name="bg_map">
+                        <img/>
+                    </div>
+                    <div class="mui-slider-item" name="bg" style="display:none">
+                        <img/>
+                    </div>
                 </div>
-                <div class="mui-slider-item" name="bg" style="display:none">
-                    <img/>
+                <div class="mui-slider-indicator" style="display:none">
+                    <div class="mui-indicator"></div>
+                    <div class="mui-indicator mui-active"></div>
                 </div>
             </div>
-            <div class="mui-slider-indicator" style="display:none">
-                <div class="mui-indicator"></div>
-                <div class="mui-indicator mui-active"></div>
-            </div>
+            <ul class="mui-table-view mui-table-view-chevron">
+                <li class="mui-table-view-cell">
+                    <a class="mui-btn mui-btn-primary mui-btn-outlined" name="btdaohang">导航</a>
+                    <h4 name='address'>网友对停车场描述</h4>
+                    <p name='address2'></p>
+                </li>
+                <li class="mui-table-view-cell">
+                    <span class="mui-icon duduche icon-money"></span>
+                    <p name="rules"></p>
+                    <p class='mui-ellipsis activity' name='activity'></p>
+                </li>
+                <li class="mui-table-view-cell">
+                    <span class="mui-icon duduche icon-parking" name="spaces_icon"></span>
+                    <p name='spaces'>现在是<span name='numberstatus1'></span>
+                        <mytag style="display:none">，预计<span name='numberstatus2t'></span>后<span
+                                name='numberstatus2'></span></mytag>
+                    </p>
+                </li>
+                <li class="mui-table-view-cell">
+                    <span class="mui-icon duduche icon-tag"></span>
+
+                    <p class="tags" name="tags">
+                    </p>
+                </li>
+                <li class="mui-table-view-cell" id="share_park_info">
+                    <p>
+                        <img src="img/icon_wx_logo@3x.png" width="24" valign="middle" /> 立即分享
+                    </p>
+                </li>
+            </ul>
         </div>
-    <ul class="mui-table-view mui-table-view-chevron">
-        <li class="mui-table-view-cell">
-            <a id="share_park_info" href="###">分享</a>
-        </li>
-        <li class="mui-table-view-cell">
-            <a class="mui-btn mui-btn-primary mui-btn-outlined" name="btdaohang">导航</a>
-            <h4 name='address'>网友对停车场描述</h4>
-            <p name='address2'></p>
-        </li>
-        <li class="mui-table-view-cell">
-                <span class="mui-icon duduche icon-money"></span>
-            <p name="rules"></p>
-            <p class='mui-ellipsis activity' name='activity'></p>
-        </li>
-        <li class="mui-table-view-cell">
-            <span class="mui-icon duduche icon-parking" name="spaces_icon"></span>
-            <p name='spaces'>现在是<span name='numberstatus1'></span><mytag style="display:none">，预计<span name='numberstatus2t'></span>后<span name='numberstatus2'></span></mytag></p>
-        </li>
-        <li class="mui-table-view-cell">
-                <span class="mui-icon duduche icon-tag"></span>
-            <p class="tags" name="tags">
-            </p>
-        </li>
-    </ul>
-    </div>
     </div>
     <div class="reserve" name="reserve" style="z-index:99;display:none;">
         <a class="mui-btn mui-btn-primary mui-btn-block">立即预订</a>
@@ -49,27 +54,45 @@
         <span class="tags-item" name="tags-item"></span>
     </div>
     <!--弹出菜单-->
-    <div style="display:none;top:0;position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.3)" id="map-list-bg"></div>
+    <div style="display:none;top:0;position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.3)"
+         id="action-list-bg"></div>
 
-    <div id="map-list" style="display:none;position: absolute;bottom: 0;width: 100%;z-index: 1000;">
+    <div id="map_list" style="display:none;position: absolute;bottom: 0;width: 100%;z-index: 1000;">
         <ul class="mui-table-view">
             <li class="mui-table-view-cell">
-                    <h4>百度地图</h4>
-                    <p style="margin-left:0">需要安装“百度地图APP”</p>
-                    <button name="btbaidu" class="mui-btn mui-btn-primary mui-btn-outlined">导航</button>
+                <h4>百度地图</h4>
+
+                <p style="margin-left:0">需要安装“百度地图APP”</p>
+                <button name="btbaidu" class="mui-btn mui-btn-primary mui-btn-outlined">导航</button>
             </li>
             <li class="mui-table-view-cell">
-                    <h4>高德地图</h4>
-                    <p style="margin-left:0">需要安装“高德地图APP”</p>
-                    <button name="btgaode" class="mui-btn mui-btn-primary mui-btn-outlined">导航</button>
+                <h4>高德地图</h4>
+
+                <p style="margin-left:0">需要安装“高德地图APP”</p>
+                <button name="btgaode" class="mui-btn mui-btn-primary mui-btn-outlined">导航</button>
             </li>
             <li class="mui-table-view-cell">
-                    <h4>路线规划</h4>
-                    <p style="margin-left:0">行车路线规划及提示</p>
-                    <button name="btlocal" class="mui-btn mui-btn-primary mui-btn-outlined">导航</button>
+                <h4>路线规划</h4>
+
+                <p style="margin-left:0">行车路线规划及提示</p>
+                <button name="btlocal" class="mui-btn mui-btn-primary mui-btn-outlined">导航</button>
             </li>
             <li class="mui-table-view-cell btn-cancel">
                 <a name="close_map-list"><b>取消</b></a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="share_list" style="display:none;position: absolute;bottom: 0;width: 100%;z-index: 1000;">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell" id="share_to_moments">
+                <h4>分享到朋友圈</h4>
+            </li>
+            <li class="mui-table-view-cell" id="share_to_friends">
+                <h4>分享给好友</h4>
+            </li>
+            <li class="mui-table-view-cell btn-cancel">
+                <a name="close_share-list"><b>取消</b></a>
             </li>
         </ul>
     </div>

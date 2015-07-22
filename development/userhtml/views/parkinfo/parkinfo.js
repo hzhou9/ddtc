@@ -32,9 +32,11 @@ function ui_parkinfo(){
             ,reserve:'[name=reserve]'
             ,scrollparent:'[name=scrollparent]'
             ,bgbox:'[name=bgbox]'
-            ,daohanglist:'#map-list'
-            ,daohanglist_bg:'#map-list-bg'
+            ,daohanglist:'#map_list'
+            ,sharelist:'#share_list'
+            ,action_list_bg:'#action-list-bg'
             ,close_map_list:'[name=close_map-list]'
+            ,close_share_list:'[name=close_share-list]'
             ,tags_item:'.template [name=tags-item]'
             ,mytag:'[name=spaces] mytag'
             ,share:'#share_park_info'
@@ -90,11 +92,9 @@ function ui_parkinfo(){
             } else if (this.nowdata.c == 2) { // 免费
                 label = "A2";
             }
-
             if (null != this.nowdata.i) {
                 label += "+B1"
             }
-
             window.TongjiObj.parkinfo('pv', label);
 
         }
@@ -177,16 +177,16 @@ function ui_parkinfo(){
             }
             }
             //是否显示滚动
-            setTimeout(function(){
-                       var scrollheight = me.dom.scrollparent.parent().height();
-                       if(me.showbt){
-                        scrollheight -= me.dom.reserve.height();
-                       }
-                       var contentheight = me.dom.scrollparent.height();
-                       if(contentheight > scrollheight){
-                        me.dom.scrollparent.css('height',scrollheight+'px');
-                        me.iscroll = new iScroll(me.dom.infoarea[0], {desktopCompatibility:true});
-                       }
+            setTimeout(function () {
+                var scrollheight = $('.userpage').parent().height();
+                if (me.showbt) {
+                    scrollheight -= me.dom.reserve.height();
+                }
+                var contentheight = me.dom.scrollparent.height();
+                if (contentheight > scrollheight) {
+                    me.dom.scrollparent.css('height', scrollheight - 44 + 'px');
+                    me.iscroll = new iScroll(me.dom.infoarea[0], {desktopCompatibility: true});
+                }
             });
         }
         ,c_gettags:function(str){
@@ -314,7 +314,8 @@ function ui_parkinfo(){
             //    me.dom.btios.show();
             //}
 
-            me.dom.btdaohang.aclick(function(){
+            me.dom.btdaohang.click(function(){
+
                 window.TongjiObj.parkinfo('click', 'navi');
 
                 if (sysmanager.isapp) {
@@ -322,7 +323,7 @@ function ui_parkinfo(){
                         me.c_daohang_ios_official();
                     } else {
                         me.dom.daohanglist.show();
-                        me.dom.daohanglist_bg.show();
+                        me.dom.action_list_bg.show();
                     }
                 } else {
                     if (window.Myweixinobj && window.Myweixinobj.isready) {
@@ -335,24 +336,27 @@ function ui_parkinfo(){
                             infoUrl: ''
                         });
                     } else {
-                        sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
+                        sysmanager.loadpage('views/', 'daohang', null, '导航：' + me.nowdata.n,function(v) {
                             v.obj.settarget(me.nowdata);
                         });
                     }
                 }
             });
-            me.dom.btlocal.aclick(function(){
+
+            me.dom.btlocal.click(function(){
                 window.TongjiObj.parkinfo('navi', 'local');
                 sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
                     v.obj.settarget(me.nowdata);
                 });
                 me.c_danghang_close();
             });
-            me.dom.btios.aclick(function(){
+
+            me.dom.btios.click(function(){
                 me.c_daohang_ios_official();
                 me.c_danghang_close();
             });
-            me.dom.btgaode.aclick(function(){
+
+            me.dom.btgaode.click(function(){
                 window.TongjiObj.parkinfo('navi', 'gaode');
                 if (sysmanager.isapp) {
                     me.c_daohang_gaode_app();
@@ -361,7 +365,8 @@ function ui_parkinfo(){
                 }
                 me.c_danghang_close();
             });
-            me.dom.btbaidu.aclick(function(){
+
+            me.dom.btbaidu.click(function(){
                 window.TongjiObj.parkinfo('navi', 'baidu');
                 if (sysmanager.isapp) {
                     me.c_daohang_baidu_app();
@@ -370,31 +375,73 @@ function ui_parkinfo(){
                 }
                 me.c_danghang_close();
             });
-            me.dom.close_map_list.aclick(function(){
+
+            me.dom.close_map_list.click(function(){
                 me.c_danghang_close();
             });
 
-            me.dom.reserve.aclick(function(){
+            me.dom.close_share_list.click(function(){
+                me.c_share_close();
+            });
+
+            me.dom.reserve.click(function(){
                 window.TongjiObj.parkinfo('click', 'order');
-                sysmanager.loadpage('views/', 'orderpay', null, '预订：'+me.nowdata.n,function(v){
+                sysmanager.loadpage('views/', 'orderpay', null, '预订：' + me.nowdata.n,function(v){
                     v.obj.setdata(me.nowdata,me.extinfo);
                 });
             });
 
-            me.dom.share.click(function(){
-                //window.Myweixinobj.setDesc('你停车，我买单，停车只要1元！').setTitle('嘟嘟停车，请你停车').initBind();
-                window.parent.postMessage(JSON.stringify({t: 'wechatshare', d: {
-                    scene: 1,
-                    title:"嘟嘟停车",
-                    description: "上海停车省钱神器",
-                    url: "http://duduche.me",
-                    thumb: null
-                }}), '*');
-            });
+            var title = '嘟嘟停车'
+                , desc = '上海停车省钱神器'
+                , url = 'http://app.duduche.me/redirect/user/indexhtml.php?m=parkinfo&n=' + me.nowdata.sn
+                , thumb = null;
+
+            if (sysmanager.isapp) {
+
+                $('#share_to_friends').click(function() {
+                    window.parent.postMessage(JSON.stringify({
+                        t: 'wechatshare', d: {
+                            scene: 1, // session
+                            title: title,
+                            description: desc,
+                            url: url,
+                            thumb: thumb
+                        }
+                    }), '*');
+                    me.c_share_close();
+                });
+
+                $('#share_to_moments').click(function() {
+                    window.parent.postMessage(JSON.stringify({
+                        t: 'wechatshare', d: {
+                            scene: 2, // timeline
+                            title: title,
+                            description: desc,
+                            url: url,
+                            thumb: thumb
+                        }
+                    }), '*');
+                    me.c_share_close();
+                });
+
+                me.dom.share.click(function() {
+                    me.dom.sharelist.show();
+                    me.dom.action_list_bg.show();
+                });
+
+            } else {
+                me.dom.share.hide();
+                window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
+
+            }
         }
         ,c_danghang_close:function(){
             this.dom.daohanglist.hide();
-            this.dom.daohanglist_bg.hide();
+            this.dom.action_list_bg.hide();
+        }
+        ,c_share_close:function(){
+            this.dom.sharelist.hide();
+            this.dom.action_list_bg.hide();
         }
         ,close:function(){
 

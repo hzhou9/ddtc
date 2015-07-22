@@ -549,7 +549,7 @@ function ui_map(){
             var block = this.dom.areablock.clone();
             if(sub){
                 var me = this;
-                block.find('.mui-media-body').html(sub[0]);
+                block.find('.mui-media-body').html(sub[0] + ' <small>(' + sub[3] + ')</small>');
                 block.click(function(){
                         me.dom.destbar.txt.html(sub[0]);
                         var lnglat = new  AMap.LngLat(sub[2], sub[1]);

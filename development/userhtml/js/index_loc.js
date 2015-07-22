@@ -183,6 +183,8 @@
             weixinapppay(evt.d);
         } else if (evt.t == 'navi') {
             navigator_launcher(evt.d);
+        } else if (evt.t == 'wechatshare') {
+            wechatshare(evt.d);
         } else if (evt.t == 'nav') {//加载某tab
             var target = evt.d.target;
             var href = evt.d.href;
@@ -211,9 +213,9 @@
                 sendToIframe(JSON.stringify({t: 'setpushid', d: app.pushid}));
             }
         } else if (evt.t == 'windowopen') {
-            var win = window.open(evt.d, '_blank', 'location=no');
+            var win = window.open(evt.d, '_blank', evt.f ? evt.f : 'location=no');
             win.addEventListener('loadstop', function (e) {
-                if (e.url.match("close")) {
+                if (e.url.match("close|success")) {
                     win.close();
                     sendToIframe(JSON.stringify({t: 'windowclose', d: e.url}));
                 }
@@ -240,6 +242,22 @@
             }, function (fail) {
                 alert('支付调用失败:' + fail);
             });
+    }
+
+    function wechatshare(msgdata) {
+        // 创建消息体
+        var msg = {
+            title: msgdata.title ? msgdata.title : "嘟嘟停车",
+            description: msgdata.desc ? msgdata.desc : "上海停车省钱神器",
+            url: msgdata.url ? msgdata.url : "http://duduche.me",
+            thumb: msgdata.thumb ? msgdata.thumb : null
+        };
+
+        WeChat.share(msg, null != msgdata.scene ? msgdata.scene : WeChat.Scene.session, function(success) {
+            sendToIframe(JSON.stringify({t: 'wechatshare', d: success}));
+        }, function(fail) {
+            alert('分享失败:' + fail);
+        });
     }
 
     function navigator_launcher(data) {
