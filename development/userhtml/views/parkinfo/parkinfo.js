@@ -92,11 +92,9 @@ function ui_parkinfo(){
             } else if (this.nowdata.c == 2) { // 免费
                 label = "A2";
             }
-
             if (null != this.nowdata.i) {
                 label += "+B1"
             }
-
             window.TongjiObj.parkinfo('pv', label);
 
         }

@@ -401,7 +401,9 @@ function ui_discover(){
             });
 
             this.dom.concert_list.click(function() {
+                window.TongjiObj.discover('click', 'banner_concert');
                 window._map_windowclose_callback = function(url) {
+                    window.TongjiObj.discover('click', 'banner_concert_place');
                     var pos = url.match(/pos=([^&]+)/)[1].split(',');
                     var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
                     var location = new AMap.LngLat(pos[0], pos[1]);
@@ -414,7 +416,9 @@ function ui_discover(){
             });
 
             this.dom.cinema_list.click(function() {
+                window.TongjiObj.discover('click', 'banner_cinema');
                 window._map_windowclose_callback = function(url) {
+                    window.TongjiObj.discover('click', 'banner_cinema_place');
                     var pos = url.match(/pos=([^&]+)/)[1].split(',');
                     var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
                     var location = new AMap.LngLat(pos[0], pos[1]);
@@ -427,11 +431,9 @@ function ui_discover(){
             });
 
             this.dom.banner_survey.click(function() {
+                window.TongjiObj.discover('click', 'banner_survey');
                 window._map_windowclose_callback = function(url) {
-                    var pos = url.match(/pos=([^&]+)/)[1].split(',');
-                    var txt = decodeURIComponent(url.match(/txt=([^&]+)/)[1]);
-                    var location = new AMap.LngLat(pos[0], pos[1]);
-                    me.c_select(location, txt);
+                    window.TongjiObj.discover('click', 'banner_survey_success');
                 }
                 window.parent.postMessage(JSON.stringify({
                     t: 'windowopen'
