@@ -20,7 +20,8 @@ function ui_discover(){
             ,free_list:'[name=free_list]'
             ,cinema_list:'#e_cinema'
             ,concert_list:'#e_concert'
-            ,banner_survey:'#banner_cinema'
+            ,banner_survey:'#banner_survey'
+            ,banner_cai:'#banner_cai'
             ,coop:'[name=coop]'
             ,hintlist:'[name=hint]'
             ,list:'[name=coop] .innerlist'
@@ -439,6 +440,17 @@ function ui_discover(){
                 window.parent.postMessage(JSON.stringify({
                     t: 'windowopen'
                     , d: 'https://jinshuju.net/f/w7A4nC'
+                }), '*');
+            });
+
+            this.dom.banner_cai.click(function() {
+                window.TongjiObj.discover('click', 'banner_cai');
+                window._map_windowclose_callback = function(url) {
+                    window.TongjiObj.discover('click', 'banner_cai_success');
+                }
+                window.parent.postMessage(JSON.stringify({
+                    t: 'windowopen'
+                    , d: 'http://knows.io/assets/event/cai/index.html'
                 }), '*');
             });
         }
