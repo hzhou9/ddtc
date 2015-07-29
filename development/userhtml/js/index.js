@@ -201,6 +201,8 @@
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'pushid', d: app.pushid}));
             }
+
+            appavailable();
         } else if (evt.t == 'toggletabbar') {
             if (evt.d == 'hide') {
                 $('.mui-bar-tab').hide();
@@ -241,6 +243,25 @@
             }, function (fail) {
                 alert('支付调用失败:' + fail);
             });
+    }
+
+    function appavailable() {
+        //check app available
+        if (window.appAvailability) {
+            var appAvailable = {amap: false, bdmap: false}
+                ,appSchemas = {
+                    amap : ['com.autonavi.minimap', 'iosamap://']
+                    ,bdmap : ['com.baidu.BaiduMap', 'baidumap://']
+                };
+            $.each(appSchemas, function(key, value) {
+                window.appAvailability.check(/iP(hone|od|ad)/i.test(navigator.platform) ? value[1] : value[0], function() {
+                    appAvailable[key] = true;
+                    setTimeout(function() {
+                        sendToIframe(JSON.stringify({t: 'appavailable', d: appAvailable}));
+                    });
+                });
+            });
+        }
     }
 
     function wechatshare(msgdata) {
