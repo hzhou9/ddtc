@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created with JetBrains WebStorm.
  * User: kk
  * Date: 14-9-10
@@ -58,42 +58,60 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
         ,c_getrow:function(data){
-            /**
-             * admin: "堵彬"carid: "浙D6s139"endtime: "1970-01-01 08:00:00"money: 0startime: "1970-01-01 08:00:00"
-             * @type {*}
-             */
+       var me = this;
             var row = this.dom.row.clone();
             row.find('[name=pai]').html(data.carid).end().find('[name=start]').html(data.startime)
-                .end().find('[name=end]').html(data.endtime)
+                .end().find('[name=tel]').attr("href",'tel:'+data.tel)
                 .end().find('[name=admin]').html(data.admin)
-                .end().find('[name=money]').html('¥ '+data.money)
-                .find('[name=btaction]').aclick(function(){
-
-                });
+                .end().find('[name=money]').html(data.money);
+       
+       if(data.s < 1){
+        //未入库
+       row.find('[name=title_order]').hide();
+       row.find('[name=btaction1]').hide();
+       row.find('[name=btaction2]').aclick(function(){//入库操作
+          me.c_setIn(data.oid, row);
+                                           });
+       }else{
+        row.find('[name=title_new]').hide();
+        row.find('[name=newcar]').hide();
+        row.find('[name=btaction2]').hide();
+        row.find('[name=btaction1]').aclick(function(){//计算停车费
+        ajax.userget('index','calDeal',{oid:data.oid}, function(result){
+            var parktime = utils.tools.t2s(new Date - Date.parse(data.startime.replace(/-/g, "/")));
+            var totalsum = result.data.p;
+            var title = '<label>还需支付：</label><b>'+(totalsum > data.money?parseInt((totalsum - data.money)*100)/100:0)+'</b>元';
+            var content = '<p><label>开始计费：</label><span>'+data.startime+'</span></p><p><label>停放时间：</label><span>'+parktime+'</span></p><p><label>总计金额：</label><span>'+totalsum+'</span>元</p><p><label>已付金额：</label><span>'+data.money+'</span></p>';
+            utils.sys.alert(title, content);
+        });
+                                       });
+       }
             return  row;
         }
+       ,c_setIn:function(oid, row){
+       var me = this;
+       utils.sys.confirm("确认车辆［{0}］入场？".replace('{0}',row.find('[name=pai]').html()), function(){
+                         me.m_setIn(oid,function(){
+                                    me.c_init();
+                                    });
+                         });
+       }
+       ,m_setIn:function(oid, fn){
+       ajax.userget('index','setEntry',{oid:oid}, function(result){
+                    var data = result.data;
+                    fn && fn(data);
+                    
+                    });
+       }
         ,c_getnonerow:function(){
             var row = this.dom.nonerow.clone();
             return row;
         }
         ,m_getdata:function(fn){
-            ajax.userget('index','getDeals',{lastweek:this.lastWeek}, function(result){
-                /**
-                 * data:［{"oid":"1","carid":"11111","orderTime":"1970-01-01 08:00:00"}
-                 */
+       ajax.userget('index','getDeals',{lastweek:this.lastWeek,all:1}, function(result){
                 var data = result.data;
                 fn && fn(data);
             });
-        }
-        ,m_getdata1:function(fn){
-            fn && fn([
-                {pai:'沪a1231',time:'10:45'}
-                ,{pai:'沪asaasda',time:'11:45'}
-                ,{pai:'沪a12a0a',time:'13:45'}
-                ,{pai:'沪aczxczc',time:'14:45'}
-                ,{pai:'沪azxczxc',time:'14:55'}
-                ,{pai:'沪asfdsdfsd',time:'15:01'}
-            ]);
         }
         ,close:function(){
             this.onclose && this.onclose();

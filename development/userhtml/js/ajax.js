@@ -20,9 +20,13 @@
                 sysmanager.alert(result.data);
                 return false;
             case 100:   //没有登录
-                sysmanager.loginUI(function(){
+ sysmanager.loginUI(function(isclickquit){
+                    if(isclickquit){
+                    sysmanager.pagecontainerManager.onback();
+                    }else{
                     myajax.userget(model,control,data, success, error, myprocess);
-                },'你的登录状态失效，请重新输入你的注册手机号');
+                    }
+                    },'本功能需要登录后才可以使用',true);
                 return false;
         }
     }
@@ -40,7 +44,7 @@
                 //jsonpCallback:'myjsonpReturn',                   //回调函数名
                 success:function(result){                  //成功执行处理，对应后台返回的getName(data)方法。
                     sysmanager.loading.hide();
-                    console.log(result);
+                    //console.log(result);
                     if(!!myprocess){
                         success && success(result);
                     }else if(process.apply(this, [result,model,control,data, success, error, myprocess])){
@@ -49,7 +53,8 @@
                 },
                 error:function(msg){
                     sysmanager.loading.hide();
-                    console.log(msg);
+                   sysmanager.alert('您现在的网络信号是否不稳定？','网络通信错误');
+                    //console.log(msg);
                 }
             }); 
         }

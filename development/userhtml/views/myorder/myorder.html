@@ -1,60 +1,26 @@
 <div class="page_content userpage" style="" id="myorder_html">
     <style>
-        #myorder_html{
-            width: 100%;
-            height: 100%;
-        }
-        #myorder_html .row .time{
-
-        }
-        #myorder_html .row .title,#myorder_html .row .info{
-
-        }
-
-        .myorder_html_contaion{
-            width: 100%;
-            height: auto;
-            position: absolute;
-        }
-        #myorder_html .mui-table-view-cell>div{
-            line-height: 25px;
-        }
-        #myorder_html .mui-table-view-cell>p{
-            line-height: 20px;
-        }
-
     </style>
-    <div class="myorder_html_contaion" name='scrollpanel'>
-        <div style="display: none">
-            <div class="test"></div>
-            <button class="mui-btn mui-btn-red" name='btclearlogin' style1="top: 20%">清除登录信息</button>
-        </div>
-        <ul class="mui-table-view">
-            <li class="mui-table-view-divider">我的订单</li>
-        </ul>
+    <header class="mui-bar mui-bar-nav" style="position: relative;display:none;">
+        <h1 class="mui-title">我的订单</h1>
+    </header>
+    <div name='scrollpanel' style="overflow:hidden;">
         <ul class="mui-table-view" name='list'>
 
         </ul>
         <div class="template">
             <ul>
-                <li class="mui-table-view-cell row" name='row'>
-                    <div class="title" name='title'>伸大厦停车场</div>
-                    <p><label>地址:</label><span name='address'></span></p>
-                    <p><label>下单时间:</label><span name='time'></span></p>
-                    <p><label>停车时间:</label><span name='info'></span></p>
-                    <button class="mui-btn mui-btn-red" name='btpay' style1="top: 20%">结算</button>
-                    <button class="mui-btn mui-btn-success" name='btleave' style1="top: 60%">离场</button>
-                </li>
-                <li class="mui-table-view-cell row" name='row2'>
-                    <div class="title" name='title'>伸大厦停车场</div>
-                    <p><label>地址:</label><span name='address'></span></p>
-                    <p><label>下单时间:</label><span name='time'></span></p>
-                    <p><label>停车时间:</label><span name='info'>2小时8分钟</span></p>
-                    <!--<button class="mui-btn mui-btn-success" name='btpay' style="bottom: 0;top:inherit">详情</button>-->
+                <li class="mui-table-view-cell row" name="row">
+                    <div class="mui-navigate-right">
+                        <h4>
+                            <span class="title" name="title"></span><span style="float: right" class="mui-badge mui-badge-success">已付：<b name="cost"></b>元</span>
+                        </h4>
+                        <p><span class="mui-icon duduche icon-place"></span><span name="address"></span></p>
+                        <p><label>开始计费：</label><span name="time"></span></p>
+                    </div>
                 </li>
             </ul>
         </div>
-        <!--<button style="bottom: 5%;position: absolute" class="mui-btn mui-btn-success mui-btn-block">查看你历史订单>></button>-->
     </div>
 
 </div>

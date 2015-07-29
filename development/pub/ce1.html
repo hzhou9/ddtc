@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<title>嘟嘟停车</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<script>
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/) || '';
+        var mobile = {
+            iphone:agentID.indexOf("iphone")>=0
+            ,android:agentID.indexOf("android")>=0
+            ,ipad:agentID.indexOf("ipad")>=0
+            ,ipad:agentID.indexOf("ipod")>=0
+        }
+        if(mobile.iphone){
+            //alert('iphone');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=01, user-scalable=0,minimal-ui">');
+        }else if(mobile.android){
+            //alert('android');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">');
+            //document.write('<meta name="viewport" content="target-densitydpi=device-dpi">');
+        }else{
+            //alert('other');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=0,minimal-ui">');
+        }
+    </script>
+    <style>
+        img{
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+</style>
+</head>
+<body>
+<img src="cimg/sample1.jpg" width="100%">
+    <img src="cimg/sample2.jpg" width="100%">
+        <img src="cimg/sample3.jpg" width="100%">
+            <img src="cimg/sample4.jpg" width="100%">
+
+</body>
+</html>

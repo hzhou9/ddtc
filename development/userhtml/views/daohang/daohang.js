@@ -23,6 +23,9 @@ function ui_daohang(){
         }, c_init:function () {
             var me = this;
             this.c_initMap(function (locposition) {
+                if(!me.targetdata.point){
+                    me.targetdata.point = new AMap.LngLat(me.targetdata.lng,me.targetdata.lat);
+                }
                 me.c_startDaohang(locposition, me.targetdata.point);
             });
         }, c_startDaohang:function (start, end) {
@@ -73,7 +76,7 @@ function ui_daohang(){
         }, c_driving_routeCallBack:function (data, start, end) {
             var me = this;
             var routeS = data.routes;
-            this.dom.list.empty();
+            this.dom.list.empty().unbind();
             if (routeS.length <= 0) {
                 //alert("未查找到任何结果!<br />建议：<br />1.请确保所有字词拼写正确。<br />2.尝试不同的关键字。<br />3.尝试更宽泛的关键字。");
             } else {
@@ -214,7 +217,8 @@ function ui_daohang(){
             this.targetdata = data;
         }, c_initMap:function (fn) {
             var me = this;
-            var mapObj = this.mapObj = window.mapobj = new AMap.Map("daohang_html_mapid", {
+            sysmanager.loadMapscript.load(function(){
+            var mapObj = me.mapObj = window.mapobj = new AMap.Map("daohang_html_mapid", {
                 view:new AMap.View2D({//创建地图二维视口
                     //center:position,//创建中心点坐标
                     zoom:15, //设置地图缩放级别
@@ -240,6 +244,7 @@ function ui_daohang(){
                     fn && fn(locposition);
                 });
                 maptool.doLocation();
+            });
             });
         }, c_showInfo:function () {
             this.dom.info.panel.show();

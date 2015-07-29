@@ -11,11 +11,11 @@ function ui_myorder(){
         ,context:null
         ,dom:{
             row:'.template [name=row]'
-            ,row2:'.template [name=row2]'
             ,list:'[name=list]'
             ,scrollpanel:'[name=scrollpanel]'
             ,test:'.test'
             ,btclearlogin:'[name=btclearlogin]'
+            ,header:'header'
         }
         ,iscroll:null
         ,init:function(context){
@@ -38,16 +38,10 @@ function ui_myorder(){
         }
         ,c_fill:function(data){
             var me = this;
-            this.dom.list.empty();
+            this.dom.list.empty().unbind();
             for(var i=0;i<data.length;i++){
                 var d = data[i];
-                var row = null;
-                if(3 == d.state){
-                    row = this.c_getrow2(d);
-//                    row = this.c_getrow(d);
-                }else{
-                    row = this.c_getrow(d);
-                }
+                var row = this.c_getrow(d);
 
                 this.dom.list.append(row);
             }
@@ -57,62 +51,25 @@ function ui_myorder(){
             })
 
         }
-        ,c_getrow:function(data){           //未结算的行
-            /**
-             * address: "金沙江路102号"oid: "52"parkname: "金沙江路停车场（测试）"startTime: "1970-01-01 08:00:00"__proto__: Object1: Objectaddress: "金沙江路102号"oid: "53"parkname: "金沙江路停车场（测试）"startTime: "1970-01-01 08:00:00"__proto__: Objectlength: 2__proto__: Array[0]__proto__: Object
-             * @type {*}
-             */
-                var me = this;
+        ,c_getrow:function(data){
+            var me = this;
             var row = this.dom.row.clone();
             row.find('[name=title]').html(data.parkname);
             row.find('[name=time]').html(data.startTime);
             row.find('[name=address]').html(data.address);
-            var ms = new Date() - data.startTimeStamp*1000;
-//            alert([new Date()-0, new Date(data.startTime)-0,ms]);
-            var timestring = utils.tools.t2s(ms);
-            row.find('[name=info]').html(timestring);
-
-            if(false &&  '2' == data.state+''){
-                row.find('[name=btpay]').hide();
-                row.find('[name=btleave]').aclick(function(){
-                    me.c_setleave(row, data.oid);
-                });
-            }else{
-                row.find('[name=btpay]').aclick(function(){
-                    me.c_paydetail(data.oid);
-                });
-                row.find('[name=btleave]').hide();
-            }
-            return row;
-        }
-        ,c_getrow2:function(data){          //已经结算的行
-            var me = this;
-            var row = this.dom.row2.clone();
-            row.find('[name=title]').html(data.parkname);
-            row.find('[name=time]').html(data.startTime);
-            row.find('[name=address]').html(data.address);
-            var ms = (data.leaveTimeStamp - data.startTimeStamp)*1000;
-            var timestring = utils.tools.t2s(ms);
-            row.find('[name=info]').html(timestring);
-            row.find('[name=btpay]').aclick(function(){
+            row.find('[name=cost]').html(data.cost);
+            
+            row.click(function(){
                 me.c_paydetail(data.oid);
             });
+            
             return row;
-        }
-        ,c_setleave:function(row, oid){
-            var me = this;
-            sysmanager.confirm(window.cfg.leaveinfo,function(){
-                me.m_leave(oid, function(){
-                    location.reload();
-                });
-            });
         }
         ,c_paydetail:function(oid){
             var me = this;
-            sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
+            sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){
                 v.obj.initoid(oid);
                 v.obj.onclose = function(){
-                    me.c_init();
                 }
             });
         }
@@ -121,29 +78,23 @@ function ui_myorder(){
         }
         ,r_init:function(){
             var me = this;
-            this.iscroll = new iScroll(this.dom.scrollpanel[0], {desktopCompatibility:true});
+            var model = utils.tools.getUrlParam('m');
+            if('myorder' == model){
+                this.dom.header.show();
+                var height = this.context.height() - this.dom.header.height();
+                this.dom.scrollpanel.height(height);
+            }else{
+                this.dom.header.hide();
+                var height = this.context.height();
+                this.dom.scrollpanel.height(height);
+            }
+            this.iscroll = new iScroll(this.dom.list[0], {desktopCompatibility:true});
             this.dom.btclearlogin.aclick(function(){
                 me.c_cleatlogin();
             });
         }
-        ,m_getorder:function(fn){         //获取没有结算的订单
-
-            //duduche.me/driver.php/home/index/getOrder
+        ,m_getorder:function(fn){
             window.myajax.userget('index','getOrder',{last:0}, function(result){
-                var data = result.data;
-                data.sort(function(a,b){
-                    return a.state - b.state;
-                });
-                fn && fn(result.data);
-            }, null, false);
-        }
-        ,m_startJs:function(oid, fn){          //发出结算请求
-            window.myajax.userget('index','genorder',{pid:pid}, function(result){
-                fn && fn(result.data);
-            }, null, false);
-        }
-        ,m_leave:function(oid, fn){          //发出结算请求
-            window.myajax.userget('index','setLeave',{oid:oid}, function(result){
                 fn && fn(result.data);
             }, null, false);
         }

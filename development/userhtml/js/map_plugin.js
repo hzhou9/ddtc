@@ -11,9 +11,9 @@ window.mapPluginInit = function(){
     };
     home.prototype={
        addTo: function(map, dom){
-          dom.appendChild(this._getHtmlDom(map));
-       },
-       _getHtmlDom:function(map){
+          //dom.appendChild(this._getHtmlDom(map));
+       }
+       /*,_getHtmlDom:function(map){
            var me = this;
          this.map=map;
          // 创建一个能承载控件的<div>容器
@@ -26,7 +26,7 @@ window.mapPluginInit = function(){
 
          });
          return controlUI[0];
-       }
+       }*/
         ,setPosition:function(position, map, ismarker){
             this.position = position;
             if(!!ismarker){
@@ -36,9 +36,9 @@ window.mapPluginInit = function(){
                 }else{
                     this.marker = new AMap.Marker({
                         map:map
-                        ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(192, 232, 246, 0.8)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:#16a7de'></div></div>"
+                        ,content:"<div style='width:32px;height:32px;background-size:32px 32px;background-image: url(img/icon-map-location.png);'></div>"
                         ,position:position
-                         ,offset:new AMap.Pixel(-25,-25)
+                         ,offset:new AMap.Pixel(-16,-32)
                     });
                 }
             }
