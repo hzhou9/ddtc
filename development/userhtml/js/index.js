@@ -201,7 +201,6 @@
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'pushid', d: app.pushid}));
             }
-
             appavailable();
         } else if (evt.t == 'toggletabbar') {
             if (evt.d == 'hide') {
