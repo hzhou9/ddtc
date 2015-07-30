@@ -201,6 +201,7 @@
             if (app.pushid) {
                 sendToIframe(JSON.stringify({t: 'pushid', d: app.pushid}));
             }
+            appavailable();
         } else if (evt.t == 'toggletabbar') {
             if (evt.d == 'hide') {
                 $('.mui-bar-tab').hide();
@@ -243,6 +244,25 @@
             });
     }
 
+    function appavailable() {
+        //check app available
+        if (window.appAvailability) {
+            var appAvailable = {amap: false, bdmap: false}
+                ,appSchemas = {
+                    amap : ['com.autonavi.minimap', 'iosamap://']
+                    ,bdmap : ['com.baidu.BaiduMap', 'baidumap://']
+                };
+            $.each(appSchemas, function(key, value) {
+                window.appAvailability.check(/iP(hone|od|ad)/i.test(navigator.platform) ? value[1] : value[0], function() {
+                    appAvailable[key] = true;
+                    setTimeout(function() {
+                        sendToIframe(JSON.stringify({t: 'appavailable', d: appAvailable}));
+                    });
+                });
+            });
+        }
+    }
+
     function wechatshare(msgdata) {
         // 创建消息体
         var msg = {
@@ -260,16 +280,24 @@
     }
 
     function navigator_launcher(data) {
-        launchnavigator.navigate(
-            data.type,
-            data.dist,
-            data.orig,
-            function () {
-            },
-            function (error) {
-                //console.log(error);
-                alert("导航启动失败");
-            });
+        if (window.launchnavigator) {
+            if (window.launchnavigator.doLaunch) {
+                window.launchnavigator.doLaunch(
+                    data.type,
+                    data.dist,
+                    data.orig,
+                    function() {
+                    },
+                    function() {
+                        alert("导航启动失败");
+                    });
+            } else if (launchnavigator.navigate) {
+                launchnavigator.navigate(
+                    data.type,
+                    [data.dist[2], data.dist[1]],
+                    null);
+            }
+        }
     }
 
 //cordova事件

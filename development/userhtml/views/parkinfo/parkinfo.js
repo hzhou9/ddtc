@@ -24,7 +24,6 @@ function ui_parkinfo(){
             ,numberstatus2t:'[name=numberstatus2t]'
             ,activity:'[name=activity]'
             ,tags:'[name=tags]'
-            ,btios:'#map-list [name=btios]'
             ,btbaidu:'#map-list [name=btbaidu]'
             ,btgaode:'#map-list [name=btgaode]'
             ,btlocal:'#map-list [name=btlocal]'
@@ -33,13 +32,10 @@ function ui_parkinfo(){
             ,scrollparent:'[name=scrollparent]'
             ,bgbox:'[name=bgbox]'
             ,daohanglist:'#map_list'
-            ,sharelist:'#share_list'
             ,action_list_bg:'#action-list-bg'
             ,close_map_list:'[name=close_map-list]'
-            ,close_share_list:'[name=close_share-list]'
             ,tags_item:'.template [name=tags-item]'
             ,mytag:'[name=spaces] mytag'
-            ,share:'#share_park_info'
         }
         ,iscroll:null
         ,nowdata:null
@@ -197,17 +193,15 @@ function ui_parkinfo(){
         ,c_daohang_ios_official:function(){
             var launcherinfo = {
                 type: 'amap'
-                ,dist: [this.nowdata.lat, this.nowdata.lng]
+                ,dist: [this.nowdata.n, this.nowdata.lng, this.nowdata.lat]
             };
             window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
-            //var href='http://maps.apple.com/?q='+this.nowdata.address;
-            //window.open(href, '_system');
         }
 
         ,c_daohang_baidu_app:function() {
             var launcherinfo = {
                 type: 'baidu'
-                ,dist: [this.nowdata.lat, this.nowdata.lng]
+                ,dist: [this.nowdata.n, this.nowdata.lng, this.nowdata.lat]
             };
             window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
         }
@@ -249,14 +243,13 @@ function ui_parkinfo(){
                 href+=k+'='+v;
             }
             //alert(href);
-            //console.log(href);
             window.open(href, '_system');
             
         }
         ,c_daohang_gaode_app:function() {
             var launcherinfo = {
                 type: 'amap'
-                ,dist: [this.nowdata.lat, this.nowdata.lng]
+                ,dist: [this.nowdata.n, this.nowdata.lng, this.nowdata.lat]
             };
             window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
         }
@@ -304,27 +297,19 @@ function ui_parkinfo(){
             }
 
             //alert(href);
-            //console.log(href);
             window.open(href, '_system');
 
         }
         ,r_init:function(){
             var me = this;
-            //if(utils.browser.versions.ios){
-            //    me.dom.btios.show();
-            //}
 
             me.dom.btdaohang.click(function(){
 
                 window.TongjiObj.parkinfo('click', 'navi');
 
                 if (sysmanager.isapp) {
-                    if (utils.browser.versions.ios) {
-                        me.c_daohang_ios_official();
-                    } else {
-                        me.dom.daohanglist.show();
-                        me.dom.action_list_bg.show();
-                    }
+                    me.dom.daohanglist.show();
+                    me.dom.action_list_bg.show();
                 } else {
                     if (window.Myweixinobj && window.Myweixinobj.isready) {
                         wx.openLocation({
@@ -343,7 +328,7 @@ function ui_parkinfo(){
                 }
             });
 
-            me.dom.btlocal.click(function(){
+            $('#btn_local_navigator').click(function(){
                 window.TongjiObj.parkinfo('navi', 'local');
                 sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
                     v.obj.settarget(me.nowdata);
@@ -351,12 +336,7 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
 
-            me.dom.btios.click(function(){
-                me.c_daohang_ios_official();
-                me.c_danghang_close();
-            });
-
-            me.dom.btgaode.click(function(){
+            $('#btn_amap_navigator').click(function(){
                 window.TongjiObj.parkinfo('navi', 'gaode');
                 if (sysmanager.isapp) {
                     me.c_daohang_gaode_app();
@@ -366,7 +346,7 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
 
-            me.dom.btbaidu.click(function(){
+            $('#btn_baidu_navigator').click(function () {
                 window.TongjiObj.parkinfo('navi', 'baidu');
                 if (sysmanager.isapp) {
                     me.c_daohang_baidu_app();
@@ -376,13 +356,29 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
 
-            me.dom.close_map_list.click(function(){
-                me.c_danghang_close();
-            });
-
-            me.dom.close_share_list.click(function(){
-                me.c_share_close();
-            });
+            //if (window.appAvailable && window.appAvailable.amap) {
+            //    $('#btn_amap_navigator').click(function(){
+            //        window.TongjiObj.parkinfo('navi', 'gaode');
+            //        if (sysmanager.isapp) {
+            //            me.c_daohang_gaode_app();
+            //        } else {
+            //            me.c_daohang_gaode();
+            //        }
+            //        me.c_danghang_close();
+            //    }).show();
+            //}
+            //
+            //if (window.appAvailable && window.appAvailable.bdmap) {
+            //    $('#btn_baidu_navigator').click(function () {
+            //        window.TongjiObj.parkinfo('navi', 'baidu');
+            //        if (sysmanager.isapp) {
+            //            me.c_daohang_baidu_app();
+            //        } else {
+            //            me.c_daohang_baidu();
+            //        }
+            //        me.c_danghang_close();
+            //    }).show();
+            //}
 
             me.dom.reserve.click(function(){
                 window.TongjiObj.parkinfo('click', 'order');
@@ -391,56 +387,51 @@ function ui_parkinfo(){
                 });
             });
 
-            var title = '嘟嘟停车'
-                , desc = '上海停车省钱神器'
-                , url = 'http://app.duduche.me/redirect/user/indexhtml.php?m=parkinfo&n=' + me.nowdata.sn
-                , thumb = null;
+            me.dom.close_map_list.click(function(){
+                me.c_danghang_close();
+            });
 
-            if (sysmanager.isapp) {
+            if (me.nowdata.sn) {
 
-                $('#share_to_friends').click(function() {
-                    window.parent.postMessage(JSON.stringify({
-                        t: 'wechatshare', d: {
-                            scene: 1, // session
-                            title: title,
-                            description: desc,
-                            url: url,
-                            thumb: thumb
-                        }
-                    }), '*');
-                    me.c_share_close();
-                });
+                var title = '嘟嘟停车'
+                    , desc = '上海停车省钱神器'
+                    , url = 'http://app.duduche.me/redirect/user/indexhtml.php?m=parkinfo&n=' + me.nowdata.sn
+                    , thumb = null;
 
-                $('#share_to_moments').click(function() {
-                    window.parent.postMessage(JSON.stringify({
-                        t: 'wechatshare', d: {
-                            scene: 2, // timeline
-                            title: title,
-                            description: desc,
-                            url: url,
-                            thumb: thumb
-                        }
-                    }), '*');
-                    me.c_share_close();
-                });
+                if (sysmanager.isapp) {
+                    $('#share_box').show();
 
-                me.dom.share.click(function() {
-                    me.dom.sharelist.show();
-                    me.dom.action_list_bg.show();
-                });
+                    $('#share_to_friends').click(function () {
+                        window.parent.postMessage(JSON.stringify({
+                            t: 'wechatshare', d: {
+                                scene: 1, // session
+                                title: title,
+                                description: desc,
+                                url: url,
+                                thumb: thumb
+                            }
+                        }), '*');
+                    });
 
-            } else {
-                me.dom.share.hide();
-                window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
+                    $('#share_to_moments').click(function () {
+                        window.parent.postMessage(JSON.stringify({
+                            t: 'wechatshare', d: {
+                                scene: 2, // timeline
+                                title: title,
+                                description: desc,
+                                url: url,
+                                thumb: thumb
+                            }
+                        }), '*');
+                    });
 
+                } else {
+                    window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
+                }
             }
         }
         ,c_danghang_close:function(){
             this.dom.daohanglist.hide();
-            this.dom.action_list_bg.hide();
-        }
-        ,c_share_close:function(){
-            this.dom.sharelist.hide();
             this.dom.action_list_bg.hide();
         }
         ,close:function(){

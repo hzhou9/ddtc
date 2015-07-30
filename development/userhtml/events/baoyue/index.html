@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>包月停车费8折起抢订</title>
+    <style>
+      * {margin:0; padding:0;}
+      body {font-size:14px; background:#e7f7ff; color:#666; line-height:1em;}
+      img {display:block; width:100%; height:auto;}
+      h2 {color:#333; font-size:18px;}
+      h2 span {font-size:14px; font-weight:400; margin-left:5px; color:#666;}
+      h2,h3 {margin-bottom:10px;}
+      a {text-decoration:none;}
+      #banner {background:#1b95e2;}
+      #main {margin:0 15px;}
+      #main li {padding:20px 0; border-bottom:1px dashed #c0dfee; overflow:auto;}
+      #main li p {line-height:1.3em;}
+      #main li p:first-of-type {margin-bottom:8px;}
+      .price {float:left; height:30px; line-height:34px;}
+      .price span {color:#f39c12; font-size:28px; font-style:italic;}
+      .price del {margin-left:5px;}
+      .btn {background:#f39c12; border-radius:4px; color:#fff; height:30px; line-height:30px; width:75px; text-align:center; float:right;}
+      #footer {margin:20px 15px;}
+      #footer li {margin-bottom:8px; margin-left:15px; line-height:1.3em;}
+      #shadow {background:rgba(0,0,0,.5); position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; display:none;}
+      .box {background:#fff; border-radius:6px; margin:10px; padding:15px; position:relative;}
+      .box input {display:block; font-size:14px; width:92%; padding:4%; border:1px solid #ddd; border-radius:4px; margin-bottom:10px;}
+      .box h2 {text-align:center; margin-bottom:15px;}
+      .box a {background:#f39c12; border-radius:4px; color:#fff; display:block; height:40px; line-height:40px; text-align:center;}
+      .close {position:absolute; right:10px; top:10px; width:20px; height:20px; text-align:center; line-height:20px;}
+    </style>
+</head>
+<body>
+<div id="banner"><img src="images/banner.png"></div>
+<div id="main">
+  <ul>
+    <li id="park_szw">
+      <h2>柿子湾小区</h2>
+      <p>上海市徐汇区宜山路220弄</p>
+      <p>停放时间：包月时间内，工作日8点到18点，周末不提供车位停放</p>
+      <div class="price"><span>240</span>元/月<del>300元/月</del></div>
+      <div class="btn">抢订报名</div>
+    </li>
+    <li id="park_zsnel">
+      <h2>中山南二路446弄</h2>
+      <p>上海市徐汇区中山南二路446弄</p>
+      <p>停放时间：包月时间内，全天24小时任意次停放</p>
+      <div class="price"><span>360</span>元/月<del>400元/月</del></div>
+      <div class="btn">抢订报名</div>
+    </li>
+  </ul>
+</div>
+<div id="footer">
+  <h3>活动说明</h3>
+  <ol>
+    <li>包月优惠抢订时间 ：7月30日 至8月31日，活动结束恢复原价；</li>
+    <li>优惠车位数有限，先到先得；</li>
+    <li>支付方式：现金一次性支付；</li>
+    <li>非自然月包月，价格按当月剩余天数计算；</li>
+    <li>请填写真实姓名，联系方式及车牌号，以便工作人员联系；</li>
+    <li>本次活动最终解释权归嘟嘟停车所有。</li>
+  </ol>
+</div>
+<div id="shadow">
+  <div class="box">
+    <h2>请填写报名信息</h2>
+    <div class="close" onclick="document.querySelector('#shadow').style.display='none'">X</div>
+    <form id="shadow_form" action="http://knows.io/e/sendmail">
+      <input type="hidden" name="park">
+      <input type="text" name="name" placeholder="姓名" required="required">
+      <input type="tel" name="mobile" pattern="^1(\d{10})$" placeholder="手机号码" required="required">
+      <input type="text" name="number" placeholder="车牌号" required="required">
+      <a onclick="$form.submit()">确定</a>
+    </form>
+  </div>
+</div>
+<script src="../../../js/jquery-1.9.1.min.js"></script>
+<script>
+  var $shadow = $('#shadow'), $form = $('#shadow_form');
+  $('#park_szw,#park_zsnel').click(function() {
+    $shadow.find('[name="park"]').val(this.id);
+    $shadow.show();
+  });
+  $form.submit(function() {
+    var empty = [];
+    $form.find('input[required="required"]').each(function(key, val) {
+      if (!$(val).val().length) empty[empty.length] = $(val).attr('placeholder');
+    });
+    if (empty.length) {
+      alert('请填写' + empty.join('、'));
+      return false;
+    }
+    if (!$form.data('lock')) {
+      $form.data('lock', 1);
+      $.ajax($form.attr('action'), {
+        dataType: 'jsonp'
+        , data: $form.serializeArray()
+        , complete: function () {
+          $form.data('lock', 0);
+        }
+        , success: function (resp) {
+          alert('谢谢支持！稍后我们会通过电话与您取得联系');
+          $shadow.hide();
+        }
+        , error: function () {
+          alert('提交失败，请重试');
+        }
+      });
+    }
+    return false;
+  })
+
+</script>
+</body>
+</html>

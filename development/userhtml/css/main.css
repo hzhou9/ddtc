@@ -500,3 +500,4 @@ form[name="form1"].mui-input-group .mui-input-row {background:none;}
 .input-box .mui-btn {margin:10px; width:auto;}
 .mui-table-view-cell h4[name="address"] {margin-right:50px;}
 .mui-table-view[name="free_list"] .mui-media-body {overflow:auto;}
+.border-bottom {border-bottom: 1px solid rgb(226,225,228);}

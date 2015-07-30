@@ -402,6 +402,8 @@
                 });
             } else if (data.t == 'pushid') {
                 window.pushid = data.d;
+            } else if (data.t == 'appavailable') {
+                window.appAvailable = data.d;
             } else if (data.t == 'wechatshare') {
                 if (window._wechatshare_callback) {
                     window._wechatshare_callback(data.d);

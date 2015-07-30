@@ -20,7 +20,8 @@ function ui_discover(){
             ,free_list:'[name=free_list]'
             ,cinema_list:'#e_cinema'
             ,concert_list:'#e_concert'
-            ,banner_survey:'#banner_cinema'
+            ,banner_survey:'#banner_survey'
+            ,banner_cai:'#banner_cai'
             ,coop:'[name=coop]'
             ,hintlist:'[name=hint]'
             ,list:'[name=coop] .innerlist'
@@ -189,6 +190,7 @@ function ui_discover(){
                              MSearch = new AMap.PlaceSearch({ //构造地点查询类
                                                             pageSize:10,
                                                             pageIndex:1,
+                                                            type:"汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施",
                                                             city:"021" //城市
                                                             });
                              //关键字查询
@@ -380,6 +382,8 @@ function ui_discover(){
         }
         ,r_init_input:function(){
             var me = this;
+            var baseurl = 'http://' + location.hostname + location.pathname.replace('index.html', '');
+            console.log(baseurl);
             this.dom.input.bind('keyup', function(event){
                                 //var key = (event || window.event).keyCode;
                                 //var result = document.getElementById("result1");
@@ -411,7 +415,7 @@ function ui_discover(){
                 }
                 window.parent.postMessage(JSON.stringify({
                     t: 'windowopen'
-                    , d: 'http://t.duduche.me/html/userhtml/events/concert/'
+                    , d: baseurl + 'events/concert/'
                 }), '*');
             });
 
@@ -426,7 +430,7 @@ function ui_discover(){
                 }
                 window.parent.postMessage(JSON.stringify({
                     t: 'windowopen'
-                    , d: 'http://t.duduche.me/html/userhtml/events/cinema/'
+                    , d: baseurl + 'events/cinema/'
                     }), '*');
             });
 
@@ -439,6 +443,30 @@ function ui_discover(){
                     t: 'windowopen'
                     , d: 'https://jinshuju.net/f/w7A4nC'
                 }), '*');
+            });
+
+            this.dom.banner_cai.click(function() {
+                window.TongjiObj.discover('click', 'banner_cai');
+                window._map_windowclose_callback = function(url) {
+                    window.TongjiObj.discover('click', 'banner_cai_success');
+                }
+                window.parent.postMessage(JSON.stringify({
+                    t: 'windowopen'
+                    , d: 'http://knows.io/assets/event/cai/index.html'
+                }), '*');
+            });
+
+            $('#banner_baoyue').click(function() {
+                window.TongjiObj.discover('click', 'banner_baoyue');
+                var url = baseurl + 'events/baoyue/';
+                if (sysmanager.isapp) {
+                    window.parent.postMessage(JSON.stringify({
+                        t: 'windowopen'
+                        , d: url
+                    }), '*');
+                } else {
+                    location.href= url;
+                }
             });
         }
         ,c_select:function(position,name){
