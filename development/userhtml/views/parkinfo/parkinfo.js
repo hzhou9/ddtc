@@ -308,12 +308,8 @@ function ui_parkinfo(){
                 window.TongjiObj.parkinfo('click', 'navi');
 
                 if (sysmanager.isapp) {
-                    if (utils.browser.versions.ios) {
-                        me.c_daohang_ios_official();
-                    } else {
-                        me.dom.daohanglist.show();
-                        me.dom.action_list_bg.show();
-                    }
+                    me.dom.daohanglist.show();
+                    me.dom.action_list_bg.show();
                 } else {
                     if (window.Myweixinobj && window.Myweixinobj.isready) {
                         wx.openLocation({
