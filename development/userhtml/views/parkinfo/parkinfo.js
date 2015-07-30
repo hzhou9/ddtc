@@ -32,13 +32,10 @@ function ui_parkinfo(){
             ,scrollparent:'[name=scrollparent]'
             ,bgbox:'[name=bgbox]'
             ,daohanglist:'#map_list'
-            ,sharelist:'#share_list'
             ,action_list_bg:'#action-list-bg'
             ,close_map_list:'[name=close_map-list]'
-            ,close_share_list:'[name=close_share-list]'
             ,tags_item:'.template [name=tags-item]'
             ,mytag:'[name=spaces] mytag'
-            ,share:'#share_park_info'
         }
         ,iscroll:null
         ,nowdata:null
@@ -400,62 +397,47 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
 
-            me.dom.close_share_list.click(function(){
-                me.c_share_close();
-            });
+            if (me.nowdata.sn) {
 
+                var title = '嘟嘟停车'
+                    , desc = '上海停车省钱神器'
+                    , url = 'http://app.duduche.me/redirect/user/indexhtml.php?m=parkinfo&n=' + me.nowdata.sn
+                    , thumb = null;
 
-            var title = '嘟嘟停车'
-                , desc = '上海停车省钱神器'
-                , url = 'http://app.duduche.me/redirect/user/indexhtml.php?m=parkinfo&n=' + me.nowdata.sn
-                , thumb = null;
+                if (sysmanager.isapp) {
+                    $('#share_box').show();
 
-            if (sysmanager.isapp) {
+                    $('#share_to_friends').click(function () {
+                        window.parent.postMessage(JSON.stringify({
+                            t: 'wechatshare', d: {
+                                scene: 1, // session
+                                title: title,
+                                description: desc,
+                                url: url,
+                                thumb: thumb
+                            }
+                        }), '*');
+                    });
 
-                $('#share_to_friends').click(function() {
-                    window.parent.postMessage(JSON.stringify({
-                        t: 'wechatshare', d: {
-                            scene: 1, // session
-                            title: title,
-                            description: desc,
-                            url: url,
-                            thumb: thumb
-                        }
-                    }), '*');
-                    me.c_share_close();
-                });
+                    $('#share_to_moments').click(function () {
+                        window.parent.postMessage(JSON.stringify({
+                            t: 'wechatshare', d: {
+                                scene: 2, // timeline
+                                title: title,
+                                description: desc,
+                                url: url,
+                                thumb: thumb
+                            }
+                        }), '*');
+                    });
 
-                $('#share_to_moments').click(function() {
-                    window.parent.postMessage(JSON.stringify({
-                        t: 'wechatshare', d: {
-                            scene: 2, // timeline
-                            title: title,
-                            description: desc,
-                            url: url,
-                            thumb: thumb
-                        }
-                    }), '*');
-                    me.c_share_close();
-                });
-
-                me.dom.share.click(function() {
-                    me.dom.sharelist.show();
-                    me.dom.action_list_bg.show();
-                });
-
-                //me.dom.share.show();
-
-            } else {
-                window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
-
+                } else {
+                    window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
+                }
             }
         }
         ,c_danghang_close:function(){
             this.dom.daohanglist.hide();
-            this.dom.action_list_bg.hide();
-        }
-        ,c_share_close:function(){
-            this.dom.sharelist.hide();
             this.dom.action_list_bg.hide();
         }
         ,close:function(){

@@ -114,6 +114,11 @@
         <copy todir='${pubdir}/${userdir}/img'>
             <fileset dir='${basedir}/${userdir}/img'></fileset>
         </copy>
+        <!--copy event-->
+        <copy todir='${pubdir}/${userdir}/events'>
+            <fileset dir='${basedir}/${userdir}/events'></fileset>
+        </copy>
+
         <!--replace file-->
         <replaceregexp byline="true" encoding='utf-8'>
             <regexp pattern="\.\./golba_rs/js/sys\.js"/>
