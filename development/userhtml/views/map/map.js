@@ -434,26 +434,30 @@ function ui_map() {
                 offset: new AMap.Pixel(-16, -64)
             });
             data.marker = marker;
-            /*AMap.event.addListener(marker,'touchstart',function callback(e){
-             me.c_activeRow(index);
-             });*/
+            ~function(i, marker, c){
+                AMap.event.addListener(marker,'touchstart',function(e){
+                    me.c_activeRow(i, (c == 2)?'f':'p');
+                });
+            }(index, marker, data.c);
         }
-        , c_setActiveRow: function (row, data, elemmove) {
+        , c_setActiveRow: function (row, data, elemmove, keepOtherMarkers) {
             this.dom.list.find('>*').removeClass('active');
             this.dom.list.find('[name=row0] ul>*').removeClass('active');
             row.addClass('active');
-            for (var i = 0; i < this.datas.p.length; i++) {
-                if (this.datas.p[i] == data) {
-                    this.datas.p[i].marker.show();
-                } else {
-                    this.datas.p[i].marker.hide();
+            if (keepOtherMarkers !== true) {
+                for (var i = 0; i < this.datas.p.length; i++) {
+                    if (this.datas.p[i] == data) {
+                        this.datas.p[i].marker.show();
+                    } else {
+                        this.datas.p[i].marker.hide();
+                    }
                 }
-            }
-            for (var i = 0; i < this.datas.f.length; i++) {
-                if (this.datas.f[i] == data) {
-                    this.datas.f[i].marker.show();
-                } else {
-                    this.datas.f[i].marker.hide();
+                for (var i = 0; i < this.datas.f.length; i++) {
+                    if (this.datas.f[i] == data) {
+                        this.datas.f[i].marker.show();
+                    } else {
+                        this.datas.f[i].marker.hide();
+                    }
                 }
             }
             var vbounds = this.mapObj.getBounds();
@@ -470,8 +474,8 @@ function ui_map() {
             data.marker.setAnimation('AMAP_ANIMATION_DROP');
             data.marker.setTop(true);
             if (!!elemmove) {
-                this.iscroll.scrollToElement(row[0]);
-                this.iscroll.scrollToElement(row[0]);
+                this.iscroll.scrollToElement(row[0], 200);
+                this.iscroll.scrollToElement(row[0], 200);
             }
 
             if (data.c == 2) {
@@ -487,10 +491,10 @@ function ui_map() {
                 window.TongjiObj.map("click", 'orderable+A1' + shihui ? '+C1' : '');
             }
         }
-        , c_activeRow: function (index) {
+        , c_activeRow: function (index, field) {
             var row = this.dom.list.find('>*').eq(index);
-            var data = this.datas[index];
-            this.c_setActiveRow(row, data, true);
+            var data = this.datas[field][index];
+            this.c_setActiveRow(row, data, true, true);
         }
         , c_getrow: function (data, index) {
             var me = this;
