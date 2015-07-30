@@ -382,6 +382,8 @@ function ui_discover(){
         }
         ,r_init_input:function(){
             var me = this;
+            var baseurl = 'http://' + location.hostname + location.pathname.replace('index.html', '');
+            console.log(baseurl);
             this.dom.input.bind('keyup', function(event){
                                 //var key = (event || window.event).keyCode;
                                 //var result = document.getElementById("result1");
@@ -413,7 +415,7 @@ function ui_discover(){
                 }
                 window.parent.postMessage(JSON.stringify({
                     t: 'windowopen'
-                    , d: 'http://t.duduche.me/html/userhtml/events/concert/'
+                    , d: baseurl + 'events/concert/'
                 }), '*');
             });
 
@@ -428,7 +430,7 @@ function ui_discover(){
                 }
                 window.parent.postMessage(JSON.stringify({
                     t: 'windowopen'
-                    , d: 'http://t.duduche.me/html/userhtml/events/cinema/'
+                    , d: baseurl + 'events/cinema/'
                     }), '*');
             });
 
@@ -452,6 +454,19 @@ function ui_discover(){
                     t: 'windowopen'
                     , d: 'http://knows.io/assets/event/cai/index.html'
                 }), '*');
+            });
+
+            $('#banner_baoyue').click(function() {
+                window.TongjiObj.discover('click', 'banner_baoyue');
+                var url = baseurl + 'events/baoyue/';
+                if (sysmanager.isapp) {
+                    window.parent.postMessage(JSON.stringify({
+                        t: 'windowopen'
+                        , d: url
+                    }), '*');
+                } else {
+                    location.href= url;
+                }
             });
         }
         ,c_select:function(position,name){
