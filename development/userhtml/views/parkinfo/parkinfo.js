@@ -193,17 +193,15 @@ function ui_parkinfo(){
         ,c_daohang_ios_official:function(){
             var launcherinfo = {
                 type: 'amap'
-                ,dist: [this.nowdata.lat, this.nowdata.lng]
+                ,dist: [this.nowdata.n, this.nowdata.lng, this.nowdata.lat]
             };
             window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
-            //var href='http://maps.apple.com/?q='+this.nowdata.address;
-            //window.open(href, '_system');
         }
 
         ,c_daohang_baidu_app:function() {
             var launcherinfo = {
                 type: 'baidu'
-                ,dist: [this.nowdata.lat, this.nowdata.lng]
+                ,dist: [this.nowdata.n, this.nowdata.lng, this.nowdata.lat]
             };
             window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
         }
@@ -251,7 +249,7 @@ function ui_parkinfo(){
         ,c_daohang_gaode_app:function() {
             var launcherinfo = {
                 type: 'amap'
-                ,dist: [this.nowdata.lat, this.nowdata.lng]
+                ,dist: [this.nowdata.n, this.nowdata.lng, this.nowdata.lat]
             };
             window.parent.postMessage(JSON.stringify({t: 'navi', d: launcherinfo}), '*');
         }

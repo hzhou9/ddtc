@@ -280,16 +280,24 @@
     }
 
     function navigator_launcher(data) {
-        launchnavigator.navigate(
-            data.type,
-            data.dist,
-            data.orig,
-            function () {
-            },
-            function (error) {
-                //console.log(error);
-                alert("导航启动失败");
-            });
+        if (window.launchnavigator) {
+            if (window.launchnavigator.doLaunch) {
+                window.launchnavigator.doLaunch(
+                    data.type,
+                    data.dist,
+                    data.orig,
+                    function() {
+                    },
+                    function() {
+                        alert("导航启动失败");
+                    });
+            } else if (launchnavigator.navigate) {
+                launchnavigator.navigate(
+                    data.type,
+                    [data.dist[2], data.dist[1]],
+                    null);
+            }
+        }
     }
 
 //cordova事件
