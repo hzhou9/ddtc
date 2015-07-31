@@ -313,7 +313,7 @@ function ui_map() {
                 row0.find('b').html(datas.f.length);
                 var intro = null;
                 var freelist = row0.find('ul');
-                for (var i = this.page * datas.f.length/(this.mm+1); i < datas.f.length/(this.mm+1); i++) {
+                for (var i = 0; i < datas.f.length; i++) {
                     var row = this.c_getrow(datas.f[i]);
                     freelist.append(row);
                     if (i < 3) {
@@ -354,9 +354,8 @@ function ui_map() {
             this.dom.list.empty().unbind();
             if (datas.p && datas.p.length > 0) {
                 var first = false;
-                //var offset = me.page *20;
                 for (var i = 0; i < (me.mm==0?datas.p.length:20*(me.page+1)) && i < datas.p.length; i++) {
-                    if (!first && datas.p[i].c == 0 && me.page != 0) {
+                    if (!first && datas.p[i].c == 0 && me.page == 0) {
                         first = true;
                         //插入免费停车场
                         this.c_fill_free(datas);
@@ -410,7 +409,7 @@ function ui_map() {
                     if (data === undefined) break;
                     this.c_getpoint(map, data, i+offset);
                 }
-            if (this.page != 0) {
+            if (this.page == 0) {
                 for (var i = 0; i < datas.f.length; i++) { // 免费停车点
                     var data = datas.f[i];
                     this.c_getpoint(map, data, i);
@@ -446,6 +445,7 @@ function ui_map() {
             row.addClass('active');
             if (keepOtherMarkers !== true) {
                 for (var i = 0; i < this.datas.p.length; i++) {
+                    if  (!this.datas.p[i].marker) {break;}
                     if (this.datas.p[i] == data) {
                         this.datas.p[i].marker.show();
                     } else {
@@ -453,6 +453,7 @@ function ui_map() {
                     }
                 }
                 for (var i = 0; i < this.datas.f.length; i++) {
+                    if  (!this.datas.f[i].marker) {break;}
                     if (this.datas.f[i] == data) {
                         this.datas.f[i].marker.show();
                     } else {
@@ -492,7 +493,13 @@ function ui_map() {
             }
         }
         , c_activeRow: function (index, field) {
-            var row = this.dom.list.find('>*').eq(index);
+            if (field === 'f') {
+                $(".park-list [name=row0] ul").css("display", "block");
+                var row = this.dom.list.find("[name=rowfree]").eq(index);
+            } else {
+                $(".park-list [name=row0] ul").css("display", "none");
+                var row = this.dom.list.find('>*').eq(index);
+            }
             var data = this.datas[field][index];
             this.c_setActiveRow(row, data, true, true);
         }
