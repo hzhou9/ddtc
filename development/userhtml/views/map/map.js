@@ -576,7 +576,6 @@ function ui_map() {
             }
 
             row.attr("shDataId", data.id);
-            console.log(row);
 
             row.fclick(function () {
                 //data.marker.setAnimation('AMAP_ANIMATION_DROP');
