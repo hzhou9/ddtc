@@ -33,9 +33,11 @@ function ui_map() {
         , datas: null
         , userpos: null
         , center: null
-        , mm:1
+        , mm:0
         , page:0
         , placename: ''
+        , nowParkoffset:0
+        , nowFParkoffset:0
         , init: function (context) {
             if (!this.isInit) {
                 this.isInit = true;
@@ -313,14 +315,14 @@ function ui_map() {
                 row0.find('b').html(datas.f.length);
                 var intro = null;
                 var freelist = row0.find('ul');
-                for (var i = 0; i < datas.f.length; i++) {
-                    var row = this.c_getrow(datas.f[i]);
+                for (;me.nowFParkoffset < datas.f.length; me.nowFParkoffset++) {
+                    var row = this.c_getrow(datas.f[me.nowFParkoffset]);
                     freelist.append(row);
-                    if (i < 3) {
+                    if (me.nowFParkoffset < 3) {
                         if (intro == null) {
-                            intro = datas.f[i].n;
+                            intro = datas.f[me.nowFParkoffset].n;
                         } else {
-                            intro = intro + '、' + datas.f[i].n;
+                            intro = intro + '、' + datas.f[me.nowFParkoffset].n;
                         }
                     } else if (i == 3) {
                         intro = intro + '等';
@@ -350,24 +352,25 @@ function ui_map() {
         }
         , c_fill: function (datas, area) {
             var me = this;
-            this.datas = datas;
-            this.dom.list.empty().unbind();
+            if (me.mm == 0) {
+                this.dom.list.empty().unbind();
+            }
             if (datas.p && datas.p.length > 0) {
                 var first = false;
-                for (var i = 0; i < (me.mm==0?datas.p.length:20*(me.page+1)) && i < datas.p.length; i++) {
-                    if (!first && datas.p[i].c == 0 && me.page == 0) {
+                for (; me.nowParkoffset < (me.mm==0?datas.p.length:30*(me.page+1)) && me.nowParkoffset < datas.p.length; me.nowParkoffset++) {
+                    if (!first && datas.p[me.nowParkoffset].c == 0) {
                         first = true;
                         //插入免费停车场
                         this.c_fill_free(datas);
                     }
-                    var row = this.c_getrow(datas.p[i]);
+                    var row = this.c_getrow(datas.p[me.nowParkoffset]);
                     this.dom.list.append(row);
                 }
                 if (this.mm == 0) {
                     this.dom.list.append("<li class='mui-table-view-cell'><button class='mui-btn-primary mui-btn-outlined mui-btn-block findMore'>看远一些</button></li>");//TODO;
                     $(".findMore").unbind('click').bind('click', searchMore);
                 } else {
-                    if (i != datas.p.length) {
+                    if (me.nowParkoffset != datas.p.length) {
                         this.dom.list.append("<li class='mui-table-view-cell'><button class='mui-btn-primary mui-btn-outlined mui-btn-block pageNext'>查看更多</button></li>");//TODO;
                         $(".pageNext").unbind('click').bind('click', pageNext);
                     }
@@ -388,9 +391,9 @@ function ui_map() {
             setTimeout(function () {
                 me.iscroll.refresh();
                 setTimeout(function () {
-                    if (me.page == 0) {
-                        me.iscroll.scrollTo(0, 0);
-                    }
+                    //if (me.page == 0) {
+                        //me.iscroll.scrollTo(0, 0);
+                    //}
                 });
             });
         }
@@ -403,8 +406,8 @@ function ui_map() {
             //        this.c_getpoint(map, data, i);
             //    }
             //} else {
-            var offset = this.page * 20;
-                for (var i = 0; i < (this.mm == 0?datas.p.length:20) && (i+offset)<datas.p.length; i++) { // 信息化停车点
+            var offset = this.page * 30;
+                for (var i = 0; i < (this.mm == 0?datas.p.length:30) && (i+offset)<datas.p.length; i++) { // 信息化停车点
                     var data = datas.p[i+offset];
                     if (data === undefined) break;
                     this.c_getpoint(map, data, i+offset);
@@ -668,24 +671,52 @@ function ui_map() {
             }
             args['mm'] = me.mm;
             window.myajax.userget('public', 'search2', args, function (result) {
+                var np = [], fp = [];
+                if (me.datas !== null) {
+                    np = me.datas.p.map(function(e){return e.id;});
+                    fp = me.datas.f.map(function(e){return e.id;});
+                }
                 var data = result.data.p;
-                for (var i = 0; i < data.length; i++) {
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
                     var d = data[i];
                     d.point = new AMap.LngLat(d.lng, d.lat);
                     d.distance = Math.abs(parseInt(d.point.distance(center)));
                     d.p = parseInt(d.p);
+                    var offset = $.inArray(d.id, np);
+                    if (offset >= 0) {
+                        data.splice(i, 1);
+                        len-=1;
+                        i-=1;
+                    }
                 }
                 data = result.data.f;//免费停车场
-                for (var i = 0; i < data.length; i++) {
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
                     var d = data[i];
                     d.point = new AMap.LngLat(d.lng, d.lat);
                     d.distance = Math.abs(parseInt(d.point.distance(center)));
+                    var offset = $.inArray(d.id, fp);
+                    if (offset >= 0) {
+                        data.splice(i, 1);
+                        len-=1;
+                        i-=1;
+                    }
                 }
                 if (result.data.a) {//免费停车场补充信息
                     result.data.a.point = new AMap.LngLat(result.data.a.lng, result.data.a.lat);
                     result.data.a.distance = Math.abs(parseInt(result.data.a.point.distance(center)));
                 }
-                me.datas = result.data;
+                if (me.datas !== null) {
+                    result.data.p.forEach(function(d) {
+                        me.datas.p.push(d);
+                    });
+                    result.data.f.forEach(function(d) {
+                        me.datas.f.push(d);
+                    });
+                } else {
+                    me.datas = result.data;
+                }
                 fn && fn(result.data, result.area);
 
                 // tracking
@@ -771,26 +802,9 @@ function ui_map() {
         , close: function () {
 
         }
-        , c_clear_map: function() {
-            var self = this;
-            for (var i = self.datas.p.length - 1; i >= 0; i--) {
-                var data = self.datas.p[i];
-                if (data.marker) {
-                    data.marker.setMap(null);
-                    data.marker = null;
-                }
-            }
-            for (var i = self.datas.f.length - 1; i >= 0; i--) {
-                var data = self.datas.f[i];
-                if (data.marker) {
-                    data.marker.setMap(null);
-                    data.marker = null;
-                }
-            }
-        }
     };
     function searchMore() {
-        ui.c_clear_map();
+        $('.findMore').parents('li').remove();
         ui.mm = 1;
         ui.m_getdata(ui.center, function (datas, area) {
             ui.c_addpoint(ui.mapObj, datas);
@@ -798,9 +812,8 @@ function ui_map() {
         });
     }
     function pageNext() {
-        $(".pageNext").remove();
+        $(".pageNext").parents('li').remove();
         ui.page += 1;
-        //ui.c_clear_map();
         ui.c_addpoint(ui.mapObj, ui.datas);
         ui.c_fill(ui.datas, null);
     }
