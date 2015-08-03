@@ -36,8 +36,6 @@ function ui_map() {
         , mm:0
         , page:0
         , placename: ''
-        , nowParkoffset:0
-        , nowFParkoffset:0
         , init: function (context) {
             if (!this.isInit) {
                 this.isInit = true;
@@ -310,21 +308,22 @@ function ui_map() {
         }
         , c_fill_free: function (datas) {//插入免费停车场
             var me = this;
-            if (datas.f && datas.f.length > 0) {
+            var offset = 30 * me.page;
+            if (datas.f && datas.f.length > 0 && offset < datas.f.length) {
                 var row0 = this.dom.row0.clone();
                 row0.find('b').html(datas.f.length);
                 var intro = null;
                 var freelist = row0.find('ul');
-                for (;me.nowFParkoffset < datas.f.length; me.nowFParkoffset++) {
-                    var row = this.c_getrow(datas.f[me.nowFParkoffset]);
+                for (var i = 0;i < (this.mm == 0?datas.f.length:30) && i + offset < datas.f.length; i++) {
+                    var row = this.c_getrow(datas.f[i+offset]);
                     freelist.append(row);
-                    if (me.nowFParkoffset < 3) {
+                    if (i+offset < 3) {
                         if (intro == null) {
-                            intro = datas.f[me.nowFParkoffset].n;
+                            intro = datas.f[i+offset].n;
                         } else {
-                            intro = intro + '、' + datas.f[me.nowFParkoffset].n;
+                            intro = intro + '、' + datas.f[i+offset].n;
                         }
-                    } else if (i == 3) {
+                    } else if (i+offset == 3) {
                         intro = intro + '等';
                     }
                 }
@@ -357,20 +356,21 @@ function ui_map() {
             }
             if (datas.p && datas.p.length > 0) {
                 var first = false;
-                for (; me.nowParkoffset < (me.mm==0?datas.p.length:30*(me.page+1)) && me.nowParkoffset < datas.p.length; me.nowParkoffset++) {
-                    if (!first && datas.p[me.nowParkoffset].c == 0) {
+                var offset = me.page * 30;
+                for (var i = 0; i < (this.mm === 0?datas.p.length:30) && (i+offset)<datas.p.length; i++) {
+                    if (!first && datas.p[i+offset].c == 0) {
                         first = true;
                         //插入免费停车场
                         this.c_fill_free(datas);
                     }
-                    var row = this.c_getrow(datas.p[me.nowParkoffset]);
+                    var row = this.c_getrow(datas.p[i+offset]);
                     this.dom.list.append(row);
                 }
                 if (this.mm == 0) {
                     this.dom.list.append("<li class='mui-table-view-cell'><button class='mui-btn-primary mui-btn-outlined mui-btn-block findMore'>看远一些</button></li>");//TODO;
                     $(".findMore").unbind('click').bind('click', searchMore);
                 } else {
-                    if (me.nowParkoffset != datas.p.length) {
+                    if (i+offset != datas.p.length) {
                         this.dom.list.append("<li class='mui-table-view-cell'><button class='mui-btn-primary mui-btn-outlined mui-btn-block pageNext'>查看更多</button></li>");//TODO;
                         $(".pageNext").unbind('click').bind('click', pageNext);
                     }
@@ -436,11 +436,17 @@ function ui_map() {
                 offset: new AMap.Pixel(-16, -64)
             });
             data.marker = marker;
-            ~function(i, marker, c){
+            ~function(i, marker, data){
                 AMap.event.addListener(marker,'touchstart',function(e){
-                    me.c_activeRow(i, (c == 2)?'f':'p');
+                    var row = $("[shdataId="+data.id+"]");
+                    if (data.c == 2) {
+                        $("[name=row0] > ul").show();
+                    } else {
+                        $("[name=row0] > ul").hide();
+                    }
+                    me.c_setActiveRow(row, data, true, true);
                 });
-            }(index, marker, data.c);
+            }(index, marker, data);
         }
         , c_setActiveRow: function (row, data, elemmove, keepOtherMarkers) {
             this.dom.list.find('>*').removeClass('active');
@@ -568,6 +574,8 @@ function ui_map() {
 
                 }
             }
+
+            row.attr("shDataId", data.id);
 
             row.fclick(function () {
                 //data.marker.setAnimation('AMAP_ANIMATION_DROP');
