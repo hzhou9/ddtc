@@ -260,25 +260,33 @@ function ui_orderpay(){
         }
         ,c_startPay:function(){
             var me = this;
-            
-            if(!this.extinfo.c){
-                this.c_modifycarid(function(carid){
-                                   if(carid){
-                                   if(sysmanager.isapp){
-                                   innerpay_app();
-                                   }else{
-                                   innerpay();
-                                   }
-                                   }
-                                   });
-            }else{
-                if(sysmanager.isapp){
-                    
-                    innerpay_app();
-                }else{
+            var method = $('[name="paymethod"]:checked').val();
+
+            if (!this.extinfo.c) {
+                this.c_modifycarid(function (carid) {
+                    if (carid) {
+                        if ('alipay' == method) {
+                            innerpay_app();
+                        } else if ('weixin' == method) {
+                            alipay_app();
+                        } else {
+                            sysmanager.alert('请选择支付方式');
+                        }
+                    }
+                });
+            } else {
+                if (sysmanager.isapp) {
+                    if ('alipay' == method) {
+                        alipay_app();
+                    } else if ('weixin' == method) {
+                        innerpay_app();
+                    } else {
+                        sysmanager.alert('请选择支付方式');
+                    }
+                } else {
                     innerpay();
                 }
-                
+
             }
             var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D1');}
             function innerpay(){
@@ -326,6 +334,15 @@ function ui_orderpay(){
                                   //发送支付信息给父窗口
                                   me.innerpay_app_postmessage(JSON.stringify({t:'pay',d:paydata}));
                                   });
+            }
+            function alipay_app() {
+                var paydata = {
+                    price: me.nowdata.p,
+                    subject: "嘟嘟停车",
+                    body: ""
+                };
+                sysmanager.alert(JSON.stringify(paydata));
+                window.parent.postMessage(JSON.stringify({t:'alipay', d:paydata}), '*');
             }
             //发送信息到父窗口
             
@@ -376,6 +393,14 @@ function ui_orderpay(){
                                   me.couponlist = null;
                                   fn && fn(result.data);
                                   }, null, false);
+        }
+        ,m_startAlipay:function(pid, cid, fn){      //app支付接口
+            var me = this;
+            //genOrderAPP($pid, $cid)
+            window.myajax.userget('index','genOrderAlipay',{pid:pid,cid:cid?cid:0}, function(result){
+                me.couponlist = null;
+                fn && fn(result.data);
+            }, null, false);
         }
         ,m_getcoupon:function(fn){      //获取抵扣我的券列表
             if(this.couponlist){

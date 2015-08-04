@@ -301,6 +301,7 @@ function ui_parkinfo(){
 
         }
         ,r_init:function(){
+
             var me = this;
 
             me.dom.btdaohang.click(function(){
