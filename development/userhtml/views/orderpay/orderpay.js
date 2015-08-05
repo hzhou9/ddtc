@@ -337,7 +337,7 @@ function ui_orderpay(){
             }
             function alipay_app() {
                 me.m_startAlipay(me.nowdata.id,(me.dqselectdata?me.dqselectdata.id:0), function(data) {
-                    me.nowoid = data.orderId;
+                    me.nowoid = data.oid;
 
                     console.log(JSON.stringify(data));
 
@@ -347,6 +347,18 @@ function ui_orderpay(){
                 });
             }
             //发送信息到父窗口
+        }
+        ,alipay_onmessage:function(event){         //接受支付信息返回
+            var me = ui;
+            var data = JSON.parse(event.data);
+            if (data.t == 'alipay') {
+                if (data.d.ok) {
+                    me.c_startPayok();
+                } else {
+                    sysmanager.alert('支付失败');
+                    me.c_startPayfalid();
+                }
+            }
         }
         ,innerpay_app_postmessage:function(data){   //发送支付信息
             window.parent.postMessage(data,'*');

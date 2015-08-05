@@ -184,11 +184,11 @@
         } else if (evt.t == 'alipay') {
             if (window.alipay) {
                 var d = evt.d;
-                window.alipay.pay(d.subject, d.body, d.price, d.oid, d.notifyUrl
+                window.alipay.pay(d.subject, d.body, d.price, d.tradeNo, d.notifyUrl
                     , function(resp) {
-                        sendToIframe(JSON.stringify({t: 'alipay', d: resp}));
+                        sendToIframe(JSON.stringify({t: 'alipay', d: {ok: true}}));
                     }, function(err) {
-                        sysmanager.alert('error: ' + JSON.stringify(err));
+                        sendToIframe(JSON.stringify({t: 'alipay', d: {error: err}}));
                     });
             }
         } else if (evt.t == 'navi') {
