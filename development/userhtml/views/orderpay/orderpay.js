@@ -336,17 +336,17 @@ function ui_orderpay(){
                                   });
             }
             function alipay_app() {
-                var paydata = {
-                    price: me.nowdata.p,
-                    subject: "嘟嘟停车",
-                    body: ""
-                };
-                sysmanager.alert(JSON.stringify(paydata));
-                window.parent.postMessage(JSON.stringify({t:'alipay', d:paydata}), '*');
+                me.m_startAlipay(me.nowdata.id,(me.dqselectdata?me.dqselectdata.id:0), function(data) {
+                    me.nowoid = data.orderId;
+
+                    console.log(JSON.stringify(data));
+
+                    window.removeEventListener("message", me.alipay_onmessage);
+                    window.addEventListener("message", me.alipay_onmessage, false);
+                    window.parent.postMessage(JSON.stringify({t:'alipay', d:data}), '*');
+                });
             }
             //发送信息到父窗口
-            
-            
         }
         ,innerpay_app_postmessage:function(data){   //发送支付信息
             window.parent.postMessage(data,'*');

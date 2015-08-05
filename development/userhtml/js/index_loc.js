@@ -181,6 +181,16 @@
         var evt = JSON.parse(event.data);
         if (evt.t == 'pay') {
             weixinapppay(evt.d);
+        } else if (evt.t == 'alipay') {
+            if (window.alipay) {
+                var d = evt.d;
+                window.alipay.pay(d.subject, d.body, d.price, d.oid, d.notifyUrl
+                    , function(resp) {
+                        sendToIframe(JSON.stringify({t: 'alipay', d: resp}));
+                    }, function(err) {
+                        sysmanager.alert('error: ' + JSON.stringify(err));
+                    });
+            }
         } else if (evt.t == 'navi') {
             navigator_launcher(evt.d);
         } else if (evt.t == 'wechatshare') {

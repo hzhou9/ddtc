@@ -183,9 +183,9 @@
         } else if (evt.t == 'alipay') {
             if (window.alipay) {
                 var d = evt.d;
-                window.alipay.pay(d.subject, d.body, d.price
+                window.alipay.pay(d.subject, d.body, d.price, d.oid, d.notifyUrl
                     , function(resp) {
-                        sysmanager.alert('success: ' + JSON.stringify(resp));
+                        sendToIframe(JSON.stringify({t: 'alipay', d: resp}));
                     }, function(err) {
                         sysmanager.alert('error: ' + JSON.stringify(err));
                     });
