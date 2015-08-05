@@ -355,7 +355,7 @@ function ui_orderpay(){
                 if (data.d.ok) {
                     me.c_startPayok();
                 } else {
-                    sysmanager.alert('支付失败');
+                    sysmanager.alert('支付失败：' + data.d.err);
                     me.c_startPayfalid();
                 }
             }
