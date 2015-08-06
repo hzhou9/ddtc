@@ -186,12 +186,7 @@
                 var d = evt.d;
                 window.alipay.pay(d.subject, d.body, d.price, d.tradeNo, d.notifyUrl
                     , function(resp) {
-                        var matches = resp.match(/resultStatus={(\d+)}/);
-                        if (matches[1] == '9000') {
-                            sendToIframe(JSON.stringify({t: 'alipay', d: {ok: true, resp: resp}}));
-                        } else {
-                            sendToIframe(JSON.stringify({t: 'alipay', d: {err: resp.match(/memo=\{([^}]+)\}/)[1] + '#' + matches[1]}}));
-                        }
+                        sendToIframe(JSON.stringify({t: 'alipay', d: {ok: true}}));
                     }, function(err) {
                         sendToIframe(JSON.stringify({t: 'alipay', d: {err: err}}));
                     });

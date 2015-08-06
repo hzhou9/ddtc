@@ -445,20 +445,9 @@ function ui_discover(){
                 }), '*');
             });
 
-            this.dom.banner_cai.click(function() {
-                window.TongjiObj.discover('click', 'banner_cai');
-                window._map_windowclose_callback = function(url) {
-                    window.TongjiObj.discover('click', 'banner_cai_success');
-                }
-                window.parent.postMessage(JSON.stringify({
-                    t: 'windowopen'
-                    , d: 'http://knows.io/assets/event/cai/index.html'
-                }), '*');
-            });
-
             $('#banner_baoyue').click(function() {
                 window.TongjiObj.discover('click', 'banner_baoyue');
-                var url = baseurl + 'events/baoyue/';
+                var url = baseurl + 'events/baoyue/?src=app';
                 if (sysmanager.isapp) {
                     window.parent.postMessage(JSON.stringify({
                         t: 'windowopen'

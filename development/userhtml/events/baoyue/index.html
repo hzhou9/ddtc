@@ -23,12 +23,13 @@
       .btn {background:#f39c12; border-radius:4px; color:#fff; height:30px; line-height:30px; width:75px; text-align:center; float:right;}
       #footer {margin:20px 15px;}
       #footer li {margin-bottom:8px; margin-left:15px; line-height:1.3em;}
-      #shadow {background:rgba(0,0,0,.5); position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; display:none;}
+      #shadow, #hello {background:rgba(0,0,0,.5); position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; display:none;}
       .box {background:#fff; border-radius:6px; margin:10px; padding:15px; position:relative;}
       .box input {display:block; font-size:14px; width:92%; padding:4%; border:1px solid #ddd; border-radius:4px; margin-bottom:10px;}
       .box h2 {text-align:center; margin-bottom:15px;}
       .box a {background:#f39c12; border-radius:4px; color:#fff; display:block; height:40px; line-height:40px; text-align:center;}
       .close {position:absolute; right:10px; top:10px; width:20px; height:20px; text-align:center; line-height:20px;}
+      [title="站长统计"] {display: none}
     </style>
 </head>
 <body>
@@ -40,14 +41,14 @@
       <p>上海市徐汇区宜山路220弄</p>
       <p>停放时间：包月时间内，工作日8点到18点，周末不提供车位停放</p>
       <div class="price"><span>240</span>元/月<del>300元/月</del></div>
-      <div class="btn">抢订报名</div>
+      <div class="btn">我有意向</div>
     </li>
     <li id="park_zsnel">
       <h2>中山南二路446弄</h2>
       <p>上海市徐汇区中山南二路446弄</p>
       <p>停放时间：包月时间内，全天24小时任意次停放</p>
       <div class="price"><span>360</span>元/月<del>400元/月</del></div>
-      <div class="btn">抢订报名</div>
+      <div class="btn">我有意向</div>
     </li>
   </ul>
 </div>
@@ -65,23 +66,45 @@
 <div id="shadow">
   <div class="box">
     <h2>请填写报名信息</h2>
-    <div class="close" onclick="document.querySelector('#shadow').style.display='none'">X</div>
+    <div class="close" onclick="$shadow.hide()">X</div>
     <form id="shadow_form" action="http://knows.io/e/sendmail">
       <input type="hidden" name="park">
-      <input type="text" name="name" placeholder="姓名" required="required">
-      <input type="tel" name="mobile" pattern="^1(\d{10})$" placeholder="手机号码" required="required">
+      <input type="hidden" name="sid">
+      <input type="hidden" name="src">
+      <input type="text" name="name" placeholder="您的称呼" required="required">
+      <input type="tel" name="mobile" placeholder="手机号码" required="required">
       <input type="text" name="number" placeholder="车牌号" required="required">
       <a onclick="$form.submit()">确定</a>
     </form>
   </div>
 </div>
-<script src="../../../js/jquery-1.9.1.min.js"></script>
+<div id="hello">
+  <div class="box">
+    <h2>您的联系方式</h2>
+    <div class="close" onclick="$hello.hide()">X</div>
+    <form id="hello_form" action="http://knows.io/e/sendmail">
+      <input type="hidden" name="sid">
+      <input type="hidden" name="src">
+      <input type="text" name="name" placeholder="您的称呼">
+      <input type="tel" name="mobile" placeholder="手机号码">
+      <a onclick="$helloform.submit()">确定</a>
+    </form>
+  </div>
+</div>
+<script src="jquery-1.9.1.min.js"></script>
 <script>
-  var $shadow = $('#shadow'), $form = $('#shadow_form');
+  var $shadow = $('#shadow'), $form = $('#shadow_form'),
+          $hello = $('#hello'), $helloform = $('#hello_form');
+
+  $hello.show();
+
   $('#park_szw,#park_zsnel').click(function() {
     $shadow.find('[name="park"]').val(this.id);
     $shadow.show();
   });
+
+  $('[name="sid"]').val(new Date().getTime());
+
   $form.submit(function() {
     var empty = [];
     $form.find('input[required="required"]').each(function(key, val) {
@@ -109,9 +132,33 @@
       });
     }
     return false;
-  })
+  });
+
+  $helloform.submit(function() {
+
+    $.ajax($helloform.attr('action'), {
+      dataType: 'jsonp'
+      , data: $helloform.serializeArray()
+    });
+
+    $form.find('[name="name"]').val($helloform.find('[name="name"]').val());
+    $form.find('[name="mobile"]').val($helloform.find('[name="mobile"]').val());
+
+    $hello.hide();
+    return false;
+  });
 
 </script>
 <script src="http://s11.cnzz.com/z_stat.php?id=1254946209&web_id=1254946209" language="JavaScript"></script>
+<script>
+  var label = 'direct';
+  if (/src=.+/.test(window.location.search)) {
+    label = window.location.search.match(/src=(.+)/)[1];
+  }
+
+  $('[name="src"]').val(label);
+
+  _czc.push(["_trackEvent", 'source', 'bannerbaoyue', label]);
+</script>
 </body>
 </html>

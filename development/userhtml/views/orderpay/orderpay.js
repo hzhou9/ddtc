@@ -201,6 +201,10 @@ function ui_orderpay(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
 
+            if (!sysmanager.isapp) {
+                $('#paymethod_alipay').hide();
+            }
+
             this.dom.btpay.aclick(function(){
                 me.c_startPay();
                 var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D5');}
