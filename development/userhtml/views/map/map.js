@@ -367,7 +367,7 @@ function ui_map() {
                     this.dom.list.append(row);
                 }
                 if (this.mm == 0) {
-                    this.dom.list.append("<li class='mui-table-view-cell'><button class='mui-btn-primary mui-btn-outlined mui-btn-block findMore'>看远一些</button></li>");//TODO;
+                    this.dom.list.append("<li class='mui-table-view-cell'><button class='mui-btn-primary mui-btn-outlined mui-btn-block findMore'>查看更多</button></li>");//TODO;
                     $(".findMore").unbind('click').bind('click', searchMore);
                 } else {
                     if (i+offset != datas.p.length) {
