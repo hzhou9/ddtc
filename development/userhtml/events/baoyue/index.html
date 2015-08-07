@@ -71,7 +71,7 @@
       <input type="hidden" name="park">
       <input type="hidden" name="sid">
       <input type="hidden" name="src">
-      <input type="text" name="name" placeholder="您的称呼" required="required">
+      <input type="text" name="name" placeholder="姓名" required="required">
       <input type="tel" name="mobile" placeholder="手机号码" required="required">
       <input type="text" name="number" placeholder="车牌号" required="required">
       <a onclick="$form.submit()">确定</a>
@@ -79,15 +79,15 @@
   </div>
 </div>
 <div id="hello">
-  <div class="box">
+  <div class="box" style="margin-top:100px;">
     <h2>您的联系方式</h2>
     <div class="close" onclick="$hello.hide()">X</div>
     <form id="hello_form" action="http://knows.io/e/sendmail">
       <input type="hidden" name="sid">
       <input type="hidden" name="src">
-      <input type="text" name="name" placeholder="您的称呼">
+      <input type="text" name="name" placeholder="姓名">
       <input type="tel" name="mobile" placeholder="手机号码">
-      <a onclick="$helloform.submit()">确定</a>
+      <a onclick="$helloform.submit()">查看活动详情</a>
     </form>
   </div>
 </div>
