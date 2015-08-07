@@ -65,6 +65,9 @@ function ui_map() {
 
             me.c_doSearch(function (placedata) {
                 me.mapObj.clearMap();
+                me.datas = null;
+                me.mm = 0;
+                me.page = 0;
                 me.homecontrol.marker = null;
                 me.mapObj.setCenter(placedata);
                 me.mapObj.setZoom(15);
