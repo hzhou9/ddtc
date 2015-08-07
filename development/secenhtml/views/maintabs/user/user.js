@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created with JetBrains WebStorm.
  * User: kk
  * Date: 14-9-10
@@ -23,24 +23,21 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 panel:'[name=tixianpanel]'
                 ,btaction:'[name=tixianpanel] [name=btaction]'
             }
-            ,buttons:{
-                bt_secenin:'[name=bt_secenin]'
-                ,bt_secenout:'[name=bt_secenout]'
-                ,bt_secenat:'[name=bt_secenat]'
-                ,bt_jiaoyi:'[name=bt_jiaoyi]'
+            ,jiaoyi:{
+                panel:'[name=jiaoyipanel]'
+                ,btaction:'[name=jiaoyipanel] [name=btaction]'
             }
             ,btquit:'[name=btquit]'
             ,bttestpushid:'[name=bttestpushid]'
             ,bttestrefresh:'[name=bttestrefresh]'
             ,fullname:'[name=fullname]'
             ,info:{
-                manager_in:'[name=manager_in]'
-                ,manager_out:'[name=manager_out]'
-                ,manager_at:'[name=manager_at]'
-                ,manager_deals:'[name=manager_deals]'
+                todaynum:'[name=todaynum]'
+                ,totalnum:'[name=totalnum]'
                 ,remainSum:'[name=remainSum]'
                 ,score:'[name=score]'
                 ,todaysum:'[name=todaysum]'
+                ,manager_in:'[name=manager_in]'
             }
             ,permissionDom:'[p]'
             ,rewardinfo:{
@@ -106,15 +103,14 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 
                     me.dom.kucun.panel.find('>*').removeClass('mui-active');
                     me.dom.kucun.panel.find('[type={0}]'.replace('{0}',data.parkstate)).addClass('mui-active');
-
-                    me.dom.info.manager_at.html(data.at);
-                    me.dom.info.manager_in.html(data['in']);
-                    me.dom.info.manager_out.html(data.out);
-                    me.dom.info.manager_deals.html(data.deals);
-
+                              
+                    me.dom.info.todaynum.html(data.n);
+                    me.dom.info.totalnum.html(data.tn);
+                              
                     me.dom.info.remainSum.html(data.remainsum);
                     me.dom.info.score.html(data.score);
                     me.dom.info.todaysum.html(data.todaysum);
+                    me.dom.info.manager_in.html(data.in);
 
                     //设置公告
                     //acendtime: "2015-05-15"acscore: "500"actype: "1"
@@ -203,25 +199,8 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 });
             });
 
-            this.dom.buttons.bt_secenin.click(function(){
-                me.c_secen_in_Manager();
-            });
-            this.dom.buttons.bt_secenout.click(function(){
-                me.c_secen_out_Manager();
-            });
-            this.dom.buttons.bt_secenat.click(function(){
-                utils.sys.loadpage('views/', 'secen_at', null, '在场管理',function(v){
-                    v.obj.onclose = function(){
-                        me.c_refreshInfo();
-                    }
-                });
-            });
-            this.dom.buttons.bt_jiaoyi.click(function(){
-                utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){
-                    v.obj.onclose = function(){
-                        me.c_refreshInfo();
-                    }
-                });
+            this.dom.jiaoyi.btaction.click(function(){
+                me.c_viewjiaoyi();
             });
             this.dom.btquit.click(function(){
                 me.c_quit();
@@ -234,105 +213,23 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     alert(JSON.stringify(data));
                 });
             });
-            $('#sence_in_pagecontaion>header>[name=btclose_sence_in]').aclick(function(){
-                $('#sence_in_pagecontaion').hide();
-                if(me.View.secen_in){
-                    var v = me.View.secen_in;
-                    me.View.secen_in = null;
-                    v.obj.close();
-                }
-            });
-            $('#sence_out_pagecontaion>header>[name=btclose_sence_out]').aclick(function(){
-                $('#sence_out_pagecontaion').hide();
-                if(me.View.secen_out){
-                    var v = me.View.secen_out;
-                    me.View.secen_out = null;
-                    v.obj.close();
-                }
-            });
 
             this.dom.rewardinfo.rewardinfopanel_close.aclick(function(){
                me.dom.rewardinfo.rewardinfopanel.hide();
             });
         }
+       ,c_viewjiaoyi:function(){
+       console.log('c_viewjiaoyi');
+       var me=this;
+                    utils.sys.loadpage('views/', 'jiaoyi', null, '业务清单（一周内）',function(v){
+                        v.obj.onclose = function(){
+                          me.c_refreshInfo();
+                        }
+                    });
+       }
         ,View:{
             secen_in:null
             ,secen_out:null
-        }
-        ,c_secen_in_Manager:function(wait){
-            var permission = parseInt(ajax.userinfo().permission);
-            if(permission & 1){
-                var me = this;
-                if(me.View.secen_in){
-                    me.View.secen_in.obj.ForcedRefrdsh();
-                    setTimeout(function(){
-                        if(me.View.secen_out){
-                            me.View.secen_in.obj.context.parent().parent().css('z-index','200');
-                            me.View.secen_out.obj.context.parent().parent().css('z-index','199');
-                        }
-                    });
-                }else{
-                    var viewmanager = requirejs('view');
-                    viewmanager.viewroot('views/');
-                    var viewname = 'secen_in';
-                    var context = $('#sence_in_pagecontaion');
-                    var view = viewmanager.loadview(viewname,function(v){
-                        var page = context.find('>.page');
-                        page.empty();
-                        v.renderer(page);
-                        me.View.secen_in = v;
-                        context.show();
-                        v.obj.onclose = function(){
-                            me.View.secen_in = null;
-                            me.c_initinfo();
-                        }
-                        setTimeout(function(){
-                            if(me.View.secen_out){
-                                me.View.secen_in.obj.context.parent().parent().css('z-index','199');
-                                me.View.secen_out.obj.context.parent().parent().css('z-index','200');
-                            }
-                        });
-                    });
-                }
-            }
-        }
-        ,c_secen_out_Manager:function(wait){
-            var permission = parseInt(ajax.userinfo().permission);
-            if(permission & 2){
-                var me = this;
-                if(me.View.secen_out){
-                    me.View.secen_out.obj.ForcedRefrdsh();
-                    setTimeout(function(){
-                        if(me.View.secen_in){
-                            me.View.secen_in.obj.context.parent().parent().css('z-index','199');
-                            me.View.secen_out.obj.context.parent().parent().css('z-index','200');
-                        }
-                    });
-                }else{
-                    var viewmanager = requirejs('view');
-                    viewmanager.viewroot('views/');
-                    var viewname = 'secen_out';
-                    var context = $('#sence_out_pagecontaion');
-                    var view = viewmanager.loadview(viewname,function(v){
-                        var page = context.find('>.page');
-                        page.empty();
-                        v.renderer(page);
-                        me.View.secen_out = v;
-                        context.show();
-                        v.obj.onclose = function(){
-                            me.View.secen_out = null;
-                            me.c_initinfo();
-                        }
-                        setTimeout(function(){
-                            if(me.View.secen_in){
-                                me.View.secen_in.obj.context.parent().parent().css('z-index','199');
-                                me.View.secen_out.obj.context.parent().parent().css('z-index','200');
-                            }
-                        });
-                    });
-                }
-            }
-
         }
         ,c_setPermission:function(){        //设置权限显示
             this.dom.permissionDom.hide();

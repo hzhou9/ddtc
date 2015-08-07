@@ -1,24 +1,191 @@
 <div class="page_content userpage" style="" id="couponget_html">
     <style>
-        #couponget_html{}
+        #couponget_html {
+            
+        }
+    #couponget_html .bg{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        
+    }
+    #couponget_html .bg>div{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        /*background-image: url(../img/hongbao/quan_3.jpg);*/
+        background-image: url(http://yomant.qiniudn.com/duduchequan_3.jpg);
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-size: 100% auto;
+    }
+    #couponget_html .bg>div.panel_result, #couponget_html .bg>div.panel_none{
+        background-image: none;
+    }
+    #couponget_html .bg>div.panel_result .zhiwen_hide, #couponget_html .bg>div.panel_none .zhiwen_hide{
+        position: absolute;
+        top: 10%;
+        right: 0;
+        opacity: 1;
+    }
+    #couponget_html .bg>div.panel_result .zhiwen, #couponget_html .bg>div.panel_none .zhiwen{
+        width: 320px;
+        height: 196px;
+        position: absolute;
+        top:49%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        text-align: center;
+    }
+    #couponget_html .bg>div.panel_result .zhiwen img, #couponget_html .bg>div.panel_none .zhiwen img{
+        width: 100%;
+        /*background-color: #ccc;*/
+    }
+    #couponget_html .btget{
+        /*background-image: url(../img/hongbao/quan_4.png);*/
+        background-image: url(http://7xispd.com1.z0.glb.clouddn.com/user/img/quan_4.png);
+        width: 102px;
+        height: 102px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 50%;
+        /*margin-top: -51px;*/
+        background-size: 100% 100%;
+    }
+    #couponget_html .quan{
+        /*background-image: url(../img/hongbao/quan_2.jpg);*/
+        background-image: url(http://yomant.qiniudn.com/duduchequan_2.jpg);
+        width: 320px;
+        height: 128px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 20%;
+        background-size: 100% 100%;
+    }
+    #couponget_html .quan p{
+        position: absolute;
+        color: #fff;
+        bottom: 2%;
+        width: 100%;
+        text-align: center;
+    }
+    #couponget_html .quan b{
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100%;
+        text-align: center;
+        top: 55%;
+        color: #9F0906;
+        font-size: 32px;
+    }
+    #couponget_html .quan span{
+        color: #fff;
+        font-size: 60px;
+        font-weight: bold;
+        position: absolute;
+        top: 55%;
+        width: 110px;
+        text-align: center;
+        /*background-image: url(../img/hongbao/yuan.png);*/
+        background-image: url(http://yomant.qiniudn.com/duducheyuan.png);
+        background-size: 40px 40px;
+        background-repeat: no-repeat;
+        background-position: right center;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        display: block;
+        padding-right: 40px;
+        height: 40px;
+        line-height: 30px;
+    }
+    #couponget_html .quan0{
+        /*background-image: url(../img/hongbao/quan_6.jpg);*/
+        background-image: url(http://yomant.qiniudn.com/duduchequan_6.jpg);
+        width: 320px;
+        height: 128px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 20%;
+        background-size: 100% 100%;
+    }
+    #couponget_html .title{
+        /*background-image: url(../img/hongbao/quan_1.jpg);*/
+        background-image: url(http://yomant.qiniudn.com/duduchequan_1.jpg);
+        width: 320px;
+        height: 82px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 0;
+        background-size: 100% 100%;
+    }
+    #couponget_html .title_n{
+        /*background-image: url(../img/hongbao/quan_1.jpg);*/
+        background-image: url(http://7xispd.com1.z0.glb.clouddn.com/user/img/quan_1_n.jpg);
+        width: 320px;
+        height: 82px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 0;
+        background-size: 100% 100%;
+    }
+    #couponget_html .title1{
+        /*background-image: url(../img/hongbao/quan_5.jpg);*/
+        background-image: url(http://yomant.qiniudn.com/duduchequan_5.jpg);
+        width: 320px;
+        height: 82px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 0;
+        background-size: 100% 100%;
+    }
+    #couponget_html .text{
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 80%;
+        top: 30%;
+        text-align: center;
+        border: solid 1px #ccc;
+        padding: 10px;
+    }
     </style>
     <div class="bg">
         <div class="panel_info" name=panel_info style="display: none">
               <ul class="mui-table-view" style="display: none">
                 <li class="mui-table-view-cell">
-                    <span>当前红包的code:<span name='code_test'></span></span>
+                    <span>code:<span name='code_test'></span></span>
                 </li>
             </ul>
             <div class="title" ></div>
-            <div class="quan0" name='quan0' style="display:none"></div>
-            <div class="quan" name='row0' style="display:none"><span name='money'>1</span></div>
-            <div class="quan" name='row1' style="display:none"><b>一元停车</b><p>你停车，我买单，停车只要1元！</p></div>
+            <div name='quan0' style="display:none"></div>
+            <div name='row0' style="display:none"><span name='money'>1</span></div>
+            <div name='row1' style="display:none"><b>一元停车</b><p>你停车，我买单，停车只要1元！</p></div>
             <div name='btget' class="btget"></div>
         </div>
         <div class="panel_result" name=panel_result style="display: none">
             <div class="title_n" ></div>
-            <div class="quan" name='row0'><span name='money'>1</span></div>
-            <div class="quan" name='row1'><b>一元停车</b><p>你停车，我买单，停车只要1元！</p></div>
+            <div name='row0'><span name='money'>1</span></div>
+            <div name='row1'><b>一元停车</b><p>你停车，我买单，停车只要1元！</p></div>
             <div class="zhiwen">
                 <p style="font-size:16px">关注<b style="color: #2770D9;">嘟嘟停车公众号</b>，随时使用抵用劵<span style="color: red">↓↓↓</span></p>
                 <img name='zhiwenimg' src="">

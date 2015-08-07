@@ -159,6 +159,15 @@
     $.fn.endclick = function(func){
         $(this).bind('touchend', func);
     }
+    window.fclicktime = new Date().getTime();
+    $.fn.fclick = function(func){
+        return $(this).bind('click', function(e) {
+            if (new Date().getTime() - window.fclicktime > 400) {
+                func(e);
+            }
+            window.fclicktime = new Date().getTime();
+        });
+    }
     $.fn.touchSlider =(function(){
                     var touchSlider = {
 
@@ -743,23 +752,27 @@
             h(f, b)
         }
     };
+    utils.tools.urlParams = {};
+    utils.tools.setUrlParam  = function(c,v) {utils.tools.urlParams[c] = v;};
     utils.tools.getUrlParam  = function(c) {
+                                   var v=utils.tools.urlParams[c];
+                                   if(v){return v;}
         var b = window.location.href;
         var d = new RegExp("[?&]" + c + "=([^&]+)", "g");
         var g = d.exec(b);
         var a = null;
         if (null != g) {
             try {
-                a = decodeURIComponent(decodeURIComponent(g[1]))
+                                   a = decodeURIComponent(decodeURIComponent(g[1]));
             } catch (f) {
                 try {
-                    a = decodeURIComponent(g[1])
+                                   a = decodeURIComponent(g[1]);
                 } catch (f) {
-                    a = g[1]
+                                   a = g[1];
                 }
             }
         }
-        return a
+                                   return a;
     };
     utils.getUrlPath = (function() {
         var a = window.location.origin;
@@ -767,10 +780,10 @@
         var c = a + "/";
         for (var b = 0; b < d.length - 1; b++) {
             if (d[b]) {
-                c += d[b] + "/"
+                c += d[b] + "/";
             }
         }
-        return c
+                        return c;
     })();
 
 utils.cache = (function(){
@@ -840,15 +853,15 @@ utils.cache = (function(){
     }
    var obj =  {
       setItem:function(key, val){
-          console.log('setItem', key, val);
+          //console.log('setItem', key, val);
           SetCookie(key, val);
       }
       ,removeItem:function(key){
-          console.log('removeItem', key);
+          //console.log('removeItem', key);
            delCookie(key);
       }
       ,getItem:function(key){
-          console.log('getItem', key);
+          //console.log('getItem', key);
           return getCookie(key);
       }
   };

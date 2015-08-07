@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>嘟嘟停车发红包</title>
+    <meta charset="UTF-8">
+    <!--直接嵌入sys.js-->
+    <script>
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/) || '';
+        var mobile = {
+            iphone:agentID.indexOf("iphone")>=0
+            ,android:agentID.indexOf("android")>=0
+            ,ipad:agentID.indexOf("ipad")>=0
+            ,ipad:agentID.indexOf("ipod")>=0
+        }
+        if(mobile.iphone){
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=01, user-scalable=0,minimal-ui">');
+        }else if(mobile.android){
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">');
+        }else{
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=0,minimal-ui">');
+        }
+    </script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="stylesheet" href="../golba_rs/css/mui.min.css">
+    <!--<link rel="stylesheet" href="../golba_rs/css/animate.css">-->
+    <link rel="stylesheet" href="./css/main.css">
+    <style></style>
+</head>
+<body>
+<div style="display: none;position: absolute">
+<script src="http://s11.cnzz.com/z_stat.php?id=1254946209&web_id=1254946209"></script>
+</div>
+<!--直接潜入统计脚本的压缩代码-->
+<script>
+    window.TongjiObj=function(){return{push:function(a,b,c,d){setTimeout(function(){_czc.push(["_trackEvent",a,b,c||0,d||0,null]);console.log("_czc.push","_trackEvent",a,b,c,d)})},clickLink:function(a){this.push("B","B_"+a)},A:function(a){this.push("A",a)},C:function(a){this.push("C",a)},D:function(a){this.push("D",a)},E:function(a){this.push("E",a)}}}();
+</script>
+<div class="bodypage">
+    <div id="main_contaion" class="pagecontainer">
+        <div id="canvaswrap" class="mui-off-canvas-wrap page">
+    	<div class="mui-inner-wrap">
+    		<div class="mui-content mytabs">
+                <div id="tabbar-with-user" class="mui-control-content"   name='login'>
+                </div>
+                <div id="tabbar-with-collection" class="mui-control-content"   name='map'>
+                </div>
+                <div id="tabbar-with-in" class="mui-control-content"  name='myorder'>
+                </div>
+                <div id="tabbar-with-out" class="mui-control-content"   name='myorderdetail'>
+                </div>
+                <div class="mui-control-content"   name='userinfo'>
+                </div>
+                <div class="mui-control-content"   name='freelist'>
+                </div>
+                <div class="mui-control-content"   name='coupon'>
+                </div>
+    		</div>
+    		<!-- off-canvas backdrop -->
+    	</div>
+    </div>
+    </div>
+    
+    <div id="pop_pagecontaion" class="pagecontainer" style="display: none">
+        <div class="page" style="background-color:#fff">
+        </div>
+    </div>
+
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+        <div class="page">
+        </div>
+    </div>
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+            <div class="page">
+            </div>
+        </div>
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+            <div class="page">
+            </div>
+        </div>
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+            <div class="page">
+            </div>
+        </div>
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+            <div class="page">
+            </div>
+        </div>
+    <div id="tophead"  class="pagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+        <header class="mui-bar mui-bar-nav">
+            <a name='btclose' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title"></h1>
+        </header>
+    </div>
+
+    <div id="topheardpagecontainer"  class="pagecontainer topheardpagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+        <header class="mui-bar mui-bar-nav mui-bar-top">
+            <a name='btupclose' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title"></h1>
+            <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-right main-icon-lit">
+             <a class="mui-icon mui-icon-gear mui-pull-right"></a>
+            </button>
+        </header>
+    </div>
+    
+    <div id="coupon_pagecontaion" class="pagecontainer" style="display: none">
+        <div class="page" style="background-color:#fff">
+        </div>
+    </div>
+    <div id="reg_pagecontaion" class="pagecontainer" style="display: none">
+        <div class="page" style="background-color:#fff">
+        </div>
+    </div>
+    <div id="top_menu" class="pagecontainer" style=" display: none">
+        <div class="mui-popover mui-active" style="display: block;">
+            <ul class="mui-table-view" name='list'>
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='title'></li>
+            </ul>
+            <ul class="template"><li class="mui-table-view-cell" name='title'></li></ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    <div id="reg_dialog_pagecontainer" class="pagecontainer" style=" display: none;z-index: 500">
+        <div name="loginpanel" class="mui-slider-item mui-control-content mui-active loginpanel  animated zoomIn">
+            <div class="mui-input-row reg-user">
+                <h1 class="iconrow">嘟嘟停车</h1>
+                <span name='btclose' class="mui-icon mui-icon-close"></span>
+                <hr>
+                <p name='msg'>手机号就是您在嘟嘟停车的账号</p>
+
+                <input name="userpanel_phone" type="text" class="mui-input-clear" placeholder="请输入您的手机号" >
+                <br/>
+                <input style="display: none" name="userpanel_chepai" type="text" class="mui-input-clear" placeholder="请输入您的车牌" >
+                <button name="btreg" class="mui-btn mui-btn-warning mui-btn-block">确认</button>
+            </div>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    <div id="alert_pagecontainer" class="pagecontainer" style=" display: none">
+        <div class="mui-popover mui-active" style="display: block;">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='msg'></li>
+            </ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    <div id="confirm_pagecontainer" class="pagecontainer" style=" display: none;z-index: 500">
+        <div class="mui-popover mui-active" style="display: block;">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell title" name='title'></li>
+                <li class="mui-table-view-cell msg" name='msg'></li>
+                <li class="mui-table-view-cell">
+                    <table style="width: 80%">
+                        <tr>
+                            <td><div class="mui-btn mui-btn-red  mui-pull-right" name="btcancel">取 消</div></td>
+                            <td><div class="mui-btn mui-btn-success  mui-pull-right" name="btok">确 认</div></td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+
+
+<div id="loading" class="tips-loading"></div>
+<div id="startpage" class="startpage">
+    嘟嘟停车
+    <p class="mui-bar-footer">duduche.me</p>
+</div>
+
+</div>
+
+
+
+<div style='position:fixed; bottom:0; left:0; width:100%; height:60px; background:rgba(0,0,0,.5);z-index:999;'>
+    <div style='float:left; height:48px; margin:6px;'>
+        <div style='background:#1e88e3 url(http://7xi2vn.com2.z0.glb.qiniucdn.com/assets/event/yunshi/images/logo_mini.png) no-repeat center; background-size:30px 40px; border-radius:8px; width:48px; height:48px; margin-right:5px; float:left;'>
+        </div>
+        <div style='float:left; color:#fff;'>
+            <span style='font-weight:600; margin-bottom:5px; display:block;'>
+                嘟嘟停车
+            </span>
+            <span style='font-size:13px;'>
+                上海最省钱的停车神器
+            </span>
+        </div>
+    </div>
+    
+    
+    <div style='float:right; margin:10px 5px;'>
+        <a id='download' href='http://driver.duduche.me/driver.php/home/public/wx_app_down/' style='color:#fff; background:#1e88e5; border-radius:6px; height:40px; line-height:40px; padding:0 10px; font-size:14px; display:block;'>
+            免费下载
+            </a>
+            </div>
+            </div>
+            
+
+</body>
+
+<script src="../golba_rs/js/jquery-1.9.1.min.js"></script>
+
+<script src="../golba_rs/js/iscroll.js" __del__></script>
+
+<script src="./js/cfg.js" __del__></script>
+<script src="./js/utils.js" __del__></script>
+<script src="./js/manager.js" __del__></script>
+<script src="./js/ajax.js" __del__></script>
+<script src="./js/view.js" __del__></script>
+<!--<script src="./js/map_plugin.js" __del__></script>-->
+
+<!--<script src="./views/map/map.js" __del__></script>-->
+<!--<script src="./views/mapfull/mapfull.js" __del__></script>-->
+<!--<script src="./views/searchmap/searchmap.js" __del__></script>-->
+<!--<script src="./views/myorder/myorder.js" __del__></script>-->
+<!--<script src="./views/myorderdetail/myorderdetail.js" __del__></script>-->
+<script src="./views/reg/reg.js" __del__></script>
+<!--<script src="./views/userinfo/userinfo.js" __del__></script>-->
+<script src="./views/coupon/coupon.js" __del__></script>
+<script src="./views/couponget/couponget.js" __del__></script>
+<!--<script src="./views/parkinfo/parkinfo.js" __del__></script>-->
+<!--<script src="./views/daohang/daohang.js" __del__></script>-->
+
+<script __scrolljs__></script>
+<!--<script __alljs__></script>-->
+<!--<script __viewjs__></script>-->
+<script __hongbaoall__></script>
+
+<script>
+    document.ontouchmove = function(e){     //文档禁止 touchmove事件
+        return false;
+    };
+    $(function(){
+        window.sysmanager.init();
+      
+        function type_10(){     //领取红包
+            $('title').html('嘟嘟停车抢红包啦');
+            var code = utils.tools.getUrlParam('hcode');
+            var fromid = utils.tools.getUrlParam('fromid') || 0;
+            sysmanager.couponUI(code,fromid);
+            $('#startpage').hide();
+        }
+
+        var type = utils.tools.getUrlParam('type') || '1';
+        var openid = utils.tools.getUrlParam('openid');
+
+        type_10();
+    });
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<!--直接嵌入 wxfunc.js-->
+<script>
+    window.Myweixinobj=function(){var b="",c="",d="",e="",f=null;return{init:function(a,g,h,k,l){b=a;c=g;d=h;e=k;f=l},isready:!1,initFenxiang:function(){var a=this;wx.ready(function(){wx.checkJsApi({jsApiList:"checkJsApi onMenuShareTimeline onMenuShareAppMessage onMenuShareQQ onMenuShareWeibo openLocation".split(" "),success:function(b){a.isready=!0}});a.initBind()});wx.error(function(a){alert(a.errMsg)})},initBind:function(){wx.onMenuShareAppMessage({title:b,desc:c,link:d,imgUrl:e,trigger:function(a){},
+    success:function(a){f&&f()},cancel:function(a){},fail:function(a){}});wx.onMenuShareTimeline({title:c,link:d,imgUrl:e,trigger:function(a){},success:function(a){f&&f()},cancel:function(a){},fail:function(a){}});wx.onMenuShareQQ({title:b,desc:c,link:d,imgUrl:e,trigger:function(a){},complete:function(a){},success:function(a){f&&f()},cancel:function(a){},fail:function(a){}})},config:function(a){wx.config(a);this.initFenxiang()},setDesc:function(a){c=a;return this},setTitle:function(a){b=a;return this}}}();
+    var urlPath=function(){for(var b=window.location.origin,c=window.location.pathname.split("/"),b=b+"/",d=0;d<c.length-1;d++)c[d]&&(b+=c[d]+"/");return b}();function geswxcfg(b){window.myajax.get("weixin","getJsConfig",{url:window.location.href},function(c){b&&b(c.data)},null,!1)}
+    function wxinit(b){if("10"!=(utils.tools.getUrlParam("type")||"1"))var c=urlPath+"/img/icon.png",d="https://open.weixin.qq.com/connect/oauth2/authorize?appid\x3dwxd417c2e70f817f89\x26redirect_uri\x3dhttp%3a%2f%2fdriver.duduche.me%2fdriver.php%2fhome%2fweixin%2fmenuCallBack%2f\x26response_type\x3dcode\x26scope\x3dsnsapi_base\x26state\x3dnear#wechat_redirect",e="\u6211\u5728\u7528\u561f\u561f\u505c\u8f66,\u505c\u8f66\u597d\u65b9\u4fbf.",f="\u561f\u561f\u505c\u8f66";else e=utils.tools.getUrlParam("hcode")||
+    "1",f=utils.tools.getUrlParam("fromid")||"0",c=urlPath+"/img/hongbao/fenxiang.jpg",d="https://open.weixin.qq.com/connect/oauth2/authorize?appid\x3dwxd417c2e70f817f89\x26redirect_uri\x3d{myurl}\x26response_type\x3dcode\x26scope\x3dsnsapi_base#wechat_redirect",e="http://driver.duduche.me/driver.php/home/weixin/giftCallBack/type/10/hcode/{hcode}/fromid/{fromid}/".replace("{hcode}",e).replace("{fromid}",f),e=encodeURIComponent(e),d=d.replace("{myurl}",e),e="\u5f00\u8f66\u7684\u5c0f\u4f19\u4f34\u4eec,\u5feb\u6765\u9886\u561f\u561f\u505c\u8f66\u7ea2\u5305\u5427!",
+    f="\u561f\u561f\u505c\u8f66\u53d1\u7ea2\u5305\u5566";Myweixinobj.init(f,e,d,c,function(){});Myweixinobj.config({debug:!1,appId:b.appId,timestamp:b.timestamp,nonceStr:b.nonceStr,signature:b.signature,jsApiList:"checkJsApi onMenuShareTimeline onMenuShareAppMessage onMenuShareQQ onMenuShareWeibo openLocation".split(" ")})}geswxcfg(function(b){wxinit(b)});
+</script>
+</html>

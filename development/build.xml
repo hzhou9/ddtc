@@ -9,7 +9,7 @@
 
 
 
-    <target name="compile" depends='init,compileuser,compilesecen' >
+    <target name="compile" depends='init,compileuser,compilesecen,compilehongbao' >
     <!--<target name="compile" depends='init,compileuser' >-->
 
 
@@ -20,67 +20,88 @@
         <jscomp compilationLevel="simple"
               warning="quiet"
               debug="false"
+              output="${pubdir}/${userdir}/js/iscroll.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="golba_rs/js/iscroll.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
               output="${pubdir}/${userdir}/js/all.js"
               languagein="ECMASCRIPT5">
           <sources dir="${basedir}">
-              <!--
-              <script src="../golba_rs/js/jquery-1.9.1.min.js"></script>
-                <script src="../golba_rs/js/iscroll.js"></script>
-                <script src="./js/cfg.js" __del__></script>
-                <script src="./js/utils.js"></script>
-                <script src="./js/manager.js"></script>
-                <script src="./js/ajax.js" __del__></script>
-                <script src="./js/view.js"></script>
-                <script src="./js/map_plugin.js"></script>
-
-                <script src="./views/map/map.js"></script>
-                <script src="./views/daohang/daohang.js"></script>
-                <script src="./views/searchmap/searchmap.js"></script>
-                <script src="./views/mapfull/mapfull.js" __del__></script>
-                <script src="./views/myorder/myorder.js" __del__></script>
-                <script src="./views/myorderdetail/myorderdetail.js?123" __del__></script>
-                <script src="./views/reg/reg.js" __del__></script>
-                <script src="./views/orderpay/orderpay.js" __del__></script>
-                <script src="./views/userinfo/userinfo.js" __del__></script>
-                <script src="./views/coupon/coupon.js" __del__></script>
-                <script src="./views/couponget/couponget.js" __del__></script>
-                <script src="./views/gaodedaohang/gaodedaohang.js" __del__></script>
-
-              -->
-              <!--<file name="golba_rs/js/jquery-1.9.1.min.js"/>-->
-              <file name="golba_rs/js/iscroll.js"/>
               <file name="${userdir}/js/cfg_loc.js"/>
               <file name="${userdir}/js/utils.js"/>
               <file name="${userdir}/js/ajax.js"/>
               <file name="${userdir}/js/manager.js"/>
               <file name="${userdir}/js/view.js"/>
               <file name="${userdir}/js/map_plugin.js"/>
-
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${userdir}/js/views.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
               <file name="${userdir}/views/map/map.js"/>
-              <file name="${userdir}/views/daohang/daohang.js"/>
               <file name="${userdir}/views/searchmap/searchmap.js"/>
-              <file name="${userdir}/views/mapfull/mapfull.js"/>
               <file name="${userdir}/views/myorder/myorder.js"/>
               <file name="${userdir}/views/myorderdetail/myorderdetail.js"/>
               <file name="${userdir}/views/reg/reg.js"/>
-              <file name="${userdir}/views/orderpay/orderpay.js"/>
               <file name="${userdir}/views/userinfo/userinfo.js"/>
               <file name="${userdir}/views/coupon/coupon.js"/>
               <file name="${userdir}/views/couponget/couponget.js"/>
-              <file name="${userdir}/views/gaodedaohang/gaodedaohang.js"/>
               <file name="${userdir}/views/parkinfo/parkinfo.js"/>
+              <file name="${userdir}/views/daohang/daohang.js"/>
+              <file name="${userdir}/views/orderpay/orderpay.js"/>
+              <file name="${userdir}/views/discover/discover.js"/>
+              <file name="${userdir}/views/freelist/freelist.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${userdir}/js/tongji.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="${userdir}/js/tongji.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${userdir}/js/wxfunc.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="${userdir}/js/wxfunc.js"/>
           </sources>
         </jscomp>
 
         <!--copy htmlfile-->
         <copy file='${basedir}/${userdir}/index.html' tofile='${pubdir}/${userdir}/index.html' ></copy>
-        <copy file='${basedir}/${userdir}/js/index.js' tofile='${pubdir}/${userdir}/js/index.js' ></copy>
+        <jscomp compilationLevel="simple"
+            warning="quiet"
+            debug="false"
+            output="${pubdir}/${userdir}/js/index.js"
+            languagein="ECMASCRIPT5">
+            <sources dir="${basedir}">
+                <file name="${userdir}/js/index_loc.js"/>
+            </sources>
+        </jscomp>
         <!--copy golba file-->
         <copy file="${basedir}/golba_rs/js/sys.js" tofile='${pubdir}/${userdir}/js/sys.js'></copy>
         <copy file="${basedir}/golba_rs/js/jquery-1.9.1.min.js" tofile='${pubdir}/${userdir}/js/jquery-1.9.1.min.js'></copy>
         <!--copy css-->
         <copy todir='${pubdir}/${userdir}/fonts'>
             <fileset dir='${basedir}/golba_rs/fonts'></fileset>
+            <fileset dir='${basedir}/userhtml/fonts'></fileset>
         </copy>
         <copy file='${basedir}/golba_rs/css/mui.min.css' tofile='${pubdir}/${userdir}/css/mui.min.css' ></copy>
         <copy file='${basedir}/golba_rs/css/animate.min.css' tofile='${pubdir}/${userdir}/css/animate.css' ></copy>
@@ -93,6 +114,11 @@
         <copy todir='${pubdir}/${userdir}/img'>
             <fileset dir='${basedir}/${userdir}/img'></fileset>
         </copy>
+        <!--copy event-->
+        <copy todir='${pubdir}/${userdir}/events'>
+            <fileset dir='${basedir}/${userdir}/events'></fileset>
+        </copy>
+
         <!--replace file-->
         <replaceregexp byline="true" encoding='utf-8'>
             <regexp pattern="\.\./golba_rs/js/sys\.js"/>
@@ -124,6 +150,16 @@
             <substitution expression="src=\./js/all\.js"/>
             <fileset file="${pubdir}/${userdir}/index.html"/>
         </replaceregexp>
+        <replaceregexp byline="true"  encoding='utf-8'>
+            <regexp pattern="__scrolljs__"/>
+            <substitution expression="src=\./js/iscroll\.js"/>
+            <fileset file="${pubdir}/${userdir}/index.html"/>
+        </replaceregexp>
+        <replaceregexp byline="true"  encoding='utf-8'>
+            <regexp pattern="__viewjs__"/>
+            <substitution expression="src=\./js/views\.js"/>
+            <fileset file="${pubdir}/${userdir}/index.html"/>
+        </replaceregexp>
         <!--测试文本替换-->
         <replaceregexp byline="true"  encoding='utf-8'>
             <regexp pattern="Copyright@@2015"/>
@@ -136,6 +172,16 @@
         <!--${pubdir}/${secendir}-->
         <!--copy htmlfile-->
         <copy file='${basedir}/secenhtml/index.html' tofile='${pubdir}/${secendir}/index.html' ></copy>
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/index.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/index.js"/>
+          </sources>
+        </jscomp>
+        
         <!--copy css-->
         <copy todir='${pubdir}/${secendir}/fonts'>
             <fileset dir='${basedir}/golba_rs/fonts'></fileset>
@@ -143,16 +189,119 @@
         <copy file='${basedir}/golba_rs/css/mui.min.css' tofile='${pubdir}/${secendir}/css/mui.min.css' ></copy>
         <copy file='${basedir}/golba_rs/css/animate.css' tofile='${pubdir}/${secendir}/css/animate.css' ></copy>
         <copy file='${basedir}/secenhtml/css/main.css' tofile='${pubdir}/${secendir}/css/main.css' ></copy>
-        <!--copy js-->
+        <!--copy js
         <copy todir='${pubdir}/${secendir}/js'>
             <fileset dir='${basedir}/secenhtml/js'></fileset>
-        </copy>
+        </copy>-->
+        
         <copy file='${basedir}/golba_rs/js/jquery-1.9.1.min.js' tofile='${pubdir}/${secendir}/js/jquery-1.9.1.min.js' ></copy>
-        <copy file='${basedir}/golba_rs/js/require.js' tofile='${pubdir}/${secendir}/js/require.js' ></copy>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/cfg.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/js/cfg_loc.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/index.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/js/index.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/require_main.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/js/require_main.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/sys.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/js/sys.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/utils.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/js/utils.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/view.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/js/viewloc.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/ajax.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/js/ajax.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/require.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="golba_rs/js/require.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/iscroll.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="golba_rs/js/iscroll.js"/>
+          </sources>
+        </jscomp>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/js/pagesys.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="golba_rs/js/sys.js"/>
+          </sources>
+        </jscomp>
+        
+        <!--<copy file='${basedir}/golba_rs/js/require.js' tofile='${pubdir}/${secendir}/js/require.js' ></copy>
         <copy file='${basedir}/golba_rs/js/iscroll.js' tofile='${pubdir}/${secendir}/js/iscroll.js' ></copy>
-        <copy file="${basedir}/golba_rs/js/sys.js" tofile='${pubdir}/${secendir}/js/pagesys.js'></copy>
+        <copy file="${basedir}/golba_rs/js/sys.js" tofile='${pubdir}/${secendir}/js/pagesys.js'></copy>-->
 
-
+        <copy file="${basedir}/secenhtml/v.php" tofile='${pubdir}/${secendir}/views/v.php'></copy>
+        <copy file="${basedir}/secenhtml/v.php" tofile='${pubdir}/${secendir}/views/maintabs/v.php'></copy>
 
         <!--copy img-->
         <copy todir='${pubdir}/${secendir}/img'>
@@ -164,8 +313,22 @@
         </copy>
         <!--copy view-->
         <copy todir='${pubdir}/${secendir}/views'>
-            <fileset dir='${basedir}/secenhtml/views'></fileset>
+            <fileset dir='${basedir}/secenhtml/views'>
+            <exclude name="maintabs/user/user.js"/>
+            </fileset>
         </copy>
+        
+        <jscomp compilationLevel="simple"
+              warning="quiet"
+              debug="false"
+              output="${pubdir}/${secendir}/views/maintabs/user/user.js"
+              languagein="ECMASCRIPT5">
+          <sources dir="${basedir}">
+              <file name="secenhtml/views/maintabs/user/user.js"/>
+          </sources>
+        </jscomp>
+        
+        
         <!--replace-->
         <replaceregexp byline="true" encoding='utf-8'>
             <regexp pattern="\.\./\.\./golba_rs/js/jquery-1\.9\.1\.min"/>
@@ -207,6 +370,75 @@
             <fileset file="${pubdir}/${secendir}/index.html"/>
         </replaceregexp>
     </target>
+
+    <target name='compilehongbao'>
+            <!--${pubdir}/${userdir}/-->
+            <!--marge file-->
+            <jscomp compilationLevel="simple"
+                  warning="quiet"
+                  debug="false"
+                  output="${pubdir}/${userdir}/js/hongbaoall.js"
+                  languagein="ECMASCRIPT5">
+              <sources dir="${basedir}">
+                  <file name="${userdir}/js/cfg_loc.js"/>
+                  <file name="${userdir}/js/utils.js"/>
+                  <file name="${userdir}/js/ajax.js"/>
+                  <file name="${userdir}/js/manager.js"/>
+                  <file name="${userdir}/js/view.js"/>
+
+                  <file name="${userdir}/views/reg/reg.js"/>
+                  <file name="${userdir}/views/coupon/coupon.js"/>
+                <file name="${userdir}/views/couponget/couponget.js"/>
+              </sources>
+            </jscomp>
+
+            <!--copy htmlfile-->
+            <copy file='${basedir}/${userdir}/hongbao.html' tofile='${pubdir}/${userdir}/hongbao.html' ></copy>
+
+            <!--<replaceregexp byline="true" encoding='utf-8'>-->
+                <!--<regexp pattern="\.\./golba_rs/js/sys\.js"/>-->
+                <!--<substitution expression="\./js/sys\.js"/>-->
+                <!--<fileset file="${pubdir}/${userdir}/hongbao.html"/>-->
+            <!--</replaceregexp>-->
+            <replaceregexp byline="true" encoding='utf-8'>
+                <regexp pattern="\.\./golba_rs/css/mui\.min\.css"/>
+                <substitution expression="\./css/mui\.min\.css"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <!--<replaceregexp byline="true" encoding='utf-8'>-->
+                <!--<regexp pattern="\.\./golba_rs/css/animate.css"/>-->
+                <!--<substitution expression="\./css/animate.css"/>-->
+                <!--<fileset file="${pubdir}/${userdir}/hongbao.html"/>-->
+            <!--</replaceregexp>-->
+            <replaceregexp byline="true" encoding='utf-8'>
+                <regexp pattern="\.\./golba_rs/js/jquery-1\.9\.1\.min.js"/>
+                <substitution expression="\./js/jquery-1\.9\.1\.min.js"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <replaceregexp byline="true"  encoding='utf-8'>
+                <regexp pattern=".*__del__.*"/>
+                <substitution expression=""/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <replaceregexp byline="true"  encoding='utf-8'>
+                <regexp pattern="__scrolljs__"/>
+                <substitution expression="src=\./js/iscroll\.js"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <replaceregexp byline="true"  encoding='utf-8'>
+                <regexp pattern="__hongbaoall__"/>
+                <substitution expression="src=\./js/hongbaoall\.js"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <!--测试文本替换-->
+            <replaceregexp byline="true"  encoding='utf-8'>
+                <regexp pattern="Copyright@@2015"/>
+                <substitution expression="嘟嘟停车 Copyright@2015"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+        </target>
+
+
 
     <target name='init' depends="clear">
         <mkdir dir="${pubdir}"/>

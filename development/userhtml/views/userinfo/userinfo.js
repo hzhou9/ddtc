@@ -13,13 +13,13 @@ function ui_userinfo(){
             telphone:'[name=telphone]'
             ,pailist:'[name=pailist]'
             ,row:'.template [name=row]'
-            ,rownone:'.template [name=rownone]'
-            ,addpanel:{
-                input_add:'[name=input_add]'
-                ,btadd:'[name=btadd]'
-            }
+            ,row_head:'.template [name=row_head]'
+            ,row_tail:'.template [name=row_tail]'
             ,btreg:'[name=btreg]'
             ,btquit:'[name=btquit]'
+            ,coupon:'[name=coupon]'
+            ,order:'[name=order]'
+            ,btmyorder:'[name=myorder]'
         }
         ,iscroll:null
         ,info:null
@@ -40,10 +40,43 @@ function ui_userinfo(){
         }
         ,c_init:function(){
             var me = this;
+            var model = utils.tools.getUrlParam('m');
+            if('userorder' == model){
+                sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){v.obj.waittimes=3000;v.obj.onclose = function(){setTimeout(function(){me.iscroll && me.iscroll.refresh();});}});
+            }
+            window.TongjiObj.userinfo('pv', "");
             this.m_getuserinfo(function(data){
+                var model = utils.tools.getUrlParam('m');
+                if('userinfo' == model || 'userorder' == model){
+                               me.from_menu = true;
+                               me.dom.coupon.show();
+                               me.dom.order.show();
+                }
                 me.info = data;
                 me.info.carids = me.info.carids || [];
                 me.c_fill(me.info);
+                me.dom.coupon.find('strong').html(me.info.c_count);
+                if(me.info.l_order){
+                    me.dom.order.find('[name=title]').html(me.info.l_order.parkname);
+                    me.dom.order.find('[name=cost]').html(me.info.l_order.cost);
+                    me.dom.order.find('[name=address]').html(me.info.l_order.address);
+                    me.dom.order.find('[name=time]').html(me.info.l_order.startTime);
+                    me.dom.order.find('[name=row]').click(function(){
+                        window.TongjiObj.userinfo('click', 'myorder');
+                        sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){
+                            v.obj.initoid(me.info.l_order.oid);
+                            v.obj.onclose = function(){};
+                        });
+                    });
+                }else{
+                    me.dom.order.hide();
+                }
+                if(me.info.carids.length > 0 && me.qcheck){
+                    setTimeout(function(){me.c_quit();},1000);
+                }
+
+                window.TongjiObj.userinfo('info', 'carid', me.info.carids.length);
+
             });
         }
         ,c_showquit:function(isshow){
@@ -53,24 +86,30 @@ function ui_userinfo(){
             var me = this;
             this.dom.telphone.html(info.telephone);
             this.c_fillcarid(info.carids);
+            setTimeout(function(){me.iscroll && me.iscroll.refresh();});
         }
         ,c_fillcarid:function(carids){
             var me = this;
             //carid
-            this.dom.pailist.empty();
+            this.dom.pailist.empty().unbind();
+            var row_head = this.dom.row_head.clone();
+            if(carids.length==0){
+                row_head.find('[name=row_head_hint]').html('您还没有设置车牌，请添加');
+            }
+            this.dom.pailist.append(row_head);
             if(carids.length>0){
                 for(var i=0;i<carids.length;i++){
                     var d = carids[i];
                     var row = this.c_getcaridrow(d);
                     this.dom.pailist.append(row);
                 }
-            }else{
-                this.dom.pailist.append(this.dom.rownone.clone());
             }
-
-            setTimeout(function(){
-               me.iscroll && me.iscroll.refresh();
-            });
+            var row_tail = this.dom.row_tail.clone();
+            row_tail.find('[name=btadd]').click(function(){
+                                              me.c_addCarid();
+                                                window.TongjiObj.userinfo('click', 'addcarid');
+                                              });
+            this.dom.pailist.append(row_tail);
         }
         ,c_getcaridrow:function(data){
             var me=  this;
@@ -85,6 +124,7 @@ function ui_userinfo(){
             }
             row.find('a').click(function(){
                 me.c_rowcaridedit(row, data);
+                window.TongjiObj.userinfo('click', 'modcarid');
                 return false;
             });
             row.find('.table [name=btcancel]').click(function(){
@@ -136,8 +176,9 @@ function ui_userinfo(){
             }
         }
         ,c_addCarid:function(){
-            var carid = this.dom.addpanel.input_add.val();
-            this.dom.addpanel.input_add.blur();
+            var inputbox = this.dom.pailist.find('[name=input_add]');
+            var carid = inputbox.val();
+            inputbox.blur();
 
             carid = this.c_valideCarid(carid);
             if(carid){
@@ -145,9 +186,9 @@ function ui_userinfo(){
                 this.m_addcadid(carid, function(data){
                     me.info = data;
                     me.c_fill(me.info);
-                    me.dom.addpanel.input_add.val('');
+                    inputbox.val('');
                     
-                    if(me.info.carids.length == 1){
+                    if(!me.from_menu && me.info.carids.length == 1){
                     	//第一次添加
                     	me.dom.btquit.show();
                     }
@@ -186,22 +227,24 @@ function ui_userinfo(){
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
-            this.dom.addpanel.btadd.click(function(){
-                me.c_addCarid();
-            });
             this.dom.btreg.click(function(){
-//                sysmanager.loadpage('views/', 'reg', null,'账户登录', function(view){
-//                    view.obj.isHead(true);
-//                    view.obj.onclose = function(){
-//                        me.c_init();
-//                    }
-//                });
+                window.TongjiObj.userinfo('click', 'auth');
                 sysmanager.loginUI(function(){
                     me.c_init();
                 },'请输入要切换的手机号',true);
             });
             this.dom.btquit.click(function(){
                 $('#topheardpagecontainer [name=btupclose]').click();
+            });
+            this.dom.btmyorder.click(function(){
+                window.TongjiObj.userinfo('click', 'order');
+                sysmanager.loadpage('views/', 'myorder', null, '我的订单',function(v){
+                });
+            });
+            this.dom.coupon.click(function(){
+                window.TongjiObj.userinfo('click', 'coupon');
+                sysmanager.loadpage('views/', 'coupon', null, '我的优惠券',function(v){
+                });
             });
         }
         ,close:function(){

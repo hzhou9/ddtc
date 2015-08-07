@@ -1,4 +1,4 @@
-﻿<div class="page_content userpage" id="user_html" style="" >
+<div class="page_content userpage" id="user_html" style="" >
     <style>
         .mui-grid-view.mui-grid-9 .mui-table-view-cell.mui-active {
             background-color: #50CF65;
@@ -38,8 +38,6 @@
             top: 1%;
         }
     </style>
-    <!--<h1 class="animated infinite bounce">Example</h1>-->
-
     <ul class="mui-table-view">
         <li class="mui-table-view-divider" style="color: #000;background-color: transparent;border-bottom: solid 1px #aaa;"><h3 name='fullname'>停车场名称</h3></li>
         <li class="mui-table-view-divider gonggao" p='' name='rewardline' style="color: #FFF;text-align: center;padding: 10px 0;overflow: hidden;background-color: #dd524d;line-height: 35PX;">
@@ -47,42 +45,26 @@
             <div style="display: inline-block;padding: 5px;margin-right: 10px;background-color: #dd524d;border: 0;" class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>详情</div>
         </li>
         <li class="mui-table-view-cell">
-            <div style="margin: 10px"><label>空车位状态：</label><span style="display: none" class="mui-badge">5分钟前更新</span></div>
+            <div style="margin: 5px 10px"><label>空车位状态：</label><span style="display: none" class="mui-badge">5分钟前更新</span></div>
             <ul  class="kucunlist" name='kucunpanel' p='1'> <!--库存更新-->
                 <li type='0'></li>
                 <li type='1'  style="background-position-x: -91px;"></li>
                 <li type='2' style="background-position-x: -182px;"></li>
             </ul>
-            <div style="margin: 10px">当前有<span class="mui-badge mui-badge1" name='manager_in'>9</span>辆车已下单预付，正在路上，请注意预留！</div>
+            <div style="margin: 5px 10px">现有<span class="mui-badge mui-badge1" name='manager_in'>9</span>辆车已下单，正在路上，请预留！</div>
         </li>
-        <li class="mui-table-view-divider" style="padding: 0">
-            <ul class="mygrid">
-                <li name='bt_secenin' p='1'> <!--入场管理-->
-                    <div class="secenicon s_1"></div>
-                    <div  class="mui-media-body body1">入场管理</div>
-                    <p><span class="mui-badge" name='manager_in'>1</span>辆</p>
-                </li>
-                <li name='bt_secenout' p='2'>   <!--离场管理-->
-                    <div class="secenicon s_2"></div>
-                    <div class="mui-media-body body1">离场管理</div><p><span class="mui-badge" name='manager_out'>2</span>辆</p>
-                </li>
-                <li name='bt_secenat' p='1,2,8' > <!--在场管理-->
-                    <div class="secenicon s_3"></div>
-                    <div class="mui-media-body body1">在场车辆</div><p><span class="mui-badge"  name='manager_at'>5</span>辆</p>
-                </li>
-                <li name='bt_jiaoyi' p='4,8,16'>                           <!--交易清单-->
-                    <div class="secenicon s_4"></div>
-                    <div class="mui-media-body body1">交易清单</div><p><span class="mui-badge"  name='manager_deals'>1</span>次<span>(本周)</span></p>
-                </li>
-            </ul>
+        <li class="mui-table-view-cell" name='jiaoyipanel' p='1,2,4,8,16'>                 <!--交易-->
+            <div><label>今日订单：</label><span name='todaynum'></span>个</div>
+            <div><label>订单总计：</label><span name='totalnum'></span>个</div>
+            <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>查看</div>
         </li>
         <li class="mui-table-view-cell" name='tixianpanel' p='16'>                         <!--提现-->
             <div><label>今日收益：</label><span name='todaysum'></span>元</div>
-            <div><label>可以提现：</label><span class="mui-badge" name='remainSum'>100.00</span>元</div>
+            <div><label>可以提现：</label><span class="mui-badge" name='remainSum'></span>元</div>
             <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>提现</div>
         </li>
         <li class="mui-table-view-cell" name='jifenpanel' p_old='1,2' p='1,2'>                  <!--积分-->
-            <div><label>可用积分：</label><span class="mui-badge" name='score'>391</span></div>
+            <div><label>可用积分：</label><span class="mui-badge" name='score'></span></div>
             <p>100积分相当于1元</p>
             <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>兑换</div>
         </li>

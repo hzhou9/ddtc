@@ -1,97 +1,67 @@
 <div class="page_content userpage" style="" id="userinfo_html">
     <style>
-        #userinfo_html{
-
-        }
-        #userinfo_html .pailist{
-
-        }
-        #userinfo_html .pailist>li>span{
-            border: solid 1px;
-            border-radius: 50%;
-            background-color: #fff;
-            color: #ccc;
-            margin-right: 10px;
-        }
-        #userinfo_html .pailist>li>a{
-            float: right;
-        }
-        #userinfo_html .pailist>li.mui-active{
-            background-color: inherit;
-        }
-        #userinfo_html .pailist>li>*{
-            display: inline;
-        }
-        #userinfo_html .pailist>li>.table{
-            display: none;
-        }
-        #userinfo_html .pailist>li.edit>*{
-            display: none;
-        }
-        #userinfo_html .pailist>li.edit>.table{
-            display: block;
-        }
-
-        #userinfo_html .pailist>li>span{
-            position: relative;
-            top: 6px;
-            display: inline-block;
-            width: 28px;
-            height: 26px;
-            -webkit-appearance: none;
-            background-color: transparent;
-            border: solid 1px #16a7de;
-            border-radius: 50%;
-        }
-        #userinfo_html .pailist>li.mui-active>span{
-            background-color: #16a7de;
-        }
-        #userinfo_html .inputblur{
-
-        }
-        #userinfo_html .inputfocus{
-
-        }
+    .pailist .more{
+        color:lightgray;
+    }
+    [name=row] input{
+        width:60%;
+    }
+    [name=btsave]{
+        margin-right:5px;
+    }
     </style>
-    <ul class="mui-table-view" style="background-image: none">
-        <li class="mui-table-view-cell">
-            <span class="mui-icon mui-icon-contact" style="font-size: 80px;color: #ccc;"></span><label style="position: relative;top: -15px;" name='telphone'></label>
-            <button name="btreg" class="mui-btn mui-btn-warning">切换账号</button>
-        </li>
-    </ul>
-    <ul class="mui-table-view" style="background-image: none">
-        <li class="mui-table-view-divider"><span style="color: #000;font-size: 20px">我的车牌</span><p style="float: right;margin-right: 10px">点击切换默认车牌号</p></li>
-    </ul>
-    <ul class="mui-table-view pailist" name='pailist'>
-
-    </ul>
     <ul class="mui-table-view">
         <li class="mui-table-view-cell">
-            <input name='input_add' type="text" style="width: 70%;margin-bottom: 0;"  maxlength="20" placeholder="添加新车牌">
-            <div name='btadd' class="mui-btn mui-btn-success">添加</div>
+            <span class="mui-icon duduche icon-user_active"></span>
+            <label name="telphone"></label>
+            <button name="btreg" class="mui-btn mui-btn-primary">切换账号</button>
         </li>
     </ul>
-    <button name="btquit" style="display: none" class="mui-btn mui-btn-success mui-btn-block">确 定</button>
-    <div style="height: 300px"></div>
+    <ul class="mui-table-view pailist" name="pailist">
+    </ul>
+    <button name="btquit" style="display:none;margin-left:5%;width:90%;" class="mui-btn mui-btn-success mui-btn-block">确 定</button>
+    <ul name="coupon" class="mui-table-view" style="display:none;">
+        <li class="mui-table-view-cell">
+            <div class="mui-navigate-right">
+                <h4>我的优惠券(<strong></strong>)</h4>
+            </div>
+        </li>
+    </ul>
+    <ul class="mui-table-view" name='order' style="display:none;">
+        <li class="mui-table-view-divider">
+            <div class="mui-navigate-right more" name="myorder">全部</div>
+            我的订单
+        </li>
+        <li class="mui-table-view-cell row" name="row">
+            <div class="mui-navigate-right">
+                <h4>
+                    <span class="title" name="title"></span><span style="float: right" class="mui-badge mui-badge-success">已付：<b name="cost"></b>元</span>
+                </h4>
+                <p><span class="mui-icon duduche icon-place"></span><span name="address"></span></p>
+                <p><label>开始计费：</label><span name="time"></span></p>
+                <div name="btdetail" style="width:86%;height:100%;position:absolute;right:0px;top:0px;"></div>
+            </div>
+        </li>
+    </ul>
+    
     <div class="template">
         <ul>
-            <li name='row' class="mui-table-view-cell" style="width: 100%">
-                <a><span class="mui-icon mui-icon-compose"></span></a><span class1="mui-icon mui-icon-paperplane"></span><b></b>
+            <li name="row_head" class="mui-table-view-divider">
+                <div name="row_head_hint" class="more">点击切换默认车牌</div>
+                我的车牌
+            </li>
+            <li name="row" class="mui-table-view-cell">
+                <a><span class="mui-icon duduche icon-compose"></span></a>
+                <b></b>
                 <div class="table">
-                    <input maxlength="20" type="text" style="width: 50%;margin-bottom:0;position: relative;top: -3px;">
-                    <div name='btcancel' class="mui-btn mui-btn-red" style="margin-right: 10px">取消</div>
-                    <div name='btsave' class="mui-btn mui-btn-success">修改</div>
+                <input maxlength="20" type="text">
+                <div name="btcancel" class="mui-btn mui-btn-red mui-pull-right">取消</div>
+                <div name="btsave" class="mui-btn mui-btn-success mui-pull-right">修改</div>
                 </div>
             </li>
-            <li name='rownone' class="mui-table-view-cell"><p style="color: red">当前还没有绑定车牌号,请添加新的车牌号.</p></li>
-            <li name='quanrow-1' class="mui-table-view-cell">
-                <span>1元券</span><p>使用后，订单只需要支付1元</p>
-            </li>
-            <li name='quanrow0' class="mui-table-view-cell">
-                <span>抵用券(?元)</span><p>你指需要1元</p>
-            </li>
-            <li name='quanrownone' class="mui-table-view-cell">
-                <p>当前没有任何可用抵用券</p>
+            <li name="row_tail" class="mui-table-view-cell">
+                <input name="input_add" type="text" maxlength="20" placeholder="添加新车牌">
+                <div name="btadd" class="mui-btn mui-btn-success">添加</div>
             </li>
         </ul>
     </div>

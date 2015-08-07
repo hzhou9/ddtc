@@ -1,0 +1,103 @@
+<div class="page_content userpage" style="" id="discover_html">
+    <style>
+        .mui-media-body h4 {color:#1e88e5;}
+        .project-view-cell {padding: 15px 10px;}
+        .project-view-cell h4 {margin:15px 0 0;font-size: 14px;}
+        .project-view ul {overflow:auto; border-bottom:1px solid #ddd;}
+        .project-view li {float:left; width:50%; border-right:1px solid rgb(226,225,228);}
+        .project-view .mui-table-view {background-image:none;}
+    </style>
+    <div name="discover_body">
+    <header class="mui-bar mui-bar-nav" style="position:relative">
+        <a name=test style="display:none"></a>
+        <form class="mui-input-group" name="form1" onsubmit="$('[name=test]').click();return false;">
+            <div class="mui-input-row mui-search">
+                <input type="search" placeholder="输入停车目的地" name='searchinpit'>
+                    </div>
+        </form>
+    </header>
+    
+    <div name="scrollparent" style="overflow:hidden;">
+        <div class="list" name="scrollarea">
+            <ul class="mui-table-view innerlist" name="hint"></ul>
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-media" name="free_list">
+                    <img class="mui-media-object mui-pull-left" src="img/icon-free-location@2x.png">
+                    <div class="mui-media-body mui-navigate-right">
+                        <h4 style="margin-top:4px">免费停车点（<span name="num_park_free">0</span>）</h4>
+                        <p class='mui-ellipsis'>上海最全的免费停车点</p>
+                    </div>
+                </li>
+                <!--<li class="mui-table-view-cell mui-media" id="e_cinema" style="display:none">-->
+                    <!--<img class="mui-media-object mui-pull-left" src="img/icon-cinema@2x.png">-->
+                    <!--<div class="mui-media-body mui-navigate-right">-->
+                        <!--<h4 style="margin-top:4px">看电影，车停哪儿最省钱？</h4>-->
+                        <!--<p class='mui-ellipsis'>28家影院实惠停车点指南</p>-->
+                    <!--</div>-->
+                <!--</li>-->
+            </ul>
+            <!--专题的内容-->
+            <div class="project-view" id="event_banner" style="display:none">
+                <ul class="mui-table-view">
+                    <!--<li class="project-view-cell mui-media border-bottom" id="e_cinema">-->
+                        <!--<img class="mui-media-object mui-pull-right" src="img/icon-cinema@2x.png">-->
+                        <!--<div class="mui-media-body">-->
+                            <!--<h4>看电影省钱停</h4>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <li class="project-view-cell mui-media" id="e_concert">
+                        <img class="mui-media-object mui-pull-right" src="img/icon-event@2x.png">
+                        <div class="mui-media-body">
+                            <h4>演唱会省钱停</h4>
+                        </div>
+                    </li>
+                    <li class="project-view-cell mui-media" id="banner_survey">
+                        <img class="mui-media-object mui-pull-right" src="img/icon-research@2x.png">
+                        <div class="mui-media-body">
+                            <h4>满意度调查</h4>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div style="margin:15px 15px 0;" id="banner_baoyue"><img src="img/banner_baoyue.png" width="100%" height="auto"></div>
+            <ul name="park_list" class="mui-table-view park-list">
+                <li class="mui-table-view-divider">正在优惠的停车场</li>
+            </ul>
+            <div class="list" name="coop">
+                <ul class="innerlist mui-table-view">
+                    <li class="mui-table-view-divider">按商圈查看</li>
+                </ul>
+            </div>
+            <div style="height:20px;"></div>
+        </div>
+    </div>
+    
+    <div class="template">
+        <ul>
+            <!--合作停车场-->
+            <li class="mui-table-view-cell" name='row'>
+                <h4><span name='title'></span><span class="tips-box tips-green" name="preorder">可预订</span></h4>
+                <p class='mui-ellipsis' name='rules'></p>
+                <p class='mui-ellipsis' name='spaces'>现在是<span name='numberstatus1'></span><mytag style="display:none">，预计<span name='numberstatus2t'></span>后<span name='numberstatus2'></span></mytag></p>
+                <p class="mui-ellipsis" name="notopen">非开放时段。开放时间：工作日<b name=openwd></b>，休息日<b name=openwe></b></p>
+                <p class='mui-ellipsis activity' name='activity'></p>
+                <a class="mui-btn mui-btn-primary">详情</a>
+            </li>
+            <!--区域块-->
+            <li name="tujianrow" class="mui-table-view-cell row">
+                <h4>
+                    <span name="name"></span>
+                </h4>
+                <p name="desc" style="display:block;" class="search_desc mui-ellipsis"></p>
+                <span class="mui-icon mui-icon-arrowdown search_arrowup"></span>
+                <ul name="areablocks" style="display:none;" class="mui-table-view mui-grid-view mui-grid-9">
+                </ul>
+            </li>
+            <!--子区域块-->
+            <li class="mui-table-view-cell mui-media mui-col-xs-4" name="areablock">
+                <div class="mui-media-body"></div>
+            </li>
+        </ul>
+    </div>
+    </div>
+</div>

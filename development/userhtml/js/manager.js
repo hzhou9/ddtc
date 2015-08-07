@@ -13,18 +13,27 @@ window.sysmanager = {
                topmenuMnager.showMenu();
            });
            var toppghead_html = toppghead.html;
+           var titleslist = [];
            toppghead.title = (function(){
-               var titleslist = [];
                return function(title){
                    if(title){
                        titleslist.push(title);
                        toppg.show();
                    }else{
                        titleslist.pop();
+                    if(titleslist.length > 0){
                        title = titleslist[titleslist.length-1];
+                    }else{
+                        toppg.hide();
+                    }
                    }
-                   toppghead.html(title);
+                    if(title){toppghead.html(title);}
                }
+           })();
+           toppghead.check = (function(){
+                return function(title){
+                    return (title && title != '' && titleslist[titleslist.length-1] == title);
+                }
            })();
            var topmenuMnager = (function(topmenubut){
                var top_menu = $('#top_menu');
@@ -62,12 +71,12 @@ window.sysmanager = {
            })(topmenubut);
 
            var list = [];
-           list.push($('#main_contaion'));
+           var main_c = $('#main_contaion');
+           list.push(main_c);
            var showend = function(e){
                //console.log('显示动画结束', this, e);
                $(this).removeClass(e.animationName);
                this.removeEventListener('webkitAnimationEnd', showend);
-               list.push($(this));
            }
            var showend_child = function(e){
                   //console.log('显示动画结束_子', this, e);
@@ -78,16 +87,19 @@ window.sysmanager = {
               //console.log('关闭动画结束', this, e);
               $(this).removeClass(e.animationName).hide();
               this.removeEventListener('webkitAnimationEnd', hideend);
-              list.pop();
            }
            var obj = {
                showToptitle:function(title){
                    toppghead.title(title);
                }
+               ,checkToptitle:function(title){
+                    return toppghead.check(title);
+                }
                ,setTopmenu:function(view){
                    topmenuMnager.setMenu(view);
                }
                ,show:function(pagecaontaion){            //显示一个数据容器
+                   //main_c.hide();//提升子窗口显示性能
                    var animname = pagecaontaion.attr('animname');
 
                    if(animname){
@@ -101,22 +113,37 @@ window.sysmanager = {
                    }else{
                        pagecaontaion.show();
                    }
+                             
+                   list.push(pagecaontaion);
+                   //setTimeout(function(){main_c.show();},2000);//提升子窗口显示性能
                }
-               ,hide:function(pagecaontaion){                    //隐藏最上层的数据容器
+               ,hide:function(pagecaontaion,force){                    //隐藏最上层的数据容器
+                             var changetitle = true;
                    if(!pagecaontaion){
                        pagecaontaion = list[list.length-1];
                        var view = pagecaontaion.data('view');
                        view.obj.close();
-                       if(2 == list.length){
-                           toppg.hide();
-                       }else{
-                           var lastpage = list[list.length-2];
-                           var lastpagev = lastpage.data('view');
-                           topmenuMnager.setMenu(lastpagev);
-                       }
-                   }
+                    }else{//找到该contanion
+                        for(var i=list.length-1;i>0;i--){
+                            if(pagecaontaion == list[i]){
+                             if(i < list.length-1){//将pagecaontaion上移动
+                             for(var j=i;j<list.length-1;j++){
+                             list[j]=list[j+1];
+                             }
+                             list[list.length-1]=pagecaontaion;
+                             changetitle=false;//说明view不在最高层
+                             }
+                             break;
+                            }
+                        }
+                    }
+                    if(changetitle && 2 < list.length){
+                        var lastpage = list[list.length-2];
+                        var lastpagev = lastpage.data('view');
+                        topmenuMnager.setMenu(lastpagev);
+                    }
                   var animname = pagecaontaion.attr('animname');
-                   if(animname){
+                   if(animname && !force){
                        animname = animname+ '_un';
                        pagecaontaion.show().addClass(animname);
                        pagecaontaion[0].addEventListener('webkitAnimationEnd', hideend);
@@ -128,11 +155,28 @@ window.sysmanager = {
                    }else{
                        pagecaontaion.hide();
                    }
+                   list.pop();
                }
+               ,clearviews:function(){
+                    //main_c.hide();
+                    while(list.length > 1){
+                        this.hide(null,true);
+                        this.showToptitle();
+                    }
+                    $('#reg_dialog_pagecontainer').hide();$('#alert_pagecontainer').hide();$('#confirm_pagecontainer').hide();
+                    sysmanager.loading.hide();
+                }
+                ,onback:function(){
+                    this.hide(null,true);
+                    this.showToptitle();
+                }
            }
            return obj;
        })()
        ,loadpage:function(viewroot, viewname, pagecontainer, name, callback, arg){      //加载只 Dion 过的page 在指定的page容器中
+           if(this.pagecontainerManager.checkToptitle(name)){//屏蔽重复加载
+               return;
+           }
            var me = this;
            var viewmanager = viewManager;
            viewmanager.viewroot(viewroot);
@@ -186,47 +230,54 @@ window.sysmanager = {
                $('#pagecontaion').hide();
                view.obj.close();
            });
-            */
+            
            setTimeout(function(){
-               //me.checklogin();
+               me.checklogin();
            });
+           */
            return this;
        }
     ,login:function(phone, carid, callback){
         var type = utils.tools.getUrlParam('type') || '1';
 
         if('1' == type){      //非openid模式
-            //window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
-            window.myajax.get('Public','login',{'phone':phone},function(result){
+            var params = {'phone':phone,'env':navigator.userAgent};
+            if(carid){
+                params['carid'] = carid;
+            }
+            window.myajax.get('Public','login',params,function(result){
                 if(0 == result.code){
                     var userinfo = {
                         uid:result.data.uid
                         ,uuid:result.data.uuid
                     }
                     window.myajax.userinfo(userinfo);
+                    if(sysmanager.isapp){
+                    setTimeout(function(){
+                        if(window.pushid){
+                            window.myajax.userget('index','setPushid',{pushid:window.pushid}, function(result){
+                            }, null, false);
+                        }else{
+                            window.parent.postMessage(JSON.stringify({t:'setpushid'}),'*');
+                        }
+                    });//提交pushid
+                    }
                     callback && callback();
                 }
             });
         }else{
             var openid = utils.tools.getUrlParam('openid');
-            //window.myajax.get('Public','wxlogin',{openid:openid,'phone':phone,'carid':carid},function(result){
-            window.myajax.get('Public','wxlogin',{openid:openid,'phone':phone},function(result){
+            var params = {openid:openid,'phone':phone};
+            if(carid){
+                params['carid'] = carid;
+            }
+            window.myajax.get('Public','wxlogin',params,function(result){
                 if(0 == result.code){
                     var userinfo = {
                         uid:result.data.uid
                         ,uuid:result.data.uuid
                     }
                     window.myajax.userinfo(userinfo);
-                    callback && callback();
-                }
-            });
-        }
-    }
-    ,loginUI_olg:function(callback){                    //弹出登录的窗口 提供登录后的回调
-        var contaion = $('#reg_pagecontaion');
-        if(!contaion.is(':visible')){
-            sysmanager.loadpage('views/', 'reg', contaion,null, function(view){
-                view.obj.onclose = function(){
                     callback && callback();
                 }
             });
@@ -240,6 +291,7 @@ window.sysmanager = {
                     userpanel_phone:'[name=userpanel_phone]'
                     ,userpanel_chepai:'[name=userpanel_chepai]'
                     ,btreg:'[name=btreg]'
+                    ,btarea:'[name=btarea]'
                     ,msg:'[name=msg]'
                     ,btclose:'[name=btclose]'
                     ,title1:'h1'
@@ -294,12 +346,12 @@ window.sysmanager = {
                 ,c_reg:function(){
                     var me = this;
                     var phone = this.dom.userpanel_phone.val();
-                    var chepai = this.dom.userpanel_chepai.val();
+                    var chepai = this.dom.btarea.text() + this.dom.userpanel_chepai.val();
                     this.dom.userpanel_phone.blur();
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
                         sysmanager.alert('手机号不能为空!');
-                    }else if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(phone))){
+                    }else if(!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))){
 				            		sysmanager.alert('请输入正确的手机号!');
 				            }else{
                         sysmanager.login(phone,chepai,function(){
@@ -311,13 +363,13 @@ window.sysmanager = {
                 ,c_reg_openid:function(){
                     var me = this;
                     var phone = this.dom.userpanel_phone.val();
-                    var chepai = this.dom.userpanel_chepai.val();
+                    var chepai = this.dom.btarea.text() + this.dom.userpanel_chepai.val();
                     var openid =  utils.tools.getUrlParam('openid');
                     this.dom.userpanel_phone.blur();
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
                         sysmanager.alert('手机号不能为空!');
-                    }if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(phone))){
+                    }if(!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))){
 				            		sysmanager.alert('请输入正确的手机号!');
 				            }else{
                         sysmanager.login(phone,chepai,function(){
@@ -343,13 +395,25 @@ window.sysmanager = {
                     var type = utils.tools.getUrlParam('type') || 1;
                     this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
 
-
+                    me.dom.btarea.aclick(function(){
+                        sysmanager.areaKeyboardUI(function(selarea){
+                            me.dom.btarea.text(selarea);
+                            me.dom.userpanel_chepai.focus();
+                        });
+                    });
                     me.dom.btreg.aclick(function(){
                         me.c_reg();
                     });
-                    this.dom.btclose.aclick(function(){
-                        me.c_quit(false);
+                    me.dom.btclose.aclick(function(){
+                        me.c_quit(true);
                     });
+                    me.dom.userpanel_chepai.bind('keyup', function(event){
+                                           var txt = me.dom.userpanel_chepai.val();
+                                           var upper = txt.toUpperCase();
+                                           if(txt != upper){
+                                           me.dom.userpanel_chepai.val(upper);
+                                           }
+                                           });
                 }
                 ,close:function(){
                     this.onclose && this.onclose();
@@ -374,6 +438,30 @@ window.sysmanager = {
                 }
             });
         }
+    }
+    ,areaKeyboardUI:function(callback){
+        if(!this.areaKeyboardInit){           //初始化
+            var me = this;
+            this.areaKeyboardInit = true;
+            var closeme = function(){
+                $('#keyboard-area-list').hide();
+                setTimeout(function(){$('#keyboard-area-list-bg').hide();});
+            };
+            $('#keyboard-area-list [name=close_keyboard-area-list]').click(closeme);
+            var areas_tag = ['京','沪','浙','苏','粤','鲁','晋','冀','豫','川','渝','辽','吉','黑','皖','鄂','湘','赣','闽','陕','甘','宁','蒙','津','贵','云','桂','琼','青','新','藏'];
+            var arealst = $('#keyboard-area-list [name=provinces-list]');
+            $.each(areas_tag,function(i,v){
+                   var item = $('<li>'+v+'</li>');//<li>京</li>
+                   item.click(function(){
+                        me.areaKeyboardCallback && me.areaKeyboardCallback(v);
+                        closeme();
+                    });
+                   arealst.append(item);
+            });
+        }
+        this.areaKeyboardCallback = callback;
+        $('#keyboard-area-list-bg').show();
+        $('#keyboard-area-list').show();
     }
     ,checkLogin:function(callback){
         var me = this;
@@ -507,4 +595,7 @@ window.sysmanager = {
            };
            return obj;
         })()
+        ,getMapimage:function(lng,lat,zoom,width,height){
+        return 'http://restapi.amap.com/v3/staticmap?location='+lng+','+lat+'&scale=2&zoom='+zoom+'&size='+width+'*'+height+'&markers=mid,,停:'+lng+','+lat+'&key=b223c8ce027b44c518817337b4308ac8';
+        }
    }

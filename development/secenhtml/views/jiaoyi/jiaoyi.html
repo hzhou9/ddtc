@@ -1,10 +1,10 @@
-﻿<div class="page_content userpage" id="jiaoyi_html" style="" >
+<div class="page_content userpage" id="jiaoyi_html" style="" >
     <style>
         #jiaoyi_html .mui-table-view-cell{
 
         }
         #jiaoyi_html .mui-table-view-cell>p{
-            line-height: 25px;
+            line-height: 20px;
         }
         #jiaoyi_html .mui-table-view-cell>p>label{
             min-width: 66px;
@@ -22,11 +22,16 @@
     <div class="template">
         <ul>
             <li class="mui-table-view-cell" name='row'>
-                <div name='pai'></div>
-                <p><label>下单时间:</label><span name='start'>沪A12</span></p>
-                <!--<p>结算:<span name='end'></span></p>-->
-                <p><label>管理员:</label><span name='admin'></span>(确认)</p>
-                <div name='money' class="mui-btn mui-btn-success  mui-pull-right">¥25.00元</div>
+                <div>
+                    <div name='pai' style="font-size: x-large;"></div>
+                <a name="tel" class="mui-btn mui-btn-success" style="position:absolute;top:6%;left:135px;padding:1px 3px;">联系车主</a>
+                <span name="newcar" style="position:absolute;top:10%;right:20px;" class="mui-badge mui-badge-success">新订单</span>
+                </div>
+                <p><label name="title_new">下单时间：</label><label name="title_order">开始计费：</label><span name='start'></span></p>
+                <p><label>已付金额：</label><span name='money'></span>元</p>
+                <p><label>管理人员：</label><span name='admin'></span></p>
+                <div name='btaction1' class="mui-btn mui-btn-success  mui-pull-right" style="top:70%">计算停车费</div>
+                <div name='btaction2' class="mui-btn mui-btn-warning  mui-pull-right" style="top:70%">确认进入</div>
             </li>
             <li class="mui-table-view-cell" name='nonerow'>
                 <p>当前没有交易记录</p>

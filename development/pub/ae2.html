@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<title>嘟嘟停车</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<script>
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/) || '';
+        var mobile = {
+            iphone:agentID.indexOf("iphone")>=0
+            ,android:agentID.indexOf("android")>=0
+            ,ipad:agentID.indexOf("ipad")>=0
+            ,ipad:agentID.indexOf("ipod")>=0
+        }
+        if(mobile.iphone){
+            //alert('iphone');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=01, user-scalable=0,minimal-ui">');
+        }else if(mobile.android){
+            //alert('android');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">');
+            //document.write('<meta name="viewport" content="target-densitydpi=device-dpi">');
+        }else{
+            //alert('other');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=0,minimal-ui">');
+        }
+    </script>
+    <style>
+ul{
+            list-style: none;
+            margin: 0;
+            padding: 5%;
+        }
+        ul>li>span{
+float: left;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: rgb(20, 163, 219);
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+            border-radius: 50%;
+            margin-top: 2px;
+            margin-right: 5px;            
+        }
+
+ul>li>p{
+            line-height: 25px;
+            font-size: 15px;
+        }
+        ul>li>img{
+            margin: 0 auto;
+            display: block;
+        }
+</style>
+</head>
+<body>
+<ul>
+    <li><span>1</span><p>车主预付后进场时，信息将出现在：</p></li>
+    <li><img src="img/enter1.jpg" width="40%"><br></li>
+    <li><span>2</span><p>管理员放行入场后，按下“确认进入”：</p></li>
+    <li><img src="img/enter2.jpg" width="100%"></li>
+    <li><span>3</span><p>即完成入库，并获得相应补贴。补贴以积分的形式进行发放，管理员可选择积分兑换，获得礼品或现金。</p></li>
+</ul>
+
+</body>
+</html>
