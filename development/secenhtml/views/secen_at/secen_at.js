@@ -63,8 +63,31 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var me = this;
             var row = this.dom.row.clone();
             row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.startTime)
-                .end().find('[name=btaction]').attr('href','tel:'+data.telephone);
+                .end().find('[name=btaction]').attr('href','tel:'+data.telephone)
+                .end().find('[name=btoutaction]').aclick(function(){
+                    me.c_setLeave(data.oid, row);
+                });
             return  row;
+        }
+        ,c_setLeave:function(oid, row){
+            var me = this;
+            utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title').html()), function(){
+                me.m_setLeave(oid,function(){
+                    row.remove();
+                });
+            });
+//            if(window.confirm("确认车辆［{0}］入场？".replace('{0}',row.find('.title').html()))){
+//                me.m_setIn(oid,function(){
+//                    row.remove();
+//                });
+//            }
+        }
+        ,m_setLeave:function(oid, fn){
+            ajax.userget('index','setLeave',{oid:oid}, function(result){
+                var data = result.data;
+                fn && fn(data);
+
+            });
         }
         ,c_getrow_none:function(){
             var row = this.dom.row_none.clone();
