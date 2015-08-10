@@ -87,7 +87,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     var nRow = row.clone();
                     nRow.find('[name=btoutaction]').remove();
                     row.remove();
-                    this.dom.list.append(nRow);
+                    me.dom.list.append(nRow);
                 });
             });
         }
