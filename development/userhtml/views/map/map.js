@@ -557,7 +557,11 @@ function ui_map() {
                             row.find('[name=spaces]').hide();
                         }
                     } else if (data.c_t == 2) {
-                        row.find('[name=spaces]').html("现在还有"+data.s+"个车位");
+                        if (data.s >= 0) {
+                            row.find('[name=spaces]').html("现在还有"+data.s+"个车位");
+                        } else {
+                            row.find('[name=spaces]').hide();
+                        }
                     }
                 }
                 if (data.d && data.c != 0) {//活动
