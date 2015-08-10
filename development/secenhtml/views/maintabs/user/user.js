@@ -200,7 +200,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
 
             this.dom.jiaoyi.btaction.click(function(){
-                if (ajax.userinfo().permission & 2) {
+                if (ajax.userinfo().permission & 2 && ajax.userinfo().type == 2) {
                     me.c_viewsecenat();
                 } else {
                     me.c_viewjiaoyi();
