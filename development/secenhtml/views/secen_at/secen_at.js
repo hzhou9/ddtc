@@ -70,7 +70,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,c_getrow:function(data){
             var me = this;
             var row = this.dom.row.clone();
-            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.startTime)
+            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.startime)
                 .end().find('[name=btaction]').attr('href','tel:'+data.telephone)
                 .end().find('[name=btoutaction]').aclick(function(){
                     me.c_setLeave(data.oid, row);
