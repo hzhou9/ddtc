@@ -201,7 +201,7 @@ function ui_orderpay(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
 
-            if (!sysmanager.isapp) {
+            if (!sysmanager.isapp || !window.appAvailable) {
                 $('#paymethod_alipay').hide();
             }
 

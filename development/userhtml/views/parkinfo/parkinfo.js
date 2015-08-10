@@ -357,29 +357,14 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
 
-            //if (window.appAvailable && window.appAvailable.amap) {
-            //    $('#btn_amap_navigator').click(function(){
-            //        window.TongjiObj.parkinfo('navi', 'gaode');
-            //        if (sysmanager.isapp) {
-            //            me.c_daohang_gaode_app();
-            //        } else {
-            //            me.c_daohang_gaode();
-            //        }
-            //        me.c_danghang_close();
-            //    }).show();
-            //}
-            //
-            //if (window.appAvailable && window.appAvailable.bdmap) {
-            //    $('#btn_baidu_navigator').click(function () {
-            //        window.TongjiObj.parkinfo('navi', 'baidu');
-            //        if (sysmanager.isapp) {
-            //            me.c_daohang_baidu_app();
-            //        } else {
-            //            me.c_daohang_baidu();
-            //        }
-            //        me.c_danghang_close();
-            //    }).show();
-            //}
+            if (window.appAvailable) {
+                if (!window.appAvailable.amap) {
+                    $('#btn_amap_navigator').hide();
+                }
+                if (!window.appAvailable.bdmap) {
+                    $('#btn_baidu_navigator').hide();
+                }
+            }
 
             me.dom.reserve.click(function(){
                 window.TongjiObj.parkinfo('click', 'order');
