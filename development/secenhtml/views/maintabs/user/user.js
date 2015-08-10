@@ -200,7 +200,11 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
 
             this.dom.jiaoyi.btaction.click(function(){
-                me.c_viewjiaoyi();
+                if (ajax.userinfo().permission & 2 && ajax.userinfo().type == 2) {
+                    me.c_viewsecenat();
+                } else {
+                    me.c_viewjiaoyi();
+                }
             });
             this.dom.btquit.click(function(){
                 me.c_quit();
@@ -227,6 +231,15 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                         }
                     });
        }
+        , c_viewsecenat:function() {
+            console.log('c_viewsecenat');
+            var me=this;
+            utils.sys.loadpage('views/', 'secen_at', null, '在场内',function(v){
+                v.obj.onclose = function(){
+                    me.c_refreshInfo();
+                }
+            });
+        }
         ,View:{
             secen_in:null
             ,secen_out:null
