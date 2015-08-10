@@ -545,18 +545,22 @@ function ui_map() {
                     }
                 } else {//现在开放
                     row.find('[name=notopen]').remove();//不显示开放信息
-                    if (data.s >= 0) {
-                        row.find('[name=numberstatus1]').html(window.cfg.parkstatestring2[data.s]);
-                        if (data.e && data.e[1]) {
-                            row.find('[name=numberstatus2]').html(window.cfg.parkstatestring2[data.e[0]]);
-                            row.find('[name=numberstatus2t]').html(data.e[1].substr(0, 5));
-                            row.find('mytag').show();
+                    if (data.c_t == 1) {
+                        if (data.s >= 0) {
+                            row.find('[name=numberstatus1]').html(window.cfg.parkstatestring2[data.s]);
+                            if (data.e && data.e[1]) {
+                                row.find('[name=numberstatus2]').html(window.cfg.parkstatestring2[data.e[0]]);
+                                row.find('[name=numberstatus2t]').html(data.e[1].substr(0, 5));
+                                row.find('mytag').show();
+                            }
+                        } else {
+                            row.find('[name=spaces]').hide();
                         }
-                    } else {
-                        row.find('[name=spaces]').hide();
+                    } else if (data.c_t == 2) {
+                        row.find('[name=spaces]').html("现在还有"+data.s+"个车位");
                     }
                 }
-                if (data.d) {//活动
+                if (data.d && data.c != 0) {//活动
                     if (data.d[0] == 1) {//停车只要1元
                         row.find('[name=activity]').html('现在预订只要' + data.d[1] + '元');
                     } else {
