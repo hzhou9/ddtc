@@ -47,10 +47,18 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var me = this;
             this.dom.score.html(datas.score);
             this.dom.list.empty();
+            var leaveList = [];
             for(var i=0;i<datas.length;i++){
                 var data = datas[i];
                 var row = this.c_getrow(data);
-                this.dom.list.append(row);
+                if (data.s == "3") {
+                    leaveList.push(row);
+                } else {
+                    this.dom.list.append(row);
+                }
+            }
+            for (var i = 0; i < leaveList.length; i++) {
+                this.dom.list.append(leaveList[i]);
             }
             if(0 == datas.length){
                 this.dom.list.append(this.c_getrow_none());
@@ -67,20 +75,21 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 .end().find('[name=btoutaction]').aclick(function(){
                     me.c_setLeave(data.oid, row);
                 });
+            if (data.s == "3") {
+                row.find('[name=btoutaction]').remove();
+            }
             return  row;
         }
         ,c_setLeave:function(oid, row){
             var me = this;
             utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title').html()), function(){
                 me.m_setLeave(oid,function(){
+                    var nRow = row.clone();
+                    nRow.find('[name=btoutaction]').remove();
                     row.remove();
+                    this.dom.list.append(nRow);
                 });
             });
-//            if(window.confirm("确认车辆［{0}］入场？".replace('{0}',row.find('.title').html()))){
-//                me.m_setIn(oid,function(){
-//                    row.remove();
-//                });
-//            }
         }
         ,m_setLeave:function(oid, fn){
             ajax.userget('index','setLeave',{oid:oid}, function(result){
@@ -94,7 +103,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             return row;
         }
         ,m_getdata:function(fn){
-            ajax.userget('index','getStops',null, function(result){
+            ajax.userget('index','getDeals',{'lastweek':1, 'all':1}, function(result){
                 /**
                  * data:［{"oid":"1","carid":"11111","orderTime":"1970-01-01 08:00:00"}
                  */
