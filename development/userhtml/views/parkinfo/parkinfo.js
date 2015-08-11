@@ -136,12 +136,16 @@ function ui_parkinfo(){
             this.dom.address.html(this.nowdata.a);
             this.dom.rules.html(this.nowdata.r);
             if(this.nowdata.s!==undefined && this.nowdata.s >= 0){
-            this.dom.numberstatus1.html(window.cfg.parkstatestring2[this.nowdata.s]);
-            if(this.nowdata.e && this.nowdata.e[1]){
-                this.dom.numberstatus2.html(window.cfg.parkstatestring2[this.nowdata.e[0]]);
-                this.dom.numberstatus2t.html(this.nowdata.e[1].substr(0,5));
-                this.dom.mytag.show();
-            }}else if(this.nowdata.startTime){
+                this.dom.numberstatus1.html(window.cfg.parkstatestring2[this.nowdata.s]);
+                if(this.nowdata.e && this.nowdata.e[1]){
+                    this.dom.numberstatus2.html(window.cfg.parkstatestring2[this.nowdata.e[0]]);
+                    this.dom.numberstatus2t.html(this.nowdata.e[1].substr(0,5));
+                    this.dom.mytag.show();
+                }
+                if (this.nowdata.c_t == "2") {
+                    this.dom.spaces.html("现在还有"+this.nowdata.s+"个车位");
+                }
+            }else if(this.nowdata.startTime){
                 this.dom.spaces.html('开始计费：'+this.nowdata.startTime);
             }else if(this.nowdata.o && this.nowdata.o[0] == 0){//非开放时段
                 var openwd=(this.nowdata.o[1] == this.nowdata.o[2])?'不开放':this.nowdata.o[1].substr(0,5)+'~'+this.nowdata.o[2].substr(0,5);
