@@ -84,10 +84,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var me = this;
             utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title').html()), function(){
                 me.m_setLeave(oid,function(){
-                    var nRow = row.clone();
-                    nRow.find('[name=btoutaction]').remove();
-                    row.remove();
-                    me.dom.list.append(nRow);
+                    me.c_init()
                 });
             });
         }
