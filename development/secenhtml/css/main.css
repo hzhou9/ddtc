@@ -628,3 +628,8 @@
     font-size: 20px;
     line-height: 30px;
 }
+.tips-box {border-radius:3px; color:#fff; font-size:16px; font-weight:400; height:20px; line-height:18px; padding:0 5px; overflow:hidden; vertical-align:top; display:inline-block;}
+.tips-green {background:#43bc1b;}
+.tips-blue {background:#1e88e5;}
+.tips-red {background:#f00;}
+.tips-box.tips-red {border:1px solid #f00; background:none; color:#f00;}

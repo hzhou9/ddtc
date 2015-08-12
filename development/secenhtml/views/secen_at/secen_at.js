@@ -25,6 +25,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 utils.jqmapping(this.dom, context);
                 this.r_init();
             }
+            var self = this;
+            setInterval(function () {
+                if (document.hasFocus() == false) {
+                    self.c_init();
+                }
+            }, 3000);
             this.c_init();
         }
         ,c_init:function(){
@@ -77,6 +83,11 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 });
             if (data.s == "3") {
                 row.find('[name=btoutaction]').remove();
+            }
+            if (parseInt(data.s) < 3 && data.r_fee > 0){
+                row.find('[name=alertinfo]').text("还需支付"+data.r_fee+"元");
+            } else {
+                row.find('[name=alertinfo]').remove();
             }
             return  row;
         }
