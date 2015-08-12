@@ -93,7 +93,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_setLeave:function(oid, row){
             var me = this;
-            utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title').html()), function(){
+            utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title [name=cardid]').html()), function(){
                 me.m_setLeave(oid,function(){
                     me.c_init()
                 });
