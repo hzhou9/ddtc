@@ -25,6 +25,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 utils.jqmapping(this.dom, context);
                 this.r_init();
             }
+            var self = this;
+            setInterval(function () {
+                if (document.hasFocus() == false) {
+                    self.c_init();
+                }
+            }, 3000);
             this.c_init();
         }
         ,c_init:function(){
@@ -47,10 +53,18 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var me = this;
             this.dom.score.html(datas.score);
             this.dom.list.empty();
+            var leaveList = [];
             for(var i=0;i<datas.length;i++){
                 var data = datas[i];
                 var row = this.c_getrow(data);
-                this.dom.list.append(row);
+                if (data.s == "3") {
+                    leaveList.push(row);
+                } else {
+                    this.dom.list.append(row);
+                }
+            }
+            for (var i = 0; i < leaveList.length; i++) {
+                this.dom.list.append(leaveList[i]);
             }
             if(0 == datas.length){
                 this.dom.list.append(this.c_getrow_none());
@@ -62,16 +76,42 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,c_getrow:function(data){
             var me = this;
             var row = this.dom.row.clone();
-            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.startTime)
-                .end().find('[name=btaction]').attr('href','tel:'+data.telephone);
+            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.startime)
+                .end().find('[name=btaction]').attr('href','tel:'+data.telephone)
+                .end().find('[name=btoutaction]').aclick(function(){
+                    me.c_setLeave(data.oid, row);
+                });
+            if (data.s == "3") {
+                row.find('[name=btoutaction]').remove();
+            }
+            if (parseInt(data.s) < 3 && data.r_fee > 0){
+                row.find('[name=alertinfo]').text("还需支付"+data.r_fee+"元");
+            } else {
+                row.find('[name=alertinfo]').remove();
+            }
             return  row;
+        }
+        ,c_setLeave:function(oid, row){
+            var me = this;
+            utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title [name=cardid]').html()), function(){
+                me.m_setLeave(oid,function(){
+                    me.c_init()
+                });
+            });
+        }
+        ,m_setLeave:function(oid, fn){
+            ajax.userget('index','setLeave',{oid:oid}, function(result){
+                var data = result.data;
+                fn && fn(data);
+
+            });
         }
         ,c_getrow_none:function(){
             var row = this.dom.row_none.clone();
             return row;
         }
         ,m_getdata:function(fn){
-            ajax.userget('index','getStops',null, function(result){
+            ajax.userget('index','getDeals',{'lastweek':1, 'all':1}, function(result){
                 /**
                  * data:［{"oid":"1","carid":"11111","orderTime":"1970-01-01 08:00:00"}
                  */
