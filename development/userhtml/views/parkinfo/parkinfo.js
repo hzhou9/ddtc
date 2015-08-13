@@ -124,7 +124,7 @@ function ui_parkinfo(){
             }
             
             if(this.nowdata.c == 2){//免费
-                this.dom.spaces.html('本免费停车点信息由网友提供，我们已尽量检查，但仍可能有误哦。');
+                this.dom.spaces.html('本信息由网友提供');
                 this.dom.activity.parent().hide();
                 if(this.nowdata.t){
                     var tags=this.nowdata.t.split("|");
