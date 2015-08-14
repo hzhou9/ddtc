@@ -223,7 +223,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
        ,c_viewjiaoyi:function(){
-       console.log('c_viewjiaoyi');
+       //console.log('c_viewjiaoyi');
        var me=this;
                     utils.sys.loadpage('views/', 'jiaoyi', null, '业务清单（一周内）',function(v){
                         v.obj.onclose = function(){
@@ -232,7 +232,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     });
        }
         , c_viewsecenat:function() {
-            console.log('c_viewsecenat');
+            //console.log('c_viewsecenat');
             var me=this;
             utils.sys.loadpage('views/', 'secen_at', null, '业务清单（一周内）',function(v){
                 v.obj.onclose = function(){

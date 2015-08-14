@@ -75,7 +75,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 //                    });
 
             utils.sys.login(parkname,name,password, function(userinfo){
-                console.log('userinfo',userinfo);
+                //console.log('userinfo',userinfo);
                 var c = me.context.parent().parent();
                 utils.sys.pagecontainerManager.hide(c);
                 me.close();
@@ -127,7 +127,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,m_test:function(username, fn){
             ajax.get('Index','test',{username:username}, function(result){
-                console.log('test', result);
+                //console.log('test', result);
                 fn && fn();
             });
         }

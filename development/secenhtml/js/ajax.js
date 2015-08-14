@@ -28,7 +28,7 @@ define(['cfg', 'utils'], function(cfg, utils){
     var myajax = {
         get:function(model,control,data, success, error){
             var url = ajaxroot+model+'/'+control+'/';
-            console.log(url);
+            //console.log(url);
             utils.sys.loading.show();
             $.ajax({
                 url:url,       
@@ -39,14 +39,14 @@ define(['cfg', 'utils'], function(cfg, utils){
                 //jsonpCallback:'myjsonpReturn',                   //回调函数名
                 success:function(result){                  //成功执行处理，对应后台返回的getName(data)方法。
                     utils.sys.loading.hide();
-                    console.log(result);
+                    //console.log(result);
                     if(process(result)){
                         success && success(result);
                     }
                 },
                 error:function(msg){
                     utils.sys.loading.hide();
-                    console.log(msg);
+                    //console.log(msg);
                 }
             }); 
         }

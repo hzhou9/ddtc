@@ -15,7 +15,6 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ,row_none:'.template [name=row_none]'
             ,score:'.template [name=score]'
             ,list:'[name=list]'
-            ,btrefresh:'[name=btrefresh]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -25,12 +24,14 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 utils.jqmapping(this.dom, context);
                 this.r_init();
             }
-            var self = this;
-            setInterval(function () {
-                if (document.hasFocus() == false) {
-                    self.c_init();
-                }
-            }, 3000);
+
+            //var self = this;
+            //setInterval(function () {
+            //    if (document.hasFocus() == false) {
+            //        self.c_init();
+            //    }
+            //}, 3000);
+
             this.c_init();
         }
         ,c_init:function(){
@@ -42,12 +43,16 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
-            this.dom.btrefresh.aclick(function(){
+            $('[name="btnrefresh"]').show().click(function(){
                 me.c_refresh();
             });
         }
         ,c_refresh:function(){
             this.c_init();
+            var me = this;
+            setTimeout(function() {
+                me.iscroll && me.iscroll.scrollTo(0, 0);
+            })
         }
         ,c_fill:function(datas){
             var me = this;
@@ -120,6 +125,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
         ,close:function(){
+            $('[name="btnrefresh"]').hide();
             this.onclose && this.onclose();
         }
     };
