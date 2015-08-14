@@ -389,8 +389,6 @@ function ui_parkinfo(){
                     , thumb = null;
 
                 if (sysmanager.isapp) {
-                    $('#share_box').show();
-
                     $('#share_to_friends').click(function () {
                         window.parent.postMessage(JSON.stringify({
                             t: 'wechatshare', d: {
@@ -415,6 +413,8 @@ function ui_parkinfo(){
                         }), '*');
                     });
 
+                    $('#share_box').show();
+                    me.iscroll && me.iscroll.refresh();
                 } else {
                     window.Myweixinobj.setDesc(desc).setTitle(title).setUrl(url).initBind();
                 }
