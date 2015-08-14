@@ -337,6 +337,7 @@ function ui_map() {
                 }
                 row0.find('[name=head]').fclick(function () {
                     freelist.toggle();
+                    me.iscroll.refresh();
                 });
                 this.dom.list.append(row0);
             } else if (datas.a && datas.a.distance < 5000 && me.mm == 0) { //最近的免费停车场
