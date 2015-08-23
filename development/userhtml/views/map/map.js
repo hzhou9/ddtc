@@ -32,6 +32,8 @@ function ui_map() {
         , mapObj: null
         , datas: null
         , userpos: null
+        , pinitOffset : 0
+        , finitOffset : 0
         , center: null
         , mm:0
         , page:0
@@ -311,13 +313,13 @@ function ui_map() {
         }
         , c_fill_free: function (datas) {//插入免费停车场
             var me = this;
-            var offset = 30 * me.page;
+            var offset = 30 * me.page+(me.mm==0?0:me.finitOffset);
             if (datas.f && datas.f.length > 0 && offset < datas.f.length) {
                 var row0 = this.dom.row0.clone();
                 row0.find('b').html(datas.f.length);
                 var intro = null;
                 var freelist = row0.find('ul');
-                for (var i = 0;i < (this.mm == 0?datas.f.length:30) && i + offset < datas.f.length; i++) {
+                for (var i = 0;i < (me.mm == 0?datas.f.length:30) && i + offset < datas.f.length; i++) {
                     var row = this.c_getrow(datas.f[i+offset]);
                     freelist.append(row);
                     if (i+offset < 3) {
@@ -337,7 +339,7 @@ function ui_map() {
                     freelist.toggle();
                 });
                 this.dom.list.append(row0);
-            } else if (datas.a && datas.a.distance < 5000) { //最近的免费停车场
+            } else if (datas.a && datas.a.distance < 5000 && me.mm == 0) { //最近的免费停车场
                 var row1 = this.dom.row1.clone();
                 row1.find('b').html(datas.a.distance);
                 row1.find('p').html(datas.a.n);
@@ -359,7 +361,7 @@ function ui_map() {
             }
             if (datas.p && datas.p.length > 0) {
                 var first = false;
-                var offset = me.page * 30;
+                var offset = me.page * 30+(me.mm == 0?0:me.pinitOffset);
                 for (var i = 0; i < (this.mm === 0?datas.p.length:30) && (i+offset)<datas.p.length; i++) {
                     if (!first && datas.p[i+offset].c == 0) {
                         first = true;
@@ -409,7 +411,7 @@ function ui_map() {
             //        this.c_getpoint(map, data, i);
             //    }
             //} else {
-            var offset = this.page * 30;
+            var offset = this.page * 30 + (this.mm == 0?0:this.pinitOffset);
                 for (var i = 0; i < (this.mm == 0?datas.p.length:30) && (i+offset)<datas.p.length; i++) { // 信息化停车点
                     var data = datas.p[i+offset];
                     if (data === undefined) break;
@@ -734,9 +736,11 @@ function ui_map() {
                         me.datas.f.push(d);
                     });
                 } else {
+                    me.finitOffset = result.data.f.length;
+                    me.pinitOffset = result.data.p.length;
                     me.datas = result.data;
                 }
-                fn && fn(result.data, result.area);
+                fn && fn(me.datas, result.area);
 
                 // tracking
                 var label = "nearby";
@@ -786,7 +790,7 @@ function ui_map() {
                         , C2: 0
                         , C3: 0
                         , C4: false
-                    }
+                    };
                     if (0 == datas.length) {
                         obj.C4 = true;
                         obj.C1 = false;

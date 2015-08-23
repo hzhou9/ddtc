@@ -25,6 +25,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 utils.jqmapping(this.dom, context);
                 this.r_init();
             }
+            var self = this;
+            setInterval(function () {
+                if (document.hasFocus() == false) {
+                    self.c_init();
+                }
+            }, 3000);
             this.c_init();
         }
         ,c_init:function(){
@@ -70,7 +76,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,c_getrow:function(data){
             var me = this;
             var row = this.dom.row.clone();
-            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.startTime)
+            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.startime)
                 .end().find('[name=btaction]').attr('href','tel:'+data.telephone)
                 .end().find('[name=btoutaction]').aclick(function(){
                     me.c_setLeave(data.oid, row);
@@ -78,16 +84,18 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             if (data.s == "3") {
                 row.find('[name=btoutaction]').remove();
             }
+            if (parseInt(data.s) < 3 && data.r_fee > 0){
+                row.find('[name=alertinfo]').text("还需支付"+data.r_fee+"元");
+            } else {
+                row.find('[name=alertinfo]').remove();
+            }
             return  row;
         }
         ,c_setLeave:function(oid, row){
             var me = this;
-            utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title').html()), function(){
+            utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title [name=cardid]').html()), function(){
                 me.m_setLeave(oid,function(){
-                    var nRow = row.clone();
-                    nRow.find('[name=btoutaction]').remove();
-                    row.remove();
-                    me.dom.list.append(nRow);
+                    me.c_init()
                 });
             });
         }

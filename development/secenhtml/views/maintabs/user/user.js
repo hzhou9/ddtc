@@ -234,7 +234,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         , c_viewsecenat:function() {
             console.log('c_viewsecenat');
             var me=this;
-            utils.sys.loadpage('views/', 'secen_at', null, '在场内',function(v){
+            utils.sys.loadpage('views/', 'secen_at', null, '业务清单（一周内）',function(v){
                 v.obj.onclose = function(){
                     me.c_refreshInfo();
                 }
