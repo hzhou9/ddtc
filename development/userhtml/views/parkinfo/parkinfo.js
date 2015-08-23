@@ -382,33 +382,35 @@ function ui_parkinfo(){
                 me.c_danghang_close();
             });
 
-            var _data = {"targetId": me.nowdata.id}, _recb = function(result) {
-                if (result.data.outgoing == 'watches') {
-                    _data.action = 'none';
-                    me.dom.btn_watch.find('a').html('取消关注');
-                } else {
-                    _data.action = 'watch';
-                    me.dom.btn_watch.find('a').html('关注');
-                }
-            };
+            if (this.nowdata.c_t == "2") {
+                var _data = {"targetId": me.nowdata.id}, _recb = function (result) {
+                    if (result.data.outgoing == 'watches') {
+                        _data.action = 'none';
+                        me.dom.btn_watch.html('<i class="mui-icon icon-tag"></i> 已订阅提醒');
+                    } else {
+                        _data.action = 'watch';
+                        me.dom.btn_watch.html('<i class="mui-icon icon-tag"></i> 空位提醒');
+                    }
+                };
 
-            me.dom.btn_watch.click(function() {
-                window.myajax.userget('Index', 'setRelationship', _data, function(result) {
+                me.dom.btn_watch.click(function () {
+                    window.myajax.userget('Index', 'setRelationship', _data, function (result) {
+                        if (0 == result.code) {
+                            _recb(result);
+                        } else {
+                            console.log(result.data);
+                        }
+                    }, null, true);
+                }).show();
+
+                window.myajax.userget('Index', 'getRelationship', _data, function (result) {
                     if (0 == result.code) {
                         _recb(result);
-                    } else {
-                        console.log(result.data);
+                        me.dom.btn_watch.show();
+                        me.iscroll && me.iscroll.refresh();
                     }
                 }, null, true);
-            });
-
-            window.myajax.userget('Index', 'getRelationship', _data, function(result) {
-                if (0 == result.code) {
-                    _recb(result);
-                    me.dom.btn_watch.show();
-                    me.iscroll && me.iscroll.refresh();
-                }
-            }, null, true);
+            }
 
             if (me.nowdata.sn) {
 
