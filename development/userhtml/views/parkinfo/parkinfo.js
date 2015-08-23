@@ -36,6 +36,7 @@ function ui_parkinfo(){
             ,close_map_list:'[name=close_map-list]'
             ,tags_item:'.template [name=tags-item]'
             ,mytag:'[name=spaces] mytag'
+            ,btn_watch:'#watch'
         }
         ,iscroll:null
         ,nowdata:null
@@ -49,7 +50,7 @@ function ui_parkinfo(){
                     var me = this;
                     window.myajax.get('Public','parkinfo',{'n':shortname},function(result){
                                       if(0 == result.code && result.data.p){
-                                      me.setdata(result.data.p,result.data.e);
+                                      me.setdata(result.data.p,result.data.e,result.data.p.c == 1);
                                       me.init(context);
                                       }else{
                                       sysmanager.alert('参数错误，无法获得停车场信息');
@@ -380,6 +381,34 @@ function ui_parkinfo(){
             me.dom.close_map_list.click(function(){
                 me.c_danghang_close();
             });
+
+            var _data = {"targetId": me.nowdata.id}, _recb = function(result) {
+                if (result.data.outgoing == 'watches') {
+                    _data.action = 'none';
+                    me.dom.btn_watch.find('a').html('取消关注');
+                } else {
+                    _data.action = 'watch';
+                    me.dom.btn_watch.find('a').html('关注');
+                }
+            };
+
+            me.dom.btn_watch.click(function() {
+                window.myajax.userget('Index', 'setRelationship', _data, function(result) {
+                    if (0 == result.code) {
+                        _recb(result);
+                    } else {
+                        console.log(result.data);
+                    }
+                }, null, true);
+            });
+
+            window.myajax.userget('Index', 'getRelationship', _data, function(result) {
+                if (0 == result.code) {
+                    _recb(result);
+                    me.dom.btn_watch.show();
+                    me.iscroll && me.iscroll.refresh();
+                }
+            }, null, true);
 
             if (me.nowdata.sn) {
 
