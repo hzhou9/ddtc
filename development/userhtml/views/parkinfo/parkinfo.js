@@ -383,6 +383,15 @@ function ui_parkinfo(){
             });
 
             if (this.nowdata.c_t == "2") {
+                // reserve
+                if (this.nowdata.s > 0) {
+                    me.dom.reserve.find('a').html('马上抢订');
+                } else {
+                    me.dom.reserve.find('a').html('暂无空位').addClass('mui-disabled');
+                    me.dom.reserve.unbind('click');
+                }
+
+                // watch
                 var _data = {"targetId": me.nowdata.id}, _recb = function (result) {
                     if (result.data.outgoing == 'watches') {
                         _data.action = 'none';
