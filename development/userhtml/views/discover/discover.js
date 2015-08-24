@@ -17,6 +17,7 @@ function ui_discover(){
             ,scrollparent:'[name=scrollparent]'
             ,num_park_free:'[name=num_park_free]'
             ,park_list:'[name=park_list]'
+            ,vip_park_list:'[name=vip-park-list]'
             ,free_list:'[name=free_list]'
             ,cinema_list:'#e_cinema'
             ,concert_list:'#e_concert'
@@ -47,9 +48,9 @@ function ui_discover(){
         }
         ,c_init:function(){
             this.get_discover();
-            if (sysmanager.isapp) {
-                $('#event_banner').show();
-            }
+            //if (sysmanager.isapp) {
+            //    $('#event_banner').show();
+            //}
             //var me = this;
             //setInterval(function(){me.get_discover();}, 3600000);//每小时刷新数据一次
         }
@@ -63,54 +64,11 @@ function ui_discover(){
                     for (var i = 0; i < result.data.p.length; i++) {
                         var data = result.data.p[i];
                         var row = me.c_getrow(data, result.data.e);
-                        row.attr('name', 'park' + data.id);
-
-                        if (data.c_t == "2") {
-
-                            me.rowData[data.id] = {"targetId": data.id, "action":"watch"};
-
-                            window.myajax.userget('Index', 'getRelationship', me.rowData[data.id], function (result) {
-                                var targetId = result.data.targetId;
-                                var row = $('[name="park' + targetId +'"]');
-
-                                if (0 == result.code) {
-                                    var _cb = function(result) {
-                                        var row = $('[name="park' + result.data.targetId +'"]');
-                                        var bt_w = row.find('.btn-watch');
-                                        if (result.data.outgoing == 'watches') {
-                                            me.rowData[result.data.targetId]['action'] = 'none';
-                                            bt_w.html('已订阅提醒');
-                                            bt_w.addClass('btn-park-unwatch');
-                                            bt_w.removeClass('btn-park-watch mui-btn-primary');
-                                        } else {
-                                            me.rowData[result.data.targetId]['action'] = 'watch';
-                                            bt_w.html('空位提醒');
-                                            bt_w.addClass('btn-park-watch mui-btn-primary');
-                                            bt_w.removeClass('btn-park-unwatch');
-                                        }
-                                    };
-
-                                    _cb(result);
-
-                                    row.find('.btn-watch').click(function() {
-                                        window.myajax.userget('Index', 'setRelationship', me.rowData[targetId], function (result) {
-                                            if (0 == result.code) {
-                                                _cb(result);
-                                            } else {
-                                                console.log(result.data);
-                                            }
-                                        }, null, true);
-                                    }).parent().show();
-
-                                    //if (result.data.outgoing != 'watches') {
-                                    //    $('#watch_tips').delay(500).fadeIn().delay(5000).fadeOut();
-                                    //}
-                                }
-                            }, null, true);
-
+                        if (data.c_t == '2') {
+                            me.dom.vip_park_list.append(row);
+                        } else {
+                            me.dom.park_list.append(row);
                         }
-
-                        me.dom.park_list.append(row);
                     }
                     me.dom.park_list.show();
                 } else {
@@ -167,8 +125,8 @@ function ui_discover(){
                 }
             }
             
-            if(data.d){//活动
-                if(data.d[0] == 1){//停车只要1元
+            if(data.d){ //活动
+                if(data.d[0] == 1){ //停车只要1元
                     row.find('[name=activity]').html('现在预订只要'+data.d[1]+'元');
                 }else{
                     row.find('[name=activity]').html('现在预订优惠'+data.d[1]+'元');
@@ -181,6 +139,50 @@ function ui_discover(){
             row.find('.mui-btn').click(function(){
                                         me.c_daohang_my(data,edata);
                                         });
+
+            row.attr('name', 'park' + data.id);
+
+            if (data.c_t == "2") {
+
+                me.rowData[data.id] = {"targetId": data.id, "action":"watch"};
+
+                window.myajax.userget('Index', 'getRelationship', me.rowData[data.id], function (result) {
+                    var targetId = result.data.targetId;
+                    var row = $('[name="park' + targetId +'"]');
+
+                    if (0 == result.code) {
+                        var _cb = function(result) {
+                            var row = $('[name="park' + result.data.targetId +'"]');
+                            var bt_w = row.find('.btn-watch');
+                            if (result.data.outgoing == 'watches') {
+                                me.rowData[result.data.targetId]['action'] = 'none';
+                                bt_w.html('已订阅提醒');
+                                bt_w.addClass('btn-park-unwatch');
+                                bt_w.removeClass('btn-park-watch mui-btn-primary');
+                            } else {
+                                me.rowData[result.data.targetId]['action'] = 'watch';
+                                bt_w.html('空位提醒');
+                                bt_w.addClass('btn-park-watch mui-btn-primary');
+                                bt_w.removeClass('btn-park-unwatch');
+                            }
+                        };
+
+                        _cb(result);
+
+                        row.find('.btn-watch').click(function() {
+                            window.myajax.userget('Index', 'setRelationship', me.rowData[targetId], function (result) {
+                                if (0 == result.code) {
+                                    _cb(result);
+                                } else {
+                                    console.log(result.data);
+                                }
+                            }, null, true);
+                        }).parent().show();
+                    }
+                }, null, true);
+
+            }
+
             return row;
         }
         ,c_daohang_my:function(nowdata,edata){
