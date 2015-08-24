@@ -29,6 +29,7 @@ function ui_discover(){
             ,tujianrow:'.template [name=tujianrow]'
             ,areablock:'.template [name=areablock]'
         }
+        ,rowData:{}
         ,iscroll:null
         ,mapObj:null
         ,searchNumber:0                         //当前最后一次查询的次数
@@ -55,25 +56,74 @@ function ui_discover(){
         ,get_discover:function(){
             var me = this;
             window.myajax.userget('public','discover',null, function(result){
-                                var label = "";
-                              if(result.data.p && result.data.p.length>0){
-                                  label += "A1";
-                              //me.dom.park_list.empty().unbind();
-                              for(var i=0;i<result.data.p.length;i++){
-                              var data = result.data.p[i];
-                              var row = me.c_getrow(data, result.data.e);
-                              me.dom.park_list.append(row);
-                              }
-                              me.dom.park_list.show();
-                              }else{
-                              me.dom.park_list.hide();
-                              }
-                              me.dom.num_park_free.html(result.data.f);
-                              setTimeout(function(){me.iscroll.refresh();},100);
+                var label = "";
+                if (result.data.p && result.data.p.length > 0) {
+                    label += "A1";
+                    //me.dom.park_list.empty().unbind();
+                    for (var i = 0; i < result.data.p.length; i++) {
+                        var data = result.data.p[i];
+                        var row = me.c_getrow(data, result.data.e);
+                        row.attr('name', 'park' + data.id);
 
-                                window.TongjiObj.discover('pv', label);
+                        if (data.c_t == "2") {
 
-                              }, null, false);
+                            me.rowData[data.id] = {"targetId": data.id, "action":"watch"};
+
+                            window.myajax.userget('Index', 'getRelationship', me.rowData[data.id], function (result) {
+                                var targetId = result.data.targetId;
+                                var row = $('[name="park' + targetId +'"]');
+
+                                if (0 == result.code) {
+                                    var _cb = function(result) {
+                                        var row = $('[name="park' + result.data.targetId +'"]');
+                                        var bt_w = row.find('.btn-watch');
+                                        if (result.data.outgoing == 'watches') {
+                                            me.rowData[result.data.targetId]['action'] = 'none';
+                                            bt_w.html('已订阅提醒');
+                                            bt_w.addClass('btn-park-unwatch');
+                                            bt_w.removeClass('btn-park-watch mui-btn-primary');
+                                        } else {
+                                            me.rowData[result.data.targetId]['action'] = 'watch';
+                                            bt_w.html('空位提醒');
+                                            bt_w.addClass('btn-park-watch mui-btn-primary');
+                                            bt_w.removeClass('btn-park-unwatch');
+                                        }
+                                    };
+
+                                    _cb(result);
+
+                                    row.find('.btn-watch').click(function() {
+                                        window.myajax.userget('Index', 'setRelationship', me.rowData[targetId], function (result) {
+                                            if (0 == result.code) {
+                                                _cb(result);
+                                            } else {
+                                                console.log(result.data);
+                                            }
+                                        }, null, true);
+                                    }).parent().show();
+
+                                    //if (result.data.outgoing != 'watches') {
+                                    //    $('#watch_tips').delay(500).fadeIn().delay(5000).fadeOut();
+                                    //}
+                                }
+                            }, null, true);
+
+                        }
+
+                        me.dom.park_list.append(row);
+                    }
+                    me.dom.park_list.show();
+                } else {
+                    me.dom.park_list.hide();
+                }
+                me.dom.num_park_free.html(result.data.f);
+                setTimeout(function () {
+                    me.iscroll.refresh();
+                }, 100);
+
+                window.TongjiObj.discover('pv', label);
+
+            }, null, false);
         }
         ,c_getrow:function(data, edata){
             var me = this;
@@ -131,7 +181,6 @@ function ui_discover(){
             row.find('.mui-btn').click(function(){
                                         me.c_daohang_my(data,edata);
                                         });
-            
             return row;
         }
         ,c_daohang_my:function(nowdata,edata){
@@ -224,6 +273,7 @@ function ui_discover(){
             this.dom.hintlist.empty().unbind();
             if(!data.poiList.pois || data.poiList.pois.length<=0){
                 var row = this.c_getrow_nodata();
+
                 this.dom.hintlist.append(row);
             }else{
                 for(var i=0;i<data.poiList.pois.length;i++){
@@ -392,7 +442,6 @@ function ui_discover(){
         ,r_init_input:function(){
             var me = this;
             var baseurl = 'http://' + location.hostname + location.pathname.replace('index.html', '');
-            console.log(baseurl);
             this.dom.input.bind('keyup', function(event){
                                 //var key = (event || window.event).keyCode;
                                 //var result = document.getElementById("result1");

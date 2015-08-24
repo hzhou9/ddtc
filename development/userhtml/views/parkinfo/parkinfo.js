@@ -395,14 +395,19 @@ function ui_parkinfo(){
                 var _data = {"targetId": me.nowdata.id}, _recb = function (result) {
                     if (result.data.outgoing == 'watches') {
                         _data.action = 'none';
-                        me.dom.btn_watch.html('<i class="mui-icon icon-tag"></i> 已订阅提醒');
+                        me.dom.btn_watch.html('已订阅提醒');
+                        me.dom.btn_watch.addClass('btn-park-unwatch');
+                        me.dom.btn_watch.removeClass('btn-park-watch mui-btn-primary');
                     } else {
                         _data.action = 'watch';
-                        me.dom.btn_watch.html('<i class="mui-icon icon-tag"></i> 空位提醒');
+                        me.dom.btn_watch.html('空位提醒');
+                        me.dom.btn_watch.addClass('btn-park-watch mui-btn-primary');
+                        me.dom.btn_watch.removeClass('btn-park-unwatch');
                     }
                 };
 
                 me.dom.btn_watch.click(function () {
+                    // hide tips
                     window.myajax.userget('Index', 'setRelationship', _data, function (result) {
                         if (0 == result.code) {
                             _recb(result);
@@ -410,13 +415,17 @@ function ui_parkinfo(){
                             console.log(result.data);
                         }
                     }, null, true);
+
                 }).show();
 
                 window.myajax.userget('Index', 'getRelationship', _data, function (result) {
                     if (0 == result.code) {
                         _recb(result);
-                        me.dom.btn_watch.show();
-                        me.iscroll && me.iscroll.refresh();
+
+                        if (result.data.outgoing != 'watches') {
+                            // tips
+                            $('#watch_tips').delay(500).fadeIn().delay(5000).fadeOut();
+                        }
                     }
                 }, null, true);
             }

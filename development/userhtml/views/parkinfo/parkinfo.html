@@ -26,13 +26,21 @@
                     <p name="rules"></p>
                     <p class='mui-ellipsis activity' name='activity'></p>
                 </li>
-                <li class="mui-table-view-cell">
-                    <a class="mui-btn mui-btn-primary mui-btn-outlined" id="watch" style="display:none"></a>
+                <li class="mui-table-view-cell" style="overflow:visible;">
+                    <!--<a class="mui-btn mui-btn-primary mui-btn-outlined" id="watch" style="display:none"></a>-->
+
                     <span class="mui-icon duduche icon-parking" name="spaces_icon"></span>
                     <p name='spaces'>现在是<span name='numberstatus1'></span>
                         <mytag style="display:none">，预计<span name='numberstatus2t'></span>后<span
                                 name='numberstatus2'></span></mytag>
                     </p>
+
+                    <!--空车位提醒-->
+                    <div id="watch_tips" style="display:none;position:absolute; right:10px; bottom:50px; background:rgba(0,0,0,.6); border-radius:4px; font-size:12px; width:58%; color:#fff; padding:10px; z-index:100;">
+                        <div style="position:absolute; bottom:-8px; right:30px; width:0; height:0; border-style:solid; border-width:8px 8px 0 8px; border-color:rgba(0,0,0,.6) transparent transparent transparent;"></div>
+                        订阅“空位提醒”，出现空车位时，系统将第一时间通知您。
+                    </div>
+                    <button class="mui-btn mui-btn-primary mui-btn-outlined btn-park-watch" href="###" id="watch" style="display: none">空位提醒</button>
                 </li>
                 <li class="mui-table-view-cell">
                     <span class="mui-icon duduche icon-tag"></span>
