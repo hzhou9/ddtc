@@ -560,9 +560,11 @@ function ui_map() {
                             row.find('[name=spaces]').hide();
                         }
                     } else if (data.c_t == 2) {
-                        if (data.s >= 0) {
-                            row.find('[name=spaces]').html("现在还有"+data.s+"个车位");
+                        if (data.s > 0) {
+                            row.find('[name=spaces]').html("现有"+data.s+"个空位");
                         } else {
+                            row.find('[name=preorder]').html("抢光了").addClass('tips-blue');
+                            row.find('[name=activity]').hide();
                             row.find('[name=spaces]').hide();
                         }
                     }
