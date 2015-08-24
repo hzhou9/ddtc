@@ -504,3 +504,10 @@ form[name="form1"].mui-input-group .mui-input-row {background:none;}
 .btn-park-watch,.btn-park-unwatch {background:url(../img/icon-alarm.png) no-repeat 8px center!important; background-size:12px 12px!important; margin-top:-4px!important; font-size:12px!important; line-height:1em!important; padding-left:24px!important;}
 .btn-park-unwatch {background:url(../img/icon-succeed.png) no-repeat 8px center!important; background-size:12px 12px!important;}
 .btn-park-watch-list {margin-top:0!important}
+#shadow{background:rgba(0,0,0,.5); position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; display:none;}
+.box i {font-style: normal;position: absolute;top:57px;right:20px;}
+.box {background:#fff; border-radius:6px; margin:60px 10px 10px; padding:15px; position:relative;}
+.box input {display:block; font-size:14px; width:92%; padding:4%; border:1px solid #ddd; border-radius:4px; margin-bottom:10px;}
+.box h2 {text-align:center; margin-bottom:15px;}
+.box a {background:#f39c12; border-radius:4px; color:#fff; display:block; height:40px; line-height:40px; text-align:center;}
+.close {position:absolute; right:10px; top:10px; width:20px; height:20px; text-align:center; line-height:20px;}

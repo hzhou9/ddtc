@@ -117,9 +117,11 @@ function ui_discover(){
                         row.find('[name=spaces]').hide();
                     }
                 } else if (data.c_t == 2) {
-                    if (data.s >= 0) {
-                        row.find('[name=spaces]').html("现在还有"+data.s+"个车位");
+                    if (data.s > 0) {
+                        row.find('[name=spaces]').html("现有"+data.s+"个空位");
                     } else {
+                        row.find('[name=preorder]').html("抢光了").addClass('tips-blue');
+                        row.find('[name=activity]').hide();
                         row.find('[name=spaces]').hide();
                     }
                 }
@@ -142,46 +144,45 @@ function ui_discover(){
 
             row.attr('name', 'park' + data.id);
 
-            if (data.c_t == "2") {
-
-                me.rowData[data.id] = {"targetId": data.id, "action":"watch"};
-
-                window.myajax.userget('Index', 'getRelationship', me.rowData[data.id], function (result) {
-                    var targetId = result.data.targetId;
-                    var row = $('[name="park' + targetId +'"]');
-
-                    if (0 == result.code) {
-                        var _cb = function(result) {
-                            var row = $('[name="park' + result.data.targetId +'"]');
-                            var bt_w = row.find('.btn-watch');
-                            if (result.data.outgoing == 'watches') {
-                                me.rowData[result.data.targetId]['action'] = 'none';
-                                bt_w.html('已订阅提醒');
-                                bt_w.addClass('btn-park-unwatch');
-                                bt_w.removeClass('btn-park-watch mui-btn-primary');
-                            } else {
-                                me.rowData[result.data.targetId]['action'] = 'watch';
-                                bt_w.html('空位提醒');
-                                bt_w.addClass('btn-park-watch mui-btn-primary');
-                                bt_w.removeClass('btn-park-unwatch');
-                            }
-                        };
-
-                        _cb(result);
-
-                        row.find('.btn-watch').click(function() {
-                            window.myajax.userget('Index', 'setRelationship', me.rowData[targetId], function (result) {
-                                if (0 == result.code) {
-                                    _cb(result);
-                                } else {
-                                    console.log(result.data);
-                                }
-                            }, null, true);
-                        }).parent().show();
-                    }
-                }, null, true);
-
-            }
+            //if (data.c_t == "2") {
+            //
+            //    me.rowData[data.id] = {"targetId": data.id, "action":"watch"};
+            //
+            //    window.myajax.userget('Index', 'getRelationship', me.rowData[data.id], function (result) {
+            //        var targetId = result.data.targetId;
+            //        var row = $('[name="park' + targetId +'"]');
+            //
+            //        if (0 == result.code) {
+            //            var _cb = function(result) {
+            //                var row = $('[name="park' + result.data.targetId +'"]');
+            //                var bt_w = row.find('.btn-watch');
+            //                if (result.data.outgoing == 'watches') {
+            //                    me.rowData[result.data.targetId]['action'] = 'none';
+            //                    bt_w.html('已订阅提醒');
+            //                    bt_w.addClass('btn-park-unwatch');
+            //                    bt_w.removeClass('btn-park-watch mui-btn-primary');
+            //                } else {
+            //                    me.rowData[result.data.targetId]['action'] = 'watch';
+            //                    bt_w.html('空位提醒');
+            //                    bt_w.addClass('btn-park-watch mui-btn-primary');
+            //                    bt_w.removeClass('btn-park-unwatch');
+            //                }
+            //            };
+            //
+            //            _cb(result);
+            //
+            //            row.find('.btn-watch').click(function() {
+            //                window.myajax.userget('Index', 'setRelationship', me.rowData[targetId], function (result) {
+            //                    if (0 == result.code) {
+            //                        _cb(result);
+            //                    } else {
+            //                        console.log(result.data);
+            //                    }
+            //                }, null, true);
+            //            }).parent().show();
+            //        }
+            //    }, null, true);
+            //}
 
             return row;
         }
@@ -436,6 +437,9 @@ function ui_discover(){
             this.dom.input.blur(function(){
                                 setTimeout(function(){me.dom.hintlist.empty().unbind();},100);
                                 });
+            $('[name="vip_park_rule"]').click(function() {
+                $('#shadow').show();
+            });
             sysmanager.loadMapscript.load(function(){
                                           me.r_init_input();
                                           me.c_fill_defaulPointtList();

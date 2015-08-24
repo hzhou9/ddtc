@@ -179,13 +179,13 @@ function ui_parkinfo(){
             }
             //是否显示滚动
             setTimeout(function () {
-                var scrollheight = $('.userpage').parent().height();
+                var scrollheight = $('.userpage').parent().height() - 44;
                 if (me.showbt) {
                     scrollheight -= me.dom.reserve.height();
                 }
                 var contentheight = me.dom.scrollparent.height();
                 if (contentheight > scrollheight) {
-                    me.dom.scrollparent.css('height', scrollheight - 44 + 'px');
+                    me.dom.scrollparent.css('height', scrollheight + 'px');
                     me.iscroll = new iScroll(me.dom.infoarea[0], {desktopCompatibility: true});
                 }
             });
@@ -389,6 +389,7 @@ function ui_parkinfo(){
                 } else {
                     me.dom.reserve.find('a').html('暂无空位').addClass('mui-disabled');
                     me.dom.reserve.unbind('click');
+                    me.dom.activity.hide();
                 }
 
                 // watch
@@ -424,7 +425,7 @@ function ui_parkinfo(){
 
                         if (result.data.outgoing != 'watches') {
                             // tips
-                            $('#watch_tips').delay(500).fadeIn().delay(5000).fadeOut();
+                            $('#watch_tips').delay(500).fadeIn().delay(10000).fadeOut();
                         }
                     }
                 }, null, true);

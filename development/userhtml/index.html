@@ -15,6 +15,14 @@
         #keyboard-area-list [name=provinces-list] {overflow:hidden; margin:-15px -15px 0; padding:0 0 3%; background:#fff;}
         #keyboard-area-list [name=provinces-list] li {font-size:14px; list-style:none; float:left; width:9%; margin:3% 0 0 3%; text-align:center; padding:2% 0; border:1px solid #e3e3e3; border-radius:3px;}
     </style>
+    <style>
+        #title,#cloud,#car {position:absolute; left:50%; background-size:100% auto; background-repeat:no-repeat; background-position:center center;}
+        #topic {background-color:#1e88e5; position:relative; height:75%; width:100%;}
+        #title {top:20%; height:30%; width:80%; margin-left:-40%; background-image:url(img/splash-title.png);}
+        #cloud {bottom:10%; background-image:url(img/splash-cloud.png); height:40%; width:94%; margin-left:-47%;}
+        #car {bottom:0; width:90%; height:20%; margin-left:-45%; background-image:url(img/splash-car.png); background-position:left bottom;}
+        #logo {height:25%; width:100%; background:url(img/splash-logo-landscape.png) no-repeat center center; background-color:#fff; background-size:165px 45px;}
+    </style>
 </head>
 <body>
 <div style="display: none;position: absolute">
@@ -186,9 +194,18 @@
 
     <div id="loading" class="tips-loading"></div>
     <div id="startpage" class="startpage">
-        嘟嘟停车
-        <p class="mui-bar-footer">duduche.me</p>
+        <div id="topic">
+            <div id="title"></div>
+            <div id="cloud"></div>
+            <div id="car"></div>
+        </div>
+        <div id="logo"></div>
+        <!--嘟嘟停车-->
+        <!--<p class="mui-bar-footer">duduche.me</p>-->
     </div>
+
+
+
 </div>
 <div class="template">
 
@@ -315,14 +332,13 @@
                     tabs.activeTab(1, true);
                     break;
             }
-            $('#startpage').hide();
         }
 
         function type_1() {
             initstart();
             setTimeout(function () {
-                $('#startpage').hide();
-            });
+                $('#startpage').fadeOut();
+            }, 5000);
         }
 
         function type_2() {
