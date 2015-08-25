@@ -423,7 +423,7 @@ p.tags {margin-top:-10px;}
 .mui-popover.mui-popover-action .mui-table-view .btn-cancel {text-align:center; color:#666;}
 .mui-popover:before {display:none;}
 /*Pay*/
-.order_pay .mui-table-view:last-child {margin-top:10px;}
+#orderpay_html .mui-table-view {margin-bottom:10px;}
 .pay-box .mui-btn-block {margin:15px; width:auto;}
 .park-right {float:right; margin-right:20px; color:#333; font-size:16px;}
 .pay-box .mui-radio.mui-left input[type=radio] {left:30px; vertical-align:middle;}

@@ -54,7 +54,10 @@ function ui_orderpay(){
                     }
                     this.dom.prepay.html(p);
                 }
-                this.dom.prepay_old.html(this.nowdata.p+'元');
+                this.dom.prepay_old.html(this.nowdata.p + '元');
+                if (this.nowdata.c_t == '2') {
+                    this.dom.prepay_old.hide();
+                }
             }else{
                 this.dom.prepay.html(this.nowdata.p);
                 this.dom.prepay_old.html('');
@@ -225,6 +228,8 @@ function ui_orderpay(){
                                                    }
                                                    me.iscroll.refresh();
             });
+
+
             
             setTimeout(function(){me.dom.pay_method.show();me.iscroll.refresh();});
         }

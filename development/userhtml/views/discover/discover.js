@@ -61,18 +61,20 @@ function ui_discover(){
                 if (result.data.p && result.data.p.length > 0) {
                     label += "A1";
                     //me.dom.park_list.empty().unbind();
+                    var showVip = false, showNormal = false;
                     for (var i = 0; i < result.data.p.length; i++) {
                         var data = result.data.p[i];
                         var row = me.c_getrow(data, result.data.e);
                         if (data.c_t == '2') {
                             me.dom.vip_park_list.append(row);
+                            showVip = true;
                         } else {
                             me.dom.park_list.append(row);
+                            showNormal = true;
                         }
                     }
-                    me.dom.park_list.show();
-                } else {
-                    me.dom.park_list.hide();
+                    showNormal && me.dom.park_list.show();
+                    showVip && me.dom.vip_park_list.parent().show();
                 }
                 me.dom.num_park_free.html(result.data.f);
                 setTimeout(function () {

@@ -7,6 +7,8 @@ define(['cfg', 'utils'], function(cfg, utils){
     var ajaxroot= cfg.ajaxroot;
     var key = 'uuid';
     var uid = 'uid';
+    var parks = 'parks';
+    var idx = 'idx';
     var userinfokey = 'secen_userinfo';
     var userinfo = null;
 
@@ -51,10 +53,11 @@ define(['cfg', 'utils'], function(cfg, utils){
             }); 
         }
         ,userget:function(model,control,data, success, error){            //带用户身份的访问
-            if(userinfo && uid && key){
+            if(userinfo && uid && key && parks){
                 data = data || {};
                 data.uid = this.uid();
                 data.uuid = this.key();
+                data.pid = this.pid();
             }
             this.get(model,control,data, success, error);
 
@@ -70,11 +73,35 @@ define(['cfg', 'utils'], function(cfg, utils){
             userinfo = null;
             localStorage.removeItem(userinfokey);
         }
+        ,setParkIdx:function(val) {
+            localStorage.setItem(idx, val ? val : 0);
+        }
+        ,getParkIdx:function() {
+            return localStorage.getItem(idx) ? localStorage.getItem(idx) : 0;
+        }
         ,key:function(_key){
             return userinfo[key];
         }
         ,uid:function(_uid){
             return userinfo[uid];
+        }
+        ,park: function() {
+            return userinfo[parks][this.getParkIdx()];
+        }
+        ,allparks: function() {
+            return userinfo[parks];
+        }
+        ,pid:function(){
+            return this.park() && this.park()['id'];
+        }
+        ,parkname:function(){
+            return this.park()['fullname'];
+        }
+        ,parktype:function(){
+            return this.park()['type'];
+        }
+        ,permission:function(){
+            return this.park()['permission'];
         }
         ,loadinfo:function(){
             var val = localStorage.getItem(userinfokey);

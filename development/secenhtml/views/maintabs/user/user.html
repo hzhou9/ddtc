@@ -38,8 +38,15 @@
             top: 1%;
         }
     </style>
-    <ul class="mui-table-view">
-        <li class="mui-table-view-divider" style="color: #000;background-color: transparent;border-bottom: solid 1px #aaa;"><h3 name='fullname'>停车场名称</h3></li>
+    <ul class="mui-table-view" >
+        <li class="mui-table-view-divider" style="padding-right:6px;color: #000;background-color: transparent;border-bottom: solid 1px #aaa;">
+            <a href="###" id="park_switch" style="display: none;" class="mui-btn mui-pull-right" onclick="$('#park_list,#park_list-bg').show()">
+                切换
+            </a>
+            <h3 name='fullname'>停车场名称</h3>
+
+        </li>
+
         <li class="mui-table-view-divider gonggao" p='' name='rewardline' style="color: #FFF;text-align: center;padding: 10px 0;overflow: hidden;background-color: #dd524d;line-height: 35PX;">
             <span></span>
             <div style="display: inline-block;padding: 5px;margin-right: 10px;background-color: #dd524d;border: 0;" class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>详情</div>
@@ -69,8 +76,11 @@
             <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>兑换</div>
         </li>
     </ul>
+
     <div name='btquit' class="mui-btn mui-btn-danger mui-btn-block" style="background-color: #de5752">退出</div>
     <div style="height: 50px"></div>
+
+
     <!--<div name='bttestrefresh' class="mui-btn mui-btn-danger mui-btn-block">刷新当前页面[测试]</div>-->
     <!--<div name='bttestpushid' class="mui-btn mui-btn-danger mui-btn-block">提交pushid［测试］</div>-->
     <div name="rewardinfopanel" class="rewardinfopanel mui-slider-item mui-control-content mui-active loginpanel  animated zoomIn" style="display: none">
@@ -85,4 +95,18 @@
             </ul>
         </div>
     </div>
+
+    <div style="display:none;top:0;position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.3)"
+         id="park_list-bg"></div>
+
+    <div id="park_list" style="display:none;position: absolute;bottom:0px;width:100%;z-index: 1000;">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell btn-cancel">
+                <a name="###"><b>取消</b></a>
+            </li>
+        </ul>
+    </div>
+
 </div>
+
+

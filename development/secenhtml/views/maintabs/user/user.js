@@ -31,6 +31,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ,bttestpushid:'[name=bttestpushid]'
             ,bttestrefresh:'[name=bttestrefresh]'
             ,fullname:'[name=fullname]'
+            ,park_list:'#park_list'
             ,info:{
                 todaynum:'[name=todaynum]'
                 ,totalnum:'[name=totalnum]'
@@ -85,9 +86,26 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 }
                 view.obj.onclose = function(){
                    me.c_initinfo();
-                   var userinfo = ajax.userinfo();
-                   me.dom.fullname.html(userinfo.fullname);
+                   me.dom.fullname.html(ajax.parkname());
                    me.context.css('visibility','hide');
+
+                    if (ajax.allparks().length > 1) {
+                        var list = me.dom.park_list.find('ul');
+                        $(ajax.allparks()).each(function(index,park){
+                            var item = '<li class="mui-table-view-cell" data-index="' + index + '"><h4>' + park.fullname + '</h4></li>';
+                            list.prepend(item);
+                        });
+                        me.dom.park_list.on('click', 'li', function() {
+                            var idx = $(this).data('index');
+                            if (null != idx) {
+                                ajax.setParkIdx(idx);
+                                location.reload();
+                            }
+                            $('#park_list,#park_list-bg').hide();
+                        });
+                        me.dom.park_list.offset({top:$(document).height() - $('#park_list').height()});
+                        $('#park_switch').show();
+                    }
                }
             });
         }
@@ -142,7 +160,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.dom.btquit.html('管理员:{0}<span style="display: inline-block;padding-left: 40px">退出</span>'.replace('{0}', data.name));
 
 										me.c_setPermission();
-										
+
                     fn && fn(data);
 
                 });
@@ -171,6 +189,14 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,r_init:function(){
             var me = this;
+
+            //var scrollheight = $('.userpage').parent().height();
+            //var contentheight = me.dom.scrollparent.height();
+            //if (contentheight > scrollheight) {
+            //    me.dom.scrollparent.css('height', scrollheight + 'px');
+            //    me.iscroll = new iScroll(me.context[0], {desktopCompatibility: true});
+            //}
+
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true,onScrollMove:function(m){
                     //console.log('iscroll move',m);
                 }
@@ -200,7 +226,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
 
             this.dom.jiaoyi.btaction.click(function(){
-                if (ajax.userinfo().permission & 2 && ajax.userinfo().type == 2) {
+                if (ajax.permission() & 2 && ajax.parktype() == 2) {
                     me.c_viewsecenat();
                 } else {
                     me.c_viewjiaoyi();
@@ -246,7 +272,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_setPermission:function(){        //设置权限显示
             this.dom.permissionDom.hide();
-            var permission = parseInt(ajax.userinfo().permission);
+            var permission = parseInt(ajax.permission());
             this.dom.permissionDom.each(function(){
                var pstring = $(this).attr('p') || '';
                 var ps = pstring.split(',');
